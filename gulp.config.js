@@ -12,41 +12,42 @@ var copys = {
             basePath.libs + '/angular-ui-router/release/angular-ui-router.js'
         ],
         options:{base : basePath.libs},
-        dest: basePath.source + '/statics/libs/angular'
+        dest: basePath.source + '/libs/angular'
     },
     libs2:{
         src:[
             basePath.libs + '/jquery/dist/jquery.js'
         ],
         options:{base : basePath.libs},
-        dest: basePath.source + '/statics/libs/jquery'
+        dest: basePath.source + '/libs/jquery'
     },
     libs3:{
         src:[
             basePath.libs + '/weui/dist/style/weui.css'
         ],
         options:{base : basePath.libs},
-        dest: basePath.source + '/statics/libs'
+        dest: basePath.source + '/libs'
     }
 };
 var resourcePath = {
     sass:   ['scss/*.scss'],
     css:    [
-                'statics/libs/**/*.css',
+                'libs/**/*.css',
                 'statics/styles/*.css'
             ],
     js:     [
-                'statics/libs/**/*.js',
+                'libs/**/*.js',
+                'statics/js/*/*.js',
                 'statics/js/home.js',
                 'statics/js/home.config.js',
                 'statics/js/home.config.router.js'
             ],
     img:    [
-                'statics/libs/**/*.+(png|jpg|jpeg|gif|svg)',
+                'libs/**/*.+(png|jpg|jpeg|gif|svg)',
                 'statics/images/*.+(png|jpg|jpeg|gif|svg)'
             ],
     fonts:  [
-                'statics/libs/**/*.+(eot|woff|ttf|svg)',
+                'libs/**/*.+(eot|woff|ttf|svg)',
                 'statics/fonts/*'
             ],
     html:   ['*.html'],
