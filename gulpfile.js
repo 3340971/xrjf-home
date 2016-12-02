@@ -29,7 +29,6 @@ var parseConfig = function(){
         this.resourcePath = this.conf.resourcePath || {};
         this.destPath = this.conf.destPath || {};
     };
-    //获取资源文件
     this.getFiles = function (type){
         if(typeof type == 'string'){
             type = [type];
@@ -73,9 +72,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     runSequence = require('run-sequence'),
     browserSync = require('browser-sync').create();
-
 var conf = parseConfig();
-
 gulp.task('server', function() {
     browserSync.init({
         server: {
@@ -129,7 +126,6 @@ var Build = {
                                 .pipe(notify({ message: 'css合并、压缩到生产目录 complete' }));
                 }
             });
-        
     },
     buildJs : function () {
         var src = conf.getFiles('js');console.log(src);
@@ -183,7 +179,6 @@ var Build = {
 gulp.task('copy',function(){
     return Build.copy();
 });
-
 gulp.task('js',function(){
 	return Build.buildJs();
 });
@@ -199,7 +194,6 @@ gulp.task('fonts', function() {
 gulp.task('html', function() {
     return Build.buildHtml();
 });
-
 gulp.task('build',function(cb){
     runSequence('clean','copy','css','js','fonts','html',cb);
     gulp.watch(conf.getFiles('sass'), ['css'], browserSync.reload);
@@ -207,7 +201,6 @@ gulp.task('build',function(cb){
     gulp.watch(conf.getFiles('fonts'), ['fonts'], browserSync.reload);
     gulp.watch(conf.getFiles('html'), ['html'], browserSync.reload);
 });
-
 gulp.task('help',function () {
     console.log('   gulp help           gulp参数说明');
     console.log('   gulp img            图片复制');

@@ -4,31 +4,6 @@ var basePath = {
     "develop" : 'build/develop',
     "production" : 'build/production'
 };
-var copys = {
-    libs1:{
-        src:[
-            basePath.libs + '/angular/angular.js',
-            basePath.libs + '/angular-animate/angular-animate.js',
-            basePath.libs + '/angular-ui-router/release/angular-ui-router.js'
-        ],
-        options:{base : basePath.libs},
-        dest: basePath.source + '/statics/libs/angular'
-    },
-    libs2:{
-        src:[
-            basePath.libs + '/jquery/dist/jquery.js'
-        ],
-        options:{base : basePath.libs},
-        dest: basePath.source + '/statics/libs/jquery'
-    },
-    libs3:{
-        src:[
-            basePath.libs + '/weui/dist/style/weui.css'
-        ],
-        options:{base : basePath.libs},
-        dest: basePath.source + '/statics/libs'
-    }
-};
 var resourcePath = {
     sass:   ['scss/*.scss'],
     css:    [
@@ -57,6 +32,31 @@ var destPath = {
     fonts:  'statics/fonts/',
     html:   '',
     tpl:    'tpl/'
+};
+var copys = {
+    libs1:{
+        src:[
+            basePath.libs + '/angular/angular.js',
+            basePath.libs + '/angular-animate/angular-animate.js',
+            basePath.libs + '/angular-ui-router/release/angular-ui-router.js'
+        ],
+        options:{base : basePath.libs},
+        dest: basePath.source + '/statics/libs/angular'
+    },
+    libs2:{
+        src:[
+            basePath.libs + '/jquery/dist/jquery.js'
+        ],
+        options:{base : basePath.libs},
+        dest: basePath.source + '/statics/libs/jquery'
+    },
+    libs3:{
+        src:[
+            basePath.libs + '/weui/dist/style/weui.css'
+        ],
+        options:{base : basePath.libs},
+        dest: basePath.source + '/statics/libs'
+    }
 };
 module.exports = {
     copys:copys,
