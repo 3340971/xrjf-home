@@ -1,46 +1,35 @@
 //张伟 2016/12/01
-var gulpConfig = function(basePath, resourcePath, destPath){
-    if(!(this instanceof gulpConfig)){
-        return new gulpConfig (basePath, resourcePath, destPath);
+var parseConfig = function(){
+    if(!(this instanceof parseConfig)){
+        return new parseConfig ();
     }
+    this.conf = require('./gulp.config.js');
     this.evr = '';
     this.mod = '';
     this.basePath = {};
     this.resourcePath = {}; 
-    this.destPath = {}; 
+    this.destPath = {};
+    this.copys = this.conf.copys || {};
     this.init = function(){
         var argv = require('yargs')
                     .options({
                         'd': {
                             alias: 'develop',
                             type: 'boolean'
+                        },
+                        'm':{
+                            alias: 'module',
+                            type: 'string',
+                            default : 'all'
                         }
                     }).argv;
         this.evr = argv.d  ? 'develop' : 'production' ;
-        this.mod = argv.m;  
-        this.basePath = basePath || {
-            "source" : 'source',
-            "develop" : 'build/develop',
-            "production" : 'build/production',
-        };
-        this.resourcePath = resourcePath || {
-            sass:   ['scss/*.scss'],
-            css:    ['statics/css/*.css'],
-            js:     ['statics/js/*.js'],
-            img:    ['statics/images/*.+(png|jpg|jpeg|gif|svg)'],
-            fonts:  ['statics/fonts/*'],
-            html:   ['*.html'],
-            tpl:    ['tpl/*.tpl']
-        };
-        this.destPath = destPath || {
-            css:    'statics/css/',
-            js:     'statics/js/',
-            img:    'statics/images/',
-            fonts:  'statics/fonts/',
-            html:   '',
-            tpl:    'tpl/'
-        };
+        this.mod = argv.m;    
+        this.basePath = this.conf.basePath || {};
+        this.resourcePath = this.conf.resourcePath || {};
+        this.destPath = this.conf.destPath || {};
     };
+    //获取资源文件
     this.getFiles = function (type){
         if(typeof type == 'string'){
             type = [type];
@@ -65,11 +54,13 @@ var gulpConfig = function(basePath, resourcePath, destPath){
     this.getRoot = function (){
         return this.basePath[this.evr];
     };
+    this.get = function(key){
+        return this.conf[key];
+    }
     this.init();
 };
 
-var confJson  = require('./gulp.config.js'),
-    gulp = require('gulp'),
+var gulp = require('gulp'),
     notify = require('gulp-notify'),
     sass = require('gulp-sass'),
     minifycss = require('gulp-minify-css'),
@@ -83,10 +74,15 @@ var confJson  = require('./gulp.config.js'),
     runSequence = require('run-sequence'),
     browserSync = require('browser-sync').create();
 
-var conf = gulpConfig(confJson.basePath, confJson.resourcePath, confJson.destPath);
+var conf = parseConfig();
 
 gulp.task('server', function() {
-    browserSync.init(confJson.browserSyncConfig);
+    browserSync.init({
+        server: {
+            baseDir: conf.get('basePath')[conf.evr]
+        },
+        port: 9999
+    });
 });
 gulp.task('clean', function() {
   return gulp.src([conf.getDest('css'), conf.getDest('js')], {read: false})
@@ -94,6 +90,14 @@ gulp.task('clean', function() {
     .pipe(notify({ message: '清空图片、样式、js complete' }));
 });
 var Build = {
+    copy:function(){
+        var copys = conf.copys;console.log(copys);
+        for(var i in copys){
+            gulp.src(copys[i].src, copys[i].options)
+                .pipe(gulp.dest(copys[i].dest))
+                .pipe(notify({ message: '复制依赖库' }));
+        }
+    },
     buildCss : function () {
         var autopre = autoprefixer({
                         browsers: ['last 5 versions', 'Android >= 4.0'],
@@ -176,6 +180,9 @@ var Build = {
 	        .pipe(notify({ message: '移动html到开发目录和生产目录 complete' }));
     }
 };
+gulp.task('copy',function(){
+    return Build.copy();
+});
 
 gulp.task('js',function(){
 	return Build.buildJs();
@@ -194,7 +201,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('build',function(cb){
-    runSequence('clean','css','js','fonts','html',cb);
+    runSequence('clean','copy','css','js','fonts','html',cb);
     gulp.watch(conf.getFiles('sass'), ['css'], browserSync.reload);
     gulp.watch(conf.getFiles('js'), ['js'], browserSync.reload);
     gulp.watch(conf.getFiles('fonts'), ['fonts'], browserSync.reload);
