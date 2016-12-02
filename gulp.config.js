@@ -4,35 +4,6 @@ var basePath = {
     "develop" : 'build/develop',
     "production" : 'build/production'
 };
-var resourcePath = {
-    sass:   ['scss/*.scss'],
-    css:    [
-                'statics/libs/**/*.css',
-                'statics/styles/*.css'
-            ],
-    js:     [
-                'statics/libs/**/*.js',
-                'statics/js/*.js'
-            ],
-    img:    [
-                'statics/libs/**/*.+(png|jpg|jpeg|gif|svg)',
-                'statics/images/*.+(png|jpg|jpeg|gif|svg)'
-            ],
-    fonts:  [
-                'statics/libs/**/*.+(eot|woff|ttf|svg)',
-                'statics/fonts/*'
-            ],
-    html:   ['*.html'],
-    tpl:    ['tpl/*.tpl']
-};
-var destPath = {
-    css:    'statics/styles/',
-    js:     'statics/js/',
-    img:    'statics/images/',
-    fonts:  'statics/fonts/',
-    html:   '',
-    tpl:    'tpl/'
-};
 var copys = {
     libs1:{
         src:[
@@ -57,6 +28,37 @@ var copys = {
         options:{base : basePath.libs},
         dest: basePath.source + '/statics/libs'
     }
+};
+var resourcePath = {
+    sass:   ['scss/*.scss'],
+    css:    [
+                'statics/libs/**/*.css',
+                'statics/styles/*.css'
+            ],
+    js:     [
+                'statics/libs/**/*.js',
+                'statics/js/home.js',
+                'statics/js/home.config.js',
+                'statics/js/home.config.router.js'
+            ],
+    img:    [
+                'statics/libs/**/*.+(png|jpg|jpeg|gif|svg)',
+                'statics/images/*.+(png|jpg|jpeg|gif|svg)'
+            ],
+    fonts:  [
+                'statics/libs/**/*.+(eot|woff|ttf|svg)',
+                'statics/fonts/*'
+            ],
+    html:   ['*.html'],
+    tpl:    ['tpl/*.tpl']
+};
+var destPath = {
+    css:    'statics/styles/',
+    js:     'statics/js/',
+    img:    'statics/images/',
+    fonts:  'statics/fonts/',
+    html:   '',
+    tpl:    'tpl/'
 };
 module.exports = {
     copys:copys,

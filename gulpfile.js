@@ -71,6 +71,7 @@ var gulp = require('gulp'),
     pngquant = require('imagemin-pngquant'),
     clean = require('gulp-clean'),
     runSequence = require('run-sequence'),
+    ngAnnotate = require('gulp-ng-annotate'),
     browserSync = require('browser-sync').create();
 var conf = parseConfig();
 gulp.task('server', function() {
@@ -88,12 +89,14 @@ gulp.task('clean', function() {
 });
 var Build = {
     copy:function(){
-        var copys = conf.copys;console.log(copys);
+        var copys = conf.copys,
+            stream;
         for(var i in copys){
-            gulp.src(copys[i].src, copys[i].options)
+            stream = gulp.src(copys[i].src, copys[i].options)
                 .pipe(gulp.dest(copys[i].dest))
                 .pipe(notify({ message: '复制依赖库' }));
         }
+        return stream;
     },
     buildCss : function () {
         var autopre = autoprefixer({
@@ -128,16 +131,18 @@ var Build = {
             });
     },
     buildJs : function () {
-        var src = conf.getFiles('js');console.log(src);
+        var src = conf.getFiles('js');
         var dest = conf.getDest('js');
         if(conf.evr != 'production'){
             return  gulp.src(src)
                         .pipe(concat('all.js'))
+                        .pipe(ngAnnotate())
                         .pipe(gulp.dest(dest))
                         .pipe(notify({ message: '移动js到开发目录 complete' }));
         }else{
             return  gulp.src(src)
                         .pipe(concat('all.js'))
+                        .pipe(ngAnnotate())
                         .pipe(rename({suffix:'.min'}))
                         .pipe(uglify())
                         .pipe(gulp.dest(dest))
@@ -195,7 +200,7 @@ gulp.task('html', function() {
     return Build.buildHtml();
 });
 gulp.task('build',function(cb){
-    runSequence('clean','copy','css','js','fonts','html',cb);
+    runSequence('clean','css','js','fonts','html',cb);
     gulp.watch(conf.getFiles('sass'), ['css'], browserSync.reload);
     gulp.watch(conf.getFiles('js'), ['js'], browserSync.reload);
     gulp.watch(conf.getFiles('fonts'), ['fonts'], browserSync.reload);
@@ -203,6 +208,7 @@ gulp.task('build',function(cb){
 });
 gulp.task('help',function () {
     console.log('   gulp help           gulp参数说明');
+    console.log('   gulp copy           库文件复制');
     console.log('   gulp img            图片复制');
     console.log('   gulp -d             开发环境');
 });
