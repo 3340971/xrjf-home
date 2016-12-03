@@ -7,23 +7,23 @@ var basePath = {
 var copys = {
     libs1:{
         src:[
-            basePath.libs + '/angular/angular.js',
-            basePath.libs + '/angular-animate/angular-animate.js',
-            basePath.libs + '/angular-ui-router/release/angular-ui-router.js'
+            basePath.libs + '/angular/angular.+(js|min.js)',
+            basePath.libs + '/angular-animate/angular-animate.+(js|min.js)',
+            basePath.libs + '/angular-ui-router/release/angular-ui-router.+(js|min.js)'
         ],
         options:{base : basePath.libs},
         dest: basePath.source + '/libs/angular'
     },
     libs2:{
         src:[
-            basePath.libs + '/jquery/dist/jquery.js'
+            basePath.libs + '/jquery/dist/jquery.+(js|min.js)'
         ],
         options:{base : basePath.libs},
         dest: basePath.source + '/libs/jquery'
     },
     libs3:{
         src:[
-            basePath.libs + '/weui/dist/style/weui.css'
+            basePath.libs + '/weui/dist/style/weui.+(css|min.css)'
         ],
         options:{base : basePath.libs},
         dest: basePath.source + '/libs'
@@ -33,10 +33,12 @@ var resourcePath = {
     sass:   ['scss/*.scss'],
     css:    [
                 'libs/**/*.css',
+                '!libs/**/*.min.css',
                 'statics/styles/*.css'
             ],
     js:     [
                 'libs/**/*.js',
+                '!libs/**/*.min.js',
                 'statics/js/*/*.js',
                 'statics/js/home.js',
                 'statics/js/home.config.js',

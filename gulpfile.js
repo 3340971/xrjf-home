@@ -3,6 +3,17 @@ var parseConfig = function(){
     if(!(this instanceof parseConfig)){
         return new parseConfig ();
     }
+    function inArray(needle,array){    
+        if(typeof needle=="string"||typeof needle=="number"){    
+            var len=array.length;    
+            for(var i=0;i<len;i++){    
+                if(needle===array[i]){    
+                    return true;    
+                }    
+            }    
+            return false;    
+        }    
+    }
     this.conf = require('./gulp.config.js');
     this.evr = '';
     this.mod = '';
@@ -37,11 +48,15 @@ var parseConfig = function(){
         for(var i in type){
             var files = this.resourcePath[type[i]];
             for(var j in files){
-                if(files[j].substring(0,2) == './'){
-                    re.push(files[j]);
+                var exclude = files[j].substring(0,1) == '!' ? true : false,
+                    file = exclude ? files[j].substring(1) : files[j];
+                if(file.substring(0,2) == './'){
+                    file = files[j];
                 }else{
-                    re.push(this.basePath.source + '/' + files[j]);
+                    file = this.basePath.source + '/' +file;
+                    file = exclude ? ('!' + file) : file; 
                 }
+                re.push(file);
             }
         }
         return re;
@@ -53,6 +68,29 @@ var parseConfig = function(){
     this.getRoot = function (){
         return this.basePath[this.evr];
     };
+    this.getList = function(src){
+        var glob = require('glob');
+        var list = [],exclude = [];
+        if(src instanceof Array){
+            for(var i in src){
+                if(src[i].substring(0,1) == '!'){
+                    exclude = exclude.concat(glob.sync(src[i].substring(1)));
+                }else{
+                    list = list.concat(glob.sync(src[i]));
+                }
+            }
+            for(var i in list){
+                if(inArray(list[i], exclude)){
+                    delete list[i];
+                }
+            }
+        }else{
+            if(src[i].substring(0,1) != '!'){
+                list = list.concat(glob.sync(src[i]));
+            }
+        }
+        return list;
+    }
     this.get = function(key){
         return this.conf[key];
     }
@@ -77,7 +115,7 @@ var conf = parseConfig();
 gulp.task('server', function() {
     browserSync.init({
         server: {
-            baseDir: conf.get('basePath')[conf.evr]
+            baseDir: 'src/'//conf.get('basePath')[conf.evr]
         },
         port: 9999
     });
@@ -88,7 +126,7 @@ gulp.task('clean', function() {
     .pipe(notify({ message: '清空图片、样式、js complete' }));
 });
 var Build = {
-    copy:function(){
+    copy:function(cb){
         var copys = conf.copys,
             stream;
         for(var i in copys){
@@ -98,7 +136,7 @@ var Build = {
         }
         return stream;
     },
-    buildCss : function () {
+    buildCss : function (cb) {
         var autopre = autoprefixer({
                         browsers: ['last 5 versions', 'Android >= 4.0'],
                         cascade: true,
@@ -111,7 +149,7 @@ var Build = {
             .pipe(gulp.dest(dest))
             .pipe(notify({ message: 'sass解析 complete' }))
             .on('end',function(){
-                src = conf.getFiles('css');
+                src = conf.getFiles('css');console.log(conf.getList(src));
                 dest = conf.getDest('css');
                 if(conf.evr != 'production'){
                     return gulp.src(src)
@@ -130,8 +168,8 @@ var Build = {
                 }
             });
     },
-    buildJs : function () {
-        var src = conf.getFiles('js');
+    buildJs : function (cb) {
+        var src = conf.getFiles('js');console.log(conf.getList(src));
         var dest = conf.getDest('js');
         if(conf.evr != 'production'){
             return  gulp.src(src)
@@ -149,7 +187,7 @@ var Build = {
                         .pipe(notify({ message: 'js合并、压缩到生产目录 complete' }));
         }
     },
-    buildImg: function () {
+    buildImg: function (cb) {
         var src = conf.getFiles('img');
         var dest = conf.getDest('img');
         if(conf.evr != 'production'){
@@ -166,14 +204,14 @@ var Build = {
                         .pipe(notify({ message: 'images压缩到生产目录 complete' }));
         }
     },
-    buildFonts: function(){
+    buildFonts: function(cb){
     	var src = conf.getFiles('fonts');
         var dest = conf.getDest('fonts');
         return gulp.src(src)
 	        .pipe(gulp.dest(dest))
 	        .pipe(notify({ message: '移动fonts到开发目录和生产目录 complete' }));
     },
-    buildHtml: function(){
+    buildHtml: function(cb){
     	var src = conf.getFiles('html');
         var dest = conf.getDest('html');
         return gulp.src(src)
@@ -181,23 +219,23 @@ var Build = {
 	        .pipe(notify({ message: '移动html到开发目录和生产目录 complete' }));
     }
 };
-gulp.task('copy',function(){
-    return Build.copy();
+gulp.task('copy',function(cb){
+    return Build.copy(cb);
 });
-gulp.task('js',function(){
-	return Build.buildJs();
+gulp.task('js',function(cb){
+    return Build.buildJs(cb);
 });
-gulp.task('css',function(){
-	return Build.buildCss();
+gulp.task('css',function(cb){
+    return Build.buildCss(cb);
 });
-gulp.task('img',function(){
-	return Build.buildImg();
+gulp.task('img',function(cb){
+    return Build.buildImg(cb);
 });
-gulp.task('fonts', function() {
-    return Build.buildFonts();
+gulp.task('fonts', function(cb) {
+    return Build.buildFonts(cb);
 });
-gulp.task('html', function() {
-    return Build.buildHtml();
+gulp.task('html', function(cb) {
+    return Build.buildHtml(cb);
 });
 gulp.task('build',function(cb){
     runSequence('clean','css','js','fonts','html',cb);
