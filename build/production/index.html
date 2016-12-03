@@ -1,12 +1,71 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="zw">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="statics/styles/all.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css"> -->
+	<link rel="stylesheet" type="text/css" href="statics/styles/app.css">
 </head>
 <body>
+<script>
+var version = '1.0.0';
+var links = [
+	'libs/weui/dist/style/weui.min.css'
+];
+var scripts = [
+	'libs/angular/angular/angular.min.js',
+	'libs/angular/angular-animate/angular-animate.min.js',
+	'libs/angular/angular-ui-router/release/angular-ui-router.min.js',
+	'libs/jquery/jquery/dist/jquery.min.js',
+	'statics/js/app.js',
+	'statics/js/app.config.js',
+	'statics/js/app.config.router.js'
+];
+document.addEventListener('DOMContentLoaded', function(){
+	var files = [];
+	var ext = '?v='+version;
+    for(var i in links){
+        files.push({src:links[i] + ext,type:'css'});
+    }
+    for(var i in scripts){
+        files.push({src:scripts[i] + ext,type:'js'});
+    }
+	var total = files.length;//待加载的文件总数
+	var loadedNum = 0;//已加载的文件数
+	var elRate = document.querySelector('#loading .rate');//显示加载比率的元素
+	var head = document.getElementsByTagName('head')[0];
+	//立即执行的闭包递归加载
+	(function(files){
+		if(files.length == 0)return false;
+		var file = files.shift();
+		var el;
+		if(file.type == 'js'){
+			el = document.createElement('script');
+	    	el.type = 'text/javascript';
+	    	el.src = file.src;
+		}else{
+			el = document.createElement('link');
+	    	el.type = 'text/css';
+	    	el.rel = 'stylesheet';
+	    	el.href = file.src;
+		}
+	    fn = arguments.callee;
+	    (function(el, files){
+	    	el.onload = el.onreadystatechange = function(){
+		        if((!this.readyState || this.readyState === "loaded" || this.readyState === "complete")){
+		        	loadedNum++;
+		        	elRate.innerText = parseInt(loadedNum/total*100) + '%';
+		        	//console.log('加载完毕:', this.src || this.href);
+		            fn(files);//加载下一个文件
+		            el.onload = el.onreadystatechange = null;//清除事件
+		        }
+		    }
+	    })(el, files);
+	    head.appendChild( el, head.firstChild );
+	})(files);
+}, false);
+</script>
 <div id="loading">
 	<div class="cycle-in"></div>
 	<div class="cycle-out"></div>
@@ -14,6 +73,14 @@
 	<div class="msg">loading...</div>
 </div>
 
-<script type="text/javascript" src="statics/js/all.min.js"></script>
+<!-- <script type="text/javascript" src="libs/angular/angular/angular.min.js"></script>
+<script type="text/javascript" src="libs/angular/angular-animate/angular-animate.min.js"></script>
+<script type="text/javascript" src="libs/angular/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="libs/jquery/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript" src="statics/js/app.js"></script>
+<script type="text/javascript" src="statics/js/app.config.js"></script>
+<script type="text/javascript" src="statics/js/app.config.router.js"></script> -->
+
 </body>
 </html>

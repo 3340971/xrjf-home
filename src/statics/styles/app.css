@@ -10,22 +10,26 @@ html {
 
 #loading {
   position: fixed;
-  width: 6rem;
-  height: 6rem;
+  width: 8rem;
+  height: 8rem;
   top: 50%;
   left: 50%;
-  margin: -3rem 0 0 -3rem; }
+  margin: -4rem 0 0 -4rem; }
   #loading .cycle-in, #loading .cycle-out {
-    transform-origin: center;
+    -webkit-transform-origin: center;
+        -ms-transform-origin: center;
+            transform-origin: center;
     box-sizing: border-box;
     position: absolute;
     background-color: transparnet;
-    filter: opacity(0.5);
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5);
     display: block;
     border-radius: 50%;
     border: 4px solid #4CDDFB; }
   #loading .cycle-in {
-    animation: cw 1.5s infinite linear;
+    -webkit-animation: cw 1.5s infinite linear;
+            animation: cw 1.5s infinite linear;
     top: 25%;
     left: 25%;
     width: 50%;
@@ -33,7 +37,8 @@ html {
     border-top: none;
     border-bottom: none; }
   #loading .cycle-out {
-    animation: ccw 1.5s infinite linear;
+    -webkit-animation: ccw 1.5s infinite linear;
+            animation: ccw 1.5s infinite linear;
     top: 0;
     left: 0;
     width: 100%;
@@ -46,21 +51,53 @@ html {
     text-align: center;
     color: #4CDDFB; }
   #loading .rate {
-    line-height: 6rem; }
+    line-height: 8rem; }
   #loading .msg {
     top: 100%;
-    line-height: 2rem; }
+    line-height: 2rem;
+    -webkit-animation: opacity 0.8s infinite alternate;
+            animation: opacity 0.8s infinite alternate; }
 
 /*顺时针*/
+@-webkit-keyframes cw {
+  form {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
 @keyframes cw {
   form {
-    transform: rotate(0deg); }
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
   to {
-    transform: rotate(360deg); } }
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
 
 /*逆时针*/
+@-webkit-keyframes ccw {
+  form {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg); } }
 @keyframes ccw {
   form {
-    transform: rotate(0deg); }
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
   to {
-    transform: rotate(-360deg); } }
+    -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg); } }
+
+/*逆时针*/
+@-webkit-keyframes opacity {
+  form {
+    opacity: 0.8; }
+  to {
+    opacity: 0.6; } }
+@keyframes opacity {
+  form {
+    opacity: 0.8; }
+  to {
+    opacity: 0.6; } }

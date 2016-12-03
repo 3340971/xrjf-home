@@ -1,7 +1,6 @@
 'use strict';
 
-var app = angular.module('home',[
+var app = angular.module('zw',[
 	'ngAnimate',
 	'ui.router'
 ]);
-angular.bootstrap(document, ['home']); 

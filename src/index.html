@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" ng-app="zw">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -9,6 +9,7 @@
 </head>
 <body>
 <script>
+var version = '1.0.0';
 var links = [
 	'libs/weui/dist/style/weui.min.css'
 ];
@@ -23,12 +24,13 @@ var scripts = [
 ];
 document.addEventListener('DOMContentLoaded', function(){
 	var files = [];
-	for(var i in links){
-		files.push({src:links[i],type:'css'});
-	}
-	for(var i in scripts){
-		files.push({src:scripts[i],type:'js'});
-	}
+	var ext = '?v='+version;
+    for(var i in links){
+        files.push({src:links[i] + ext,type:'css'});
+    }
+    for(var i in scripts){
+        files.push({src:scripts[i] + ext,type:'js'});
+    }
 	var total = files.length;//待加载的文件总数
 	var loadedNum = 0;//已加载的文件数
 	var elRate = document.querySelector('#loading .rate');//显示加载比率的元素

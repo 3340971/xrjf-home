@@ -143,27 +143,30 @@ var Build = {
                         remove:true
                     });
         var src = conf.getFiles('sass');
-        var dest = conf.getDest('css','source');
+        var dest0 = conf.getDest('css','source');
         return gulp.src(src)
             .pipe(sass())
-            .pipe(gulp.dest(dest))
+            .pipe(autopre)
+            .pipe(gulp.dest(dest0))
             .pipe(notify({ message: 'sass解析 complete' }))
             .on('end',function(){
                 src = conf.getFiles('css');console.log(conf.getList(src));
                 dest = conf.getDest('css');
                 if(conf.evr != 'production'){
                     return gulp.src(src)
-                                .pipe(autopre)
+                                //.pipe(autopre)
                                 .pipe(concat('all.css'))
                                 .pipe(gulp.dest(dest))
+                                .pipe(gulp.dest(dest0))
                                 .pipe(notify({ message: 'css复制 complete' }));
                 }else{
                     return gulp.src(src)
-                                .pipe(autopre)
+                                //.pipe(autopre)
                                 .pipe(concat('all.css'))
                                 .pipe(rename({suffix:'.min'}))
                                 .pipe(minifycss())
                                 .pipe(gulp.dest(dest))
+                                .pipe(gulp.dest(dest0))
                                 .pipe(notify({ message: 'css合并、压缩到生产目录 complete' }));
                 }
             });

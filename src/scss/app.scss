@@ -7,11 +7,11 @@ html{
 
 #loading{
 	position:fixed;
-	width: 6rem;
-	height: 6rem;
+	width: 8rem;
+	height: 8rem;
 	top:50%;
 	left:50%;
-	margin:-3rem 0 0 -3rem;
+	margin:-4rem 0 0 -4rem;
 	.cycle-in,.cycle-out{
 		transform-origin:center;
 		box-sizing: border-box;
@@ -48,11 +48,12 @@ html{
 		color: #4CDDFB;
 	}
 	.rate{
-		line-height: 6rem;
+		line-height: 8rem;
 	}
 	.msg{
 		top:100%;
 		line-height: 2rem;
+		animation: opacity 0.8s infinite alternate;
 	}
 }
 /*顺时针*/
@@ -65,4 +66,8 @@ html{
 	form{transform: rotate(0deg);}
 	to{transform: rotate(-360deg);}
 }
-
+/*逆时针*/
+@keyframes opacity{
+	form{opacity :0.8;}
+	to{opacity :0.6;}
+}
