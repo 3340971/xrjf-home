@@ -1,5 +1,6 @@
 'use strict';
 
-app.config(function($httpProvider){
+app
+.config(['$httpProvider', function($httpProvider){
 
-});
+}]);
