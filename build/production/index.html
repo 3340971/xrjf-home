@@ -12,7 +12,6 @@
 	<meta name="x5-page-mode" content="app">
 	<title ng-bind="title"></title>
 	<base href="/">
-	<!-- <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="statics/styles/app.css">
 </head>
 <body ng-controller="init">
@@ -60,84 +59,9 @@ G.scripts = [
  //    "statics/js/directives/img-verify.js",
  //    "statics/js/main.js"
 ];
-document.addEventListener('DOMContentLoaded', function(){
-    var files = [];
-    var ext = '?v='+G.version;
-    for(var i in G.links){
-        files.push({src:G.links[i] + ext,type:'css'});
-    }
-    for(var i in G.scripts){
-        files.push({src:G.scripts[i] + ext,type:'js'});
-    }
-    var total = files.length;//待加载的文件总数
-    var loadedNum = 0;//已加载的文件数
-    var elRate = document.querySelector('#loading .rate');//显示加载比率的元素
-    var head = document.getElementsByTagName('head')[0];
-    //立即执行的闭包递归加载
-    (function(files){
-        if(files.length == 0)return false;
-        var file = files.shift();
-        var el;
-        if(file.type == 'js'){
-            el = document.createElement('script');
-            el.type = 'text/javascript';
-            el.src = file.src;
-        }else{
-            el = document.createElement('link');
-            el.type = 'text/css';
-            el.rel = 'stylesheet';
-            el.href = file.src;
-        }
-        fn = arguments.callee;
-        (function(el, files){
-            el.onload = el.onreadystatechange = function(){
-                if((!this.readyState || this.readyState === "loaded" || this.readyState === "complete")){
-                    loadedNum++;
-                    elRate.innerText = parseInt(loadedNum/total*100) + '%';
-                    //console.log('加载完毕:', this.src || this.href);
-                    //加载下一个文件,这里实现了文件一个个顺序加载,上一个加载完成才会head.appendChild下一个元素
-                    fn(files);
-                    el.onload = el.onreadystatechange = null;//清除事件
-                }
-            }
-        })(el, files);
-        //如果用for循环来appendChild,这些append的新元素会并发的向服务器请求资源,这样有依赖关系的js就会报错
-        head.appendChild( el );
-    })(files);
-}, false);
-// (function(){
-// 	var elRate = document.querySelector('#loading .rate');
-// 	var rate = 0;
-// 	var timer = setInterval(function(){
-// 		rate++;
-// 		if(rate >= 100){
-// 			rate = 100;
-// 			clearInterval(timer);
-// 		}
-//     	elRate.innerText = rate + '%';
-// 	}, 100);
-// 	document.addEventListener('DOMContentLoaded', function(){
-// 		timer && clearInterval(timer);
-// 		elRate.innerText = '100%';
-// 	}, false);
-// })();
+
+
+document.addEventListener("DOMContentLoaded",function(){var g=[];var e="?v="+G.version;for(var d in G.links){g.push({src:G.links[d]+e,type:"css"})}for(var d in G.scripts){g.push({src:G.scripts[d]+e,type:"js"})}var f=g.length;var b=0;var a=document.querySelector("#loading .rate");var c=document.getElementsByTagName("head")[0];(function(j){if(j.length==0){return false}var h=j.shift();var i;if(h.type=="js"){i=document.createElement("script");i.type="text/javascript";i.src=h.src}else{i=document.createElement("link");i.type="text/css";i.rel="stylesheet";i.href=h.src}(function(l,m,k){l.onload=l.onreadystatechange=function(){if((!this.readyState||this.readyState==="loaded"||this.readyState==="complete")){b++;a.innerText=parseInt(b/f*100)+"%";k(m);l.onload=l.onreadystatechange=null}}})(i,j,arguments.callee);c.appendChild(i)})(g)},false);
 </script>
-
-
-
-
-
-<!-- <script type="text/javascript" src="libs/angular/angular/angular.min.js"></script>
-<script type="text/javascript" src="libs/angular/angular-animate/angular-animate.min.js"></script>
-<script type="text/javascript" src="libs/angular/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script type="text/javascript" src="libs/angular/oclazyload/dist/ocLazyLoad.min.js"></script>
-<script type="text/javascript" src="libs/jquery/jquery/dist/jquery.min.js"></script>
-
-<script type="text/javascript" src="statics/js/app.js"></script>
-<script type="text/javascript" src="statics/js/app.config.js"></script>
-<script type="text/javascript" src="statics/js/app.config.lazyload.js"></script>
-<script type="text/javascript" src="statics/js/app.config.router.js"></script>
-<script type="text/javascript" src="statics/js/main.js"></script> -->
-
 </body>
 </html>

@@ -39,31 +39,7 @@ app
     function tpl(url){
         return G.root + url + '?v=' + G.version;
     }
-
-
-	function load(srcs, callback) {
-        return {
-            deps: ['$ocLazyLoad', '$q', function( $ocLazyLoad, $q ){
-                var deferred = $q.defer();
-                var promise  = false;
-                srcs = angular.isArray(srcs) ? srcs : srcs.split(/\s+/);
-                if(!promise){
-                    promise = deferred.promise;
-                }
-                angular.forEach(srcs, function(src) {
-                    promise = promise.then( function(){
-                        if(JQ_CONFIG[src]){
-                            src = JQ_CONFIG[src];
-                        }else if(MODULE_CONFIG[src]){
-                            src = MODULE_CONFIG[src];
-                        }
-                        return $ocLazyLoad.load(src);
-                    });
-                });
-                deferred.resolve();
-                return callback ? promise.then(function(){ return callback(); }) : promise;
-            }]
-        };
-    }
-
+	function load(a,b){return{deps:["$ocLazyLoad","$q",function(g,d){var c=d.defer();var h=c.promise;a=angular.isArray(a)?a:a.split(/\s+/);var f=[];angular.forEach(a,function(i){if(JQ_CONFIG[i]){i=JQ_CONFIG[i]
+    }else{if(MODULE_CONFIG[i]){i=MODULE_CONFIG[i]}}if(i instanceof Array){f=f.concat(i)}else{f.push(i)}});var e=function(i){if(i.length<1){c.resolve();return false}(function(k,j){g.load(k.shift()).then(function(){j(k)
+    })})(i,e)};e(f);return b?h.then(function(){return b()}):h}]}};
 }]);

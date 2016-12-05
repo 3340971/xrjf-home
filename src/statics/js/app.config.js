@@ -19,24 +19,24 @@ app
     });
     $rootScope.submit = function(e, route, cb){
     	e.stopPropagation();
-  		e.preventDefault();
+  		e.preventDefault();cb($form);
   		$rootScope.authError = null;
     	var $form = angular.element(e.target).closest('form');
     	var url = $form.attr('action');
-    	if( !$form.valid() ){$rootScope[cb](99);
+    	if( !$form.valid() ){
 			return false;
 		}
 		$http.post(url, myUtils.serialize(myform))
 			.then(function(response) {
 				if ( !response.data.code ) {
 			  		$rootScope.authError = response.data.msg;
-			  		$rootScope[cb]($form);
+			  		cb($form);
 				}else{
 			  		$state.go(route);
 				}
 			}, function(x) {
 				$rootScope.authError = 'Server Error';
-				$rootScope[cb]($form);
+				cb($form);
 			});
     }
 }])
