@@ -4,18 +4,41 @@ app
 .config([
 			'$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG',
 	function($stateProvider,   $urlRouterProvider,   JQ_CONFIG,   MODULE_CONFIG){
-	$urlRouterProvider.otherwise('/Customer/index');
+	$urlRouterProvider.otherwise('/Access/login');
 	$stateProvider
+        .state('Access', {
+            abstract: true,
+            url: '/Access',
+            templateUrl: tpl("app/layout_access.html") //layout
+        })
+        .state('Access.register', {
+            title:'客户登记',
+            url: '/register',
+            templateUrl: tpl('app/Access/register.html'),
+            resolve:load(['validate', G.root + 'app/Access/AccessController.js'])
+        })
+        .state('Access.login', {
+            title:'客户登录',
+            url: '/login',
+            templateUrl: tpl('app/Access/login.html'),
+            resolve:load(['validate', G.root + 'app/Access/AccessController.js'])
+        })
+
 		.state('Customer', {
 			abstract: true,
             url: '/Customer',
-            templateUrl: G.root + "app/layout.html" //layout
+            templateUrl: tpl("app/layout.html") //layout
 		})
 		.state('Customer.index', {
+            title:'',
             url: '/index',
-            templateUrl: G.root + 'app/Customer/index.html',
+            templateUrl: tpl('app/Customer/index.html'),
             resolve:load([G.root + 'app/Customer/CustomerController.js'])
 		});
+
+    function tpl(url){
+        return G.root + url + '?v=' + G.version;
+    }
 
 
 	function load(srcs, callback) {

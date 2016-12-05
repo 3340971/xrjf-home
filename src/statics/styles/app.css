@@ -1,12 +1,26 @@
 @charset "UTF-8";
-html {
-  font-size: 62.5%;
+html, body {
   height: 100%;
-  width: 100%; }
+  -webkit-tap-highlight-color: transparent; }
+
+html {
+  font-size: 62.5%; }
   html body {
     font-size: 1.2rem;
-    height: 100%;
-    width: 100%; }
+    font-family: -apple-system-font, "Helvetica Neue", Helvetica, sans-serif; }
+
+a {
+  color: #1AAD19; }
+
+.logo {
+  width: 12rem;
+  height: 0;
+  padding: 0 0 5.14rem 0;
+  background-image: url("../images/logo.png");
+  background-size: 100% 100%;
+  margin: 2rem auto;
+  -webkit-filter: opacity(0.7);
+          filter: opacity(0.7); }
 
 #loading {
   position: fixed;
@@ -101,3 +115,57 @@ html {
     opacity: 0.8; }
   to {
     opacity: 0.6; } }
+
+/* 页面离场 */
+@-webkit-keyframes slideOutLeft {
+  to {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%); } }
+@keyframes slideOutLeft {
+  to {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%); } }
+
+/* 页面进场 */
+@-webkit-keyframes scaleUp {
+  from {
+    opacity: 0.3;
+    -webkit-transform: scale(0.85); } }
+@keyframes scaleUp {
+  from {
+    opacity: 0.3;
+    -webkit-transform: scale(0.85); } }
+
+.ng-enter {
+  -webkit-animation: scaleUp 0.5s both ease-in;
+          animation: scaleUp 0.5s both ease-in;
+  z-index: 8888; }
+
+.ng-leave {
+  -webkit-animation: slideOutLeft 0.2s both ease-in;
+          animation: slideOutLeft 0.2s both ease-in;
+  z-index: 9999; }
+
+/* layout */
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden; }
+  .container .page {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    background-color: #F8F8F8;
+    -webkit-overflow-scrolling: touch;
+    z-index: 1; }
+    .container .page.js_show {
+      opacity: 1; }
+
+.weui-footer {
+  margin-top: 4rem; }

@@ -2,10 +2,8 @@
 
 app
 .constant('JQ_CONFIG', {
-        "filestyle":      [   	G.root + 'statics/libs/jquery/bootstrap-filestyle/src/bootstrap-filestyle.js'],
-        "slider":         [   	G.root + 'statics/libs/jquery/bootstrap-slider/bootstrap-slider.js',
-                          		G.root + 'statics/libs/jquery/bootstrap-slider/bootstrap-slider.css']
-                      
+        "validate":      [   	G.root + 'libs/jquery/jquery.validate.js',
+        						G.root + 'libs/jquery/validate.expand.js']                      
     }
 )
 .constant('MODULE_CONFIG', {

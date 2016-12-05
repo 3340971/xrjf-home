@@ -1,8 +1,25 @@
+html, body {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+
+}
 html{
-	font-size: 62.5%;height: 100%;width: 100%;
+	font-size: 62.5%;
 	body{
-		font-size: 1.2rem;height: 100%;width: 100%;
+		font-size: 1.2rem;
+		font-family: -apple-system-font, "Helvetica Neue", Helvetica, sans-serif;
 	}
+}
+a{
+    color: #1AAD19;
+}
+.logo{
+	width:12rem;height:0;padding:0 0 5.14rem 0;
+	background-image:url('../images/logo.png');
+	background-size:100% 100%;
+	margin:2rem auto;
+	filter:opacity(0.7);
+
 }
 
 #loading{
@@ -70,4 +87,49 @@ html{
 @keyframes opacity{
 	form{opacity :0.8;}
 	to{opacity :0.6;}
+}
+
+
+
+/* 页面离场 */
+@keyframes slideOutLeft {
+    to         { transform: translateX(-100%); }
+}
+/* 页面进场 */
+@keyframes scaleUp {
+    from     { opacity: 0.3; -webkit-transform: scale(0.85); }
+}
+.ng-enter { animation: scaleUp 0.5s both ease-in; z-index: 8888; }
+.ng-leave { animation: slideOutLeft 0.2s both ease-in; z-index: 9999; }
+
+
+
+
+
+
+/* layout */
+.container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    .page {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    overflow-y: auto;
+	    background-color: #F8F8F8;
+	    -webkit-overflow-scrolling: touch;
+	    z-index: 1; // fix 滑动几次后可滚动区域会卡住的问题
+	    &.js_show{
+	        opacity: 1;
+	    }
+	}
+}
+.weui-footer{
+	margin-top: 4rem;
 }
