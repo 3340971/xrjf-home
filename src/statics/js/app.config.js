@@ -2,10 +2,17 @@
 
 app
 .run(['$location','$rootScope','$state',function($location, $rootScope, $state){
-	$rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {  
-		$rootScope.title = '星融金服' + (toState.title ? ('-'+toState.title) : '');
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        $rootScope.loading = true;
+    });
+    $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
+        $state.go('Access.404');
+    });
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.title = '星融金服' + (toState.title ? ('-'+toState.title) : '');
     });
     $rootScope.$on('$viewContentLoaded', function(event){
+        $rootScope.loading = false;
         $(".J-validate").each(function(){
             $(this).validate({
                 submitHandler:function(form){
@@ -19,7 +26,7 @@ app
     });
     $rootScope.submit = function(e, route, cb){
     	e.stopPropagation();
-  		e.preventDefault();cb($form);
+  		e.preventDefault();
   		$rootScope.authError = null;
     	var $form = angular.element(e.target).closest('form');
     	var url = $form.attr('action');
@@ -41,5 +48,5 @@ app
     }
 }])
 .config(['$httpProvider', function($httpProvider){
-
+	$httpProvider.interceptors.push('httpInterceptor');
 }]);

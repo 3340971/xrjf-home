@@ -1,3 +1,6 @@
+$topHeight:4rem;
+$primaryBg:#059FEB;
+
 html, body {
     height: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -21,7 +24,9 @@ a{
 	filter:opacity(0.7);
 
 }
-
+.ng-hide{
+	display:none;
+}
 #loading{
 	position:fixed;
 	width: 8rem;
@@ -105,7 +110,10 @@ a{
 
 
 
-
+/* weui覆盖 */
+.weui-btn_primary{
+	background-color:$primaryBg;
+}
 
 /* layout */
 .container {
@@ -132,4 +140,23 @@ a{
 }
 .weui-footer{
 	margin-top: 4rem;
+}
+#header-top{
+	position:relative;
+	width:100%;height:$topHeight;
+	background: $primaryBg linear-gradient(hsla(0,0%,100%,.2),transparent);
+	z-index:9999;
+	color:#fff;
+	font-size:$topHeight/2;
+	line-height: 2;
+	text-align:center;
+	.left,.right{
+		position: absolute;
+		width:$topHeight;
+		height:$topHeight;
+		color:#fff;
+		top:0;
+	}
+	.left{left:0;}
+	.right{right:0;}
 }

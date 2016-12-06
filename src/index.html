@@ -12,6 +12,7 @@
 	<meta name="x5-page-mode" content="app">
 	<title ng-bind="title"></title>
 	<base href="/">
+    <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css">
 	<link rel="stylesheet" type="text/css" href="statics/styles/app.css">
 </head>
 <body ng-controller="init">
@@ -24,13 +25,23 @@
 	<div class="rate">0%</div>
 	<div class="msg">loading...</div>
 </div>
+<!-- loading toast -->
+<div ng-show="loading" class="ng-hide">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">数据加载中</p>
+    </div>
+</div>
 <div ui-view class="container" id="container"></div>
 
 <script>
-var G = G || {};
+window.G = window.G  || {};
 G.version = '1.0.0';
+G.host = 'http://zxzx.com';
+G.public = '/';
 G.links = [
-    'libs/weui/dist/style/weui.min.css'
+    //'libs/weui/dist/style/weui.min.css'
 ];
 G.scripts = [
 	"libs/jquery/jquery/dist/jquery.js",
@@ -38,6 +49,9 @@ G.scripts = [
     "libs/angular/angular-animate/angular-animate.js",
     "libs/angular/angular-ui-router/release/angular-ui-router.js",
     "libs/angular/oclazyload/dist/ocLazyLoad.js",
+    "statics/js/app.js",
+    "statics/js/services/zw-utils.js",
+    "statics/js/services/http-interceptor.js",
     "statics/js/app.js",
     "statics/js/app.config.js",
     "statics/js/app.config.lazyload.js",
@@ -53,6 +67,8 @@ G.scripts = [
  //    "libs/angular/angular-ui-router/release/angular-ui-router.min.js",
  //    "libs/angular/oclazyload/dist/ocLazyLoad.min.js",
  //    "statics/js/app.js",
+ //    "statics/js/services/zw-utils.js",
+ //    "statics/js/services/http-interceptor.js",
  //    "statics/js/app.config.js",
  //    "statics/js/app.config.lazyload.js",
  //    "statics/js/app.config.router.js",

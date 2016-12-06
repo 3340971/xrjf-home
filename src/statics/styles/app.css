@@ -22,6 +22,9 @@ a {
   -webkit-filter: opacity(0.7);
           filter: opacity(0.7); }
 
+.ng-hide {
+  display: none; }
+
 #loading {
   position: fixed;
   width: 8rem;
@@ -146,6 +149,10 @@ a {
           animation: slideOutLeft 0.2s both ease-in;
   z-index: 9999; }
 
+/* weui覆盖 */
+.weui-btn_primary {
+  background-color: #059FEB; }
+
 /* layout */
 .container {
   position: absolute;
@@ -169,3 +176,25 @@ a {
 
 .weui-footer {
   margin-top: 4rem; }
+
+#header-top {
+  position: relative;
+  width: 100%;
+  height: 4rem;
+  background: #059FEB -webkit-linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+  background: #059FEB linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+  z-index: 9999;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 2;
+  text-align: center; }
+  #header-top .left, #header-top .right {
+    position: absolute;
+    width: 4rem;
+    height: 4rem;
+    color: #fff;
+    top: 0; }
+  #header-top .left {
+    left: 0; }
+  #header-top .right {
+    right: 0; }
