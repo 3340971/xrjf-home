@@ -122,32 +122,74 @@ a {
 /* 页面离场 */
 @-webkit-keyframes slideOutLeft {
   to {
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%); } }
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5);
+    -webkit-transform: scale3d(0.7, 0.7, 1) translate3d(-100%, 0%, 0);
+            transform: scale3d(0.7, 0.7, 1) translate3d(-100%, 0%, 0); } }
 @keyframes slideOutLeft {
   to {
-    -webkit-transform: translateX(-100%);
-            transform: translateX(-100%); } }
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5);
+    -webkit-transform: scale3d(0.7, 0.7, 1) translate3d(-100%, 0%, 0);
+            transform: scale3d(0.7, 0.7, 1) translate3d(-100%, 0%, 0); } }
+
+@-webkit-keyframes scaleOut {
+  to {
+    -webkit-filter: opacity(0.7);
+            filter: opacity(0.7);
+    -webkit-transform: scale3d(0.7, 0.7, 1);
+            transform: scale3d(0.7, 0.7, 1); } }
+
+@keyframes scaleOut {
+  to {
+    -webkit-filter: opacity(0.7);
+            filter: opacity(0.7);
+    -webkit-transform: scale3d(0.7, 0.7, 1);
+            transform: scale3d(0.7, 0.7, 1); } }
 
 /* 页面进场 */
-@-webkit-keyframes scaleUp {
+@-webkit-keyframes slideInRight {
   from {
-    opacity: 0.3;
-    -webkit-transform: scale(0.85); } }
-@keyframes scaleUp {
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5);
+    -webkit-transform: translate3d(100%, 0%, 0);
+            transform: translate3d(100%, 0%, 0); } }
+@keyframes slideInRight {
   from {
-    opacity: 0.3;
-    -webkit-transform: scale(0.85); } }
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5);
+    -webkit-transform: translate3d(100%, 0%, 0);
+            transform: translate3d(100%, 0%, 0); } }
+
+@-webkit-keyframes scaleIn {
+  from {
+    -webkit-filter: opacity(0.7);
+            filter: opacity(0.7);
+    -webkit-transform: scale3d(0.7, 0.7, 1);
+            transform: scale3d(0.7, 0.7, 1); } }
+
+@keyframes scaleIn {
+  from {
+    -webkit-filter: opacity(0.7);
+            filter: opacity(0.7);
+    -webkit-transform: scale3d(0.7, 0.7, 1);
+            transform: scale3d(0.7, 0.7, 1); } }
 
 .ng-enter {
-  -webkit-animation: scaleUp 0.5s both ease-in;
-          animation: scaleUp 0.5s both ease-in;
-  z-index: 8888; }
+  -webkit-animation: scaleIn .5s both ease-out;
+          animation: scaleIn .5s both ease-out;
+  z-index: 8888;
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center; }
 
 .ng-leave {
-  -webkit-animation: slideOutLeft 0.2s both ease-in;
-          animation: slideOutLeft 0.2s both ease-in;
-  z-index: 9999; }
+  -webkit-animation: slideOutLeft .5s both ease-out;
+          animation: slideOutLeft .5s both ease-out;
+  z-index: 9999;
+  -webkit-transform-origin: left center;
+      -ms-transform-origin: left center;
+          transform-origin: left center; }
 
 /* weui覆盖 */
 .weui-btn_primary {
