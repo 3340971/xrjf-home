@@ -1,37 +1,36 @@
-
-    <div class="page__bd" ng-controller="Access.login">
-        <ng-include src="'app/_blocks/header.html'" ></ng-include>
-        <div class="logo"></div>
-        <form class="J-validate">
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">客&nbsp;&nbsp;&nbsp;&nbsp;户</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" required placeholder="手机号/身份证号"/>
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="password" required placeholder="密码"/>
-                </div>
-            </div>
-            <div class="weui-cell weui-cell_vcode">
-                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" required placeholder="验证码"/>
-                </div>
-                <div class="weui-cell__ft">
-                    <img-verify  class="weui-vcode-img" id="img-verify"/>
-                </div>
-            </div>
+<div ng-include="'app/_blocks/header.html'" ></div>
+<div id="logo"></div>
+<form class="J-validate" ng-controller="Access.login">
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label iconfont icon-user"></label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" required placeholder="手机号/身份证号"/>
         </div>
-        
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Access.register',errFn)">登录</a>
-            <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a>
-        </div>
-        </form>
     </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="password" required placeholder="密码"/>
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode">
+        <div class="weui-cell__hd"><label class="weui-label iconfont icon-yanzhengma"></label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" required placeholder="验证码"/>
+        </div>
+        <div class="weui-cell__ft">
+            <img-verify  class="weui-vcode-img" id="img-verify"/>
+        </div>
+    </div>
+</div>
 
-    <ng-include src="'app/_blocks/footer.html'" ></ng-include>
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Access.register',errFn)">登录</a>
+    <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a>
+</div>
+</form>
+
+
+<div ng-include="'app/_blocks/footer.html'" ></div>
+

@@ -33,15 +33,16 @@
         <p class="weui-toast__content">数据加载中</p>
     </div>
 </div>
-<div ui-view class="container" id="container"></div>
+<div ui-view class="pages"></div>
 
 <script>
 window.G = window.G  || {};
-G.version = '1.0.0';
-G.host = 'http://zxzx.com';
+G.version = '1.0.1';
+G.host = 'http://192.168.1.250';
 G.public = '/';
 G.links = [
-    //'libs/weui/dist/style/weui.min.css'
+    //'libs/weui/dist/style/weui.min.css',
+    'statics/styles/iconfont.css'
 ];
 G.scripts = [
 	"libs/jquery/jquery/dist/jquery.js",

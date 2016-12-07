@@ -46,6 +46,17 @@ app
 				cb($form);
 			});
     }
+    angular.element(window).on('resize', function(){
+        if(document.hasFocus() && document.activeElement.nodeName.toLowerCase() == 'input'){
+            var $element = angular.element(document.activeElement);
+            var viewTop = angular.element(window).scrollTop(), 
+                viewBottom = viewTop + window.innerHeight;
+            var elementTop = $element.offset().top,
+                elementBottom = elementTop + $element.height();
+            document.activeElement.scrollIntoView();
+        }
+        
+    });
 }])
 .config(['$httpProvider', function($httpProvider){
 	$httpProvider.interceptors.push('httpInterceptor');

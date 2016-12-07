@@ -1,5 +1,5 @@
 $topHeight:4rem;
-$primaryBg:#059FEB;
+$primaryBg:#1b82d2;
 
 html, body {
     height: 100%;
@@ -11,18 +11,19 @@ html{
 	body{
 		font-size: 1.2rem;
 		font-family: -apple-system-font, "Helvetica Neue", Helvetica, sans-serif;
+		background-color: #F8F8F8;
+	    -webkit-overflow-scrolling: touch;
 	}
 }
 a{
     color: #1AAD19;
 }
-.logo{
-	width:12rem;height:0;padding:0 0 5.14rem 0;
+#logo{
+	width:16.8rem;height:0;padding:0 0 7.2rem 0;
 	background-image:url('../images/logo.png');
 	background-size:100% 100%;
 	margin:2rem auto;
-	filter:opacity(0.7);
-
+	filter:opacity(0.95);
 }
 .ng-hide{
 	display:none;
@@ -93,26 +94,33 @@ a{
 	form{opacity :0.8;}
 	to{opacity :0.6;}
 }
-
+/*显现*/
+@keyframes scaleIn {
+    from        {height:0;padding-top:0;padding-bottom: 0;margin-top:0;margin-bottom: 0; transform:scale3d(0,0,1);}
+}
+/*消失*/
+@keyframes scaleOut {
+    to        {height:0;padding-top:0;padding-bottom: 0;margin-top:0;margin-bottom: 0; transform:scale3d(0,0,1);}
+}
 
 
 /* 页面离场 */
-@keyframes slideOutLeft {
-    to         { filter:opacity(0.5); transform:scale3d(0.7, 0.7, 1) translate3d(-100%, 0%, 0);}
+@keyframes viewSlideOutLeft {
+    to         { filter:opacity(0.5); transform: translate3d(-100%, 0%, 0);}
 }
-@keyframes scaleOut {
+@keyframes viewScaleOut {
     to         { filter:opacity(0.7); transform: scale3d(0.7, 0.7, 1); }
 }
 /* 页面进场 */
-@keyframes slideInRight {
+@keyframes viewSlideInRight {
     from       { filter:opacity(0.5); transform: translate3d(100%, 0%, 0); }
 }
-@keyframes scaleIn {
+@keyframes viewScaleIn {
     from     { filter:opacity(.7); transform: scale3d(0.7, 0.7, 1); }
 }
 
-.ng-enter { animation: scaleIn .5s both ease-out; z-index: 8888;transform-origin:center center;}
-.ng-leave { animation: slideOutLeft .5s both ease-out; z-index: 9999;transform-origin:left center;}
+.ng-enter { animation: viewScaleIn .3s both ease-out; z-index: 8888;transform-origin:center center;}
+.ng-leave { animation: viewSlideOutLeft .3s both ease-out; z-index: 9999;transform-origin:center center;}
 
 
 
@@ -121,49 +129,69 @@ a{
 .weui-btn_primary{
 	background-color:$primaryBg;
 }
-
-/* layout */
-.container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    .page {
-	    position: absolute;
-	    top: 0;
-	    right: 0;
-	    bottom: 0;
-	    left: 0;
-	    overflow-y: auto;
-	    background-color: #F8F8F8;
-	    -webkit-overflow-scrolling: touch;
-	    z-index: 1; // fix 滑动几次后可滚动区域会卡住的问题
-	    &.js_show{
-	        opacity: 1;
-	    }
+.weui-cells{
+	font-size:1.4rem;
+	.weui-cell{
+		display:block;
+		&:after{
+			content:" ";
+			display:table;
+			clear: both;
+		}
+		.weui-cell__hd{
+			width:5rem;float:left;
+		}
+		.weui-cell__bd{
+			width:calc(100% - 5rem);float:left;
+		}
 	}
 }
+.weui-label{
+	text-align:center;
+	color:#808080;
+	width:100%;
+	&.iconfont{
+		font-size:1.8rem;
+	}
+}
+.weui-vcode-btn{
+	color:$primaryBg;
+	font-size:1.4rem;
+}
+
+/* layout */
+.pages {
+	width:100%;
+	position:relative;
+	.page{
+		width:100%;
+		position:absolute;
+	}
+    
+}
+
 .weui-footer{
 	margin-top: 4rem;
 }
 #header-top{
 	position:relative;
 	width:100%;height:$topHeight;
-	background: $primaryBg linear-gradient(hsla(0,0%,100%,.2),transparent);
+	background: $primaryBg;
 	z-index:9999;
 	color:#fff;
 	font-size:$topHeight/2;
 	line-height: 2;
 	text-align:center;
 	.left,.right{
+		box-size:border-box;
 		position: absolute;
-		width:$topHeight;
-		height:$topHeight;
+		width:$topHeight/2;
+		height:$topHeight/2;
+		line-height: $topHeight/2;
+		margin:$topHeight/4;
 		color:#fff;
 		top:0;
 	}
-	.left{left:0;}
+	.left{left:0;padding-right:$topHeight/4;border-right:1px solid darken($primaryBg,5);}
 	.right{right:0;}
 }
