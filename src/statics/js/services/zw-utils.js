@@ -453,6 +453,24 @@ angular.module('zw.utils',[])
 	    }
 	    return s.join('&').replace(/%20/g, '+');
 	};
+	this.msg = function(type,text,fn,time){
+		time = time || 3000;
+		fn = fn || function(){}; 
+		var types={'error':'#ff8888','success':'#557755','info':'#90d1ff'};
+		var tpl='<div id="app-msg"></div>';
+		var str='#app-msg';
+		if($(str,window.top.document.body).length < 1){
+		    	$(window.top.document.body).append(tpl);
+		}
+		var $msg = $(str,window.top.document.body);
+		$msg.text(text).css('background-color',types[type]);
+		$msg.addClass('active');
+		clearTimeout(this.msg.timer);
+		this.msg.timer = setTimeout(function(){
+			$msg.removeClass('active');
+		    fn && fn();
+		},time);
+	};
 
 /*********** fns end*************/
 

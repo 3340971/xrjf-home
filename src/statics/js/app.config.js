@@ -1,7 +1,7 @@
 'use strict';
 
 app
-.run(['$location','$rootScope','$state',function($location, $rootScope, $state){
+.run(['$location','$rootScope','$state','zwUtils',function($location, $rootScope, $state, zwUtils){
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
         $rootScope.loading = true;
     });
@@ -20,6 +20,17 @@ app
                     if( !callback || eval(callback)(form) ){
                         form.submit();
                     }
+                },
+                onfocusout:true,
+                errorClass:"invalid",
+                errorElement:"em",
+                errorPlacement:function(error,element) {
+                    error[0].textContent && zwUtils.msg('error',error[0].textContent);
+                    element.closest('.weui-cell').addClass('weui-cell_warn');
+                },
+                success:"valid",
+                success: function ( label, element ) {console.log(label);
+                    $(element).closest('.weui-cell').removeClass('weui-cell_warn');
                 }
             });
         });

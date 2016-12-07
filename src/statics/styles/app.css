@@ -246,6 +246,29 @@ a {
       -ms-transform-origin: center center;
           transform-origin: center center; }
 
+#app-msg {
+  box-sizing: border-box;
+  width: 90%;
+  margin: 0;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 5%;
+  border-radius: 0 0 1rem 1rem;
+  z-index: 99999;
+  -webkit-transform: translate3d(0, -5rem, 0);
+          transform: translate3d(0, -5rem, 0);
+  -webkit-transition: .3s;
+  transition: .3s;
+  text-align: center;
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  font-weight: 500; }
+  #app-msg.active {
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0); }
+
 /* weui覆盖 */
 .weui-btn_primary {
   background-color: #1b82d2; }
@@ -279,6 +302,8 @@ a {
         width: 100%; }
         .weui-cells .weui-cell .weui-cell__hd .weui-label.iconfont {
           font-size: 1.8rem; }
+    .weui-cells .weui-cell.weui-cell_warn .weui-label {
+      color: #e64340; }
     .weui-cells .weui-cell .weui-cell__bd {
       padding-left: 1rem;
       width: calc(100% - 6rem); }

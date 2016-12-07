@@ -5,19 +5,19 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-user"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" required placeholder="手机号/身份证号"/>
+            <input class="weui-input" type="number" name="data[idNumber]" required placeholder="手机号/身份证号"/>
         </div>
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="password" required placeholder="密码"/>
+            <input class="weui-input" type="password" name="data[password]" required placeholder="密码"/>
         </div>
     </div>
     <div class="weui-cell weui-cell_vcode">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-yanzhengma"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" required placeholder="验证码"/>
+            <input class="weui-input" type="number" name="data[vcode]" required placeholder="验证码"/>
         </div>
         <div class="weui-cell__ft">
             <img-verify  class="weui-vcode-img" id="img-verify"/>
