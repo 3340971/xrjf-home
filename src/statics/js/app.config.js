@@ -53,7 +53,9 @@ app
                 viewBottom = viewTop + window.innerHeight;
             var elementTop = $element.offset().top,
                 elementBottom = elementTop + $element.height();
-            document.activeElement.scrollIntoView();
+            if(elementBottom > viewBottom){
+                document.body.scrollTop = elementBottom - window.innerHeight - 50;
+            }
         }
         
     });
