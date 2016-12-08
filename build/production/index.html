@@ -13,7 +13,8 @@
 	<title ng-bind="title"></title>
 	<base href="/">
     <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css">
-	<link rel="stylesheet" type="text/css" href="statics/styles/app.css">
+    <link rel="stylesheet" type="text/css" href="statics/styles/app.css">
+	<script type="text/javascript" src="statics/js/vconsole.min.js"></script>
 </head>
 <body ng-controller="init">
 <!--[if lte IE8]>
@@ -39,7 +40,7 @@
 
 <script>
 window.G = window.G  || {};
-G.version = '1.0.11';
+G.version = '1.0.110123';
 G.host = 'http://192.168.1.250';
 G.public = '/';
 G.links = [
@@ -52,6 +53,7 @@ G.scripts = [
     "libs/angular/angular-animate/angular-animate.js",
     "libs/angular/angular-ui-router/release/angular-ui-router.js",
     "libs/angular/oclazyload/dist/ocLazyLoad.js",
+    "libs/fastclick.js",
     "statics/js/app.js",
     "statics/js/services/zw-utils.js",
     "statics/js/services/http-interceptor.js",
@@ -60,6 +62,7 @@ G.scripts = [
     "statics/js/app.config.lazyload.js",
     "statics/js/app.config.router.js",
     "statics/js/directives/img-verify.js",
+    "statics/js/directives/zw-linkage.js",
     "statics/js/main.js"
 
 
@@ -76,6 +79,7 @@ G.scripts = [
  //    "statics/js/app.config.lazyload.js",
  //    "statics/js/app.config.router.js",
  //    "statics/js/directives/img-verify.js",
+ //    "statics/js/directives/linkage.js",
  //    "statics/js/main.js"
 ];
 

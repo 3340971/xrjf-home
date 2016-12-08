@@ -28,6 +28,13 @@ var copys = {
         ],
         options:{base : basePath.libs},
         dest: basePath.source + '/libs'
+    },
+    libs4:{
+        src:[
+            basePath.libs + '/vConsole/dist/vconsole.min.js'
+        ],
+        options:{base : basePath.libs + '/vConsole/dist/'},
+        dest: basePath.source + '/statics/js'
     }
 };
 var resourcePath = {

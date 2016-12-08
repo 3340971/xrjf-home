@@ -17,7 +17,7 @@ app
             templateUrl: tpl('app/Access/404.html')
         })
         .state('Access.register', {
-            title:'客户登记',
+            title:'客户注册',
             url: '/register',
             templateUrl: tpl('app/Access/register.html'),
             resolve:load(['validate', G.public + 'app/Access/AccessController.js'])
@@ -26,6 +26,12 @@ app
             title:'客户登录',
             url: '/login',
             templateUrl: tpl('app/Access/login.html'),
+            resolve:load(['validate', G.public + 'app/Access/AccessController.js'])
+        })
+        .state('Access.reset_pwd', {
+            title:'重置密码',
+            url: '/reset_pwd',
+            templateUrl: tpl('app/Access/reset_pwd.html'),
             resolve:load(['validate', G.public + 'app/Access/AccessController.js'])
         })
 
@@ -39,7 +45,25 @@ app
             url: '/index',
             templateUrl: tpl('app/Customer/index.html'),
             resolve:load([G.public + 'app/Customer/CustomerController.js'])
-		});
+		})
+        .state('Customer.edit', {
+            title:'客户信息',
+            url: '/edit',
+            templateUrl: tpl('app/Customer/edit.html'),
+            resolve:load(['validate', G.public + 'app/Customer/CustomerController.js'])
+        })
+        .state('Customer.file_cat', {
+            title:'客户资料',
+            url: '/file_cat',
+            templateUrl: tpl('app/Customer/file_cat.html'),
+            resolve:load([G.public + 'app/Customer/CustomerController.js'])
+        })
+        .state('Customer.file_upload', {
+            title:'资料上传',
+            url: '/file_upload',
+            templateUrl: tpl('app/Customer/file_upload.html'),
+            resolve:load([G.public + 'app/Customer/CustomerController.js'])
+        });
 
     function tpl(url){
         return G.public + url + '?v=' + G.version;

@@ -456,7 +456,7 @@ angular.module('zw.utils',[])
 	this.msg = function(type,text,fn,time){
 		time = time || 3000;
 		fn = fn || function(){}; 
-		var types={'error':'#ff8888','success':'#557755','info':'#90d1ff'};
+		var types={'error':'rgba(255,100,0,.7)','success':'#557755','info':'#90d1ff'};
 		var tpl='<div id="app-msg"></div>';
 		var str='#app-msg';
 		if($(str,window.top.document.body).length < 1){
@@ -471,6 +471,7 @@ angular.module('zw.utils',[])
 		    fn && fn();
 		},time);
 	};
+	
 
 /*********** fns end*************/
 

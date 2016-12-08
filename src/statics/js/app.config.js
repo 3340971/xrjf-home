@@ -1,15 +1,25 @@
 'use strict';
 
 app
-.run(['$location','$rootScope','$state','zwUtils',function($location, $rootScope, $state, zwUtils){
+.run(['$location','$rootScope','$state','$stateParams','zwUtils',function($location, $rootScope, $state, $stateParams, zwUtils){
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+    $rootScope.stateCash = [];
+    $rootScope.$on("$stateChangeSuccess",  function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.stateCash.push([toState.name, toParams]);
+        $rootScope.title = '星融金服' + (toState.title ? ('-'+toState.title) : '');
+    });  
+    $rootScope.back = function() {
+        if($rootScope.stateCash.length < 2)return false;
+        $rootScope.stateCash.pop();
+        var last = $rootScope.stateCash.pop();
+        $state.go(last[0], last[1]);  
+    };
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
         $rootScope.loading = true;
     });
     $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
         $state.go('Access.404');
-    });
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $rootScope.title = '星融金服' + (toState.title ? ('-'+toState.title) : '');
     });
     $rootScope.$on('$viewContentLoaded', function(event){
         $rootScope.loading = false;
@@ -21,15 +31,14 @@ app
                         form.submit();
                     }
                 },
-                onfocusout:true,
+                onfocusout:function(element) { $(element).valid(); },
                 errorClass:"invalid",
                 errorElement:"em",
                 errorPlacement:function(error,element) {
                     error[0].textContent && zwUtils.msg('error',error[0].textContent);
                     element.closest('.weui-cell').addClass('weui-cell_warn');
                 },
-                success:"valid",
-                success: function ( label, element ) {console.log(label);
+                success: function ( label, element ) {
                     $(element).closest('.weui-cell').removeClass('weui-cell_warn');
                 }
             });
@@ -71,6 +80,7 @@ app
         
     });
 }])
-.config(['$httpProvider', function($httpProvider){
+.config(['$httpProvider', '$locationProvider', function($httpProvider, $locationProvider){
 	$httpProvider.interceptors.push('httpInterceptor');
+    //$locationProvider.html5Mode(true);
 }]);

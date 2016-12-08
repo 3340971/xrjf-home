@@ -33,7 +33,8 @@ body {
   -webkit-overflow-scrolling: touch; }
 
 a {
-  color: #1AAD19; }
+  color: #1AAD19;
+  font-size: 1.4rem; }
 
 #logo {
   width: 16.8rem;

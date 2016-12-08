@@ -27,10 +27,14 @@
 
 <div class="weui-btn-area">
     <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Access.register',errFn)">登录</a>
-    <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a>
+<!--     <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a> -->
 </div>
 </form>
 
+<div style="text-align: right;padding: 1rem 1.4rem;">
+    <a ui-sref="Access.register">注册</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a ui-sref="Access.reset_pwd">忘记密码?</a>
+</div>
 
 <div ng-include="'app/_blocks/footer.html'" ></div>
 
