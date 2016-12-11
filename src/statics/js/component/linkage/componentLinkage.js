@@ -1,93 +1,73 @@
 //张伟
 (function($,window){
-	var componentLinkage = function(element,conf){
+	var componentLinkage = function(name, conf, bindInput){
 		if(!(this instanceof componentLinkage)){
-            return new componentLinkage(element,conf);
+            return new componentLinkage(name, conf, bindInput);
         }
-        if(!(element instanceof jQuery)){
-			element = jQuery(element);
-		}
-		var name = this._readXPath(element[0]);
-		name = encodeURIComponent(name);
         var instance = this._getInstance(name);
-        if(instance){
-        	return instance;
-        }console.log(name);
-        this.$selectorEl = element;
-		this.conf = conf || {fields:{"data[province]":'省份',"data[city]":'城市',"data[area]":'区县'},dataUrl:'',rootPid:0};
-		this.id = ('c_' + Math.random()).replace('.','_');
-		this.cache = [];
-		this.pids = [];
-		this.values = [];
-		this.$wrap = null;
+	    if(instance){
+	        return instance;
+	    }
+        this.type = 'linkage';
+        this.conf = conf || {
+        	fields:{"data[province]":'省份',"data[city]":'城市',"data[area]":'区县'},
+        	dataUrl:'',
+        	rootPid:0,
+        	parentNode : bindInput.parentNode //挂载点
+        };
+        if(!this.conf.parentNode) this.conf.parentNode = bindInput.parentNode;
+
+        ComponentBase.call(this, name, this.conf);
+
+		this.input = bindInput;
+		this.pids = [];//当前已选中值.通过length属性可以得到当前的level
+		this.values = [];//当前已选中值
 		var titleHtml = [],
 			bodyHtml = [],
 			formHtml = [],
 			level = 0;
 		for(var i in this.conf.fields){
+			//level从0开始计数
 			titleHtml.push('<li data-level="' + level + '" class="level-' + level + '">' + this.conf.fields[i] + '</li>');
 			bodyHtml.push('<div data-level="' + level + '" class="level-' + level + '"></div>');
 			formHtml.push('<input data-level="' + level + '" class="level-' + level + '" name="' + i + '" type="hidden" />');
 			level++;
 		}
-		this.tpl = '<div class="component-linkage component-linkage-' + name + '" id="' + this.id + '" style="display:none">\
-						<span title="关闭" class="close" >×</span>\
-						<ul>'
-							+ titleHtml.join('') + 
-						'</ul>' +
-						bodyHtml.join('') +
-						formHtml.join('') +
-					'</div>';
+		var tpl =   '<ul>'
+						+ titleHtml.join('') + 
+					'</ul>' +
+					'<span title="关闭" class="close" >×</span>' +
+					bodyHtml.join('') +
+					formHtml.join('') ;
+		this.component.append(tpl);
 		this._init();
-		this._setInstance(name);
+		return this;
 	}
-	componentLinkage.prototype = {
-		_instances:[],
+	componentLinkage.prototype = $.extend(ComponentBase.prototype, {
+		cache : {},
 		_init:function(){
-			$('body').append(this.tpl);
-			this.$wrap = $('#' + this.id);
+			$(this.conf.parentNode).append(this.component);
+			//this.component.insertAfter(this.input);
 			this._bindEvent();
 			this._showTab(this.conf.rootPid,0);
-			return this;
 		},
-		_readXPath : function (element) {
-		    var ix= 0, siblings = [];
-		    if(element.tagName == 'HTML'){
-		    	return 'HTML';
-		    }else{
-		    	siblings = element.parentNode.childNodes;
-		    	for (var i= 0,l=siblings.length; i<l; i++) {
-			        var sibling= siblings[i];
-			        if (sibling==element){
-			            return this._readXPath(element.parentNode)+'/'+element.tagName+((ix+1)==1?'':'['+(ix+1)+']');
-			        }else if(sibling.nodeType==1 && sibling.tagName==element.tagName){
-			            ix++;
-			        }
-			    }
-		    }
-		},
-		_setInstance:function(name){
-			this._instances[name] = this;
-		},
-		_getInstance:function(name){
-			return typeof this._instances[name] == 'undefined' ? false : this._instances[name];
-		},
+		//显示tab面板
 		_showTab:function(pid,level){
 			var d = this._getBtns(pid),
 				_this = this;
 			$.when(d).done(function(html){
 				if(html){
-					_this.$wrap
+					_this.component
 						.find('div.level-' + level).addClass('active').html(html)
 						.siblings('div').removeClass('active');
-					_this.$wrap
+					_this.component
 						.find('div.level-' + level).nextAll().html('');
-					_this.$wrap
+					_this.component
 						.find('li.level-' + level).addClass('active')
 						.siblings('li').removeClass('active');
 					
 				}else{
-					_this._linkageEnd(_this.pids,_this.values);
+					_this._linkageEnd(_this.pids, _this.values);
 					_this.close();
 				}
 			});
@@ -97,7 +77,7 @@
 
 		},
 		linkageOnChange:function(fn){
-			this._linkageChange = fn;
+			this._linkageChange = fn;//对象实例化后,这个会赋值给对象,而不是覆盖原型链上的方法
 			return this;
 		},
 		_linkageEnd:function(pids,values){
@@ -114,18 +94,10 @@
 			this._linkageClose = fn;
 			return this;
 		},
-		//显示组件
-		show:function(){
-			var pos = this.$selectorEl.position();
-			var top = pos.top + this.$selectorEl.outerHeight();
-			this.$wrap.css({top:top + 'px',left:pos.left + 'px'}).show();
-			return this;
-		},
 		//关闭组件
-		close:function(){console.log(this.pids,this.values);
-			//this._showTab(this.conf.rootPid,0);
+		close:function(){
 			if(false !== this._linkageClose(this.pids,this.values)){
-				this.$wrap.hide();
+				this.component.trigger('onLeave');
 			}
 			return this;
 		},
@@ -152,9 +124,10 @@
 				// });
 				dtd2.always(function(response){
 					var arr = [],
-						data = eval(response.responseText);
+						data = eval(response.responseText || response);
 					if( _this.pids.length == 0 ){
 						for(var i in data){
+							if(data[i].name == '请选择')continue;
 							arr.push('<a data-id="' + data[i].name + '" data-value="' + data[i].name + '">' + data[i].name + '</a>');
 						}
 					}
@@ -163,6 +136,7 @@
 							if(data[i].name == pid){
 								var childs = data[i].cityList;
 								for(var j in childs){
+									if(childs[j].name == '请选择')continue;
 									arr.push('<a data-id="' + childs[j].name + '" data-value="' + childs[j].name + '">' + childs[j].name + '</a>');
 								}
 							}
@@ -177,6 +151,7 @@
 									if(citys[j].name == _this.pids[1]){
 										var childs = citys[j].areaList;
 										for(var k in childs){
+											if(childs[k].name == '请选择')continue;
 											arr.push('<a data-id="' + childs[k] + '" data-value="' + childs[k] + '">' + childs[k] + '</a>');
 										}
 									}
@@ -196,7 +171,7 @@
 		//绑定事件
 		_bindEvent:function(){
 			var _this = this;
-			this.$wrap.on('click','div a',function(e){
+			this.component.on('click','div a',function(e){
 				//当前所在level
 				var level = $(this).parent().data('level');
 				$(this).addClass('active').siblings('a').removeClass('active');
@@ -206,29 +181,29 @@
 				_this.pids.push(pid);
 				_this.values = _this.values.slice(0,level);
 				_this.values.push(value);
-				_this.$wrap.find('input:hidden').val('');
+				_this.component.find('input:hidden').val('');
 				//更新隐藏域表单
 				for(var i = 0; i <= level; i++){
-					_this.$wrap.find('input.level-'+ i +':hidden').val(_this.pids[i]);
+					_this.component.find('input.level-'+ i +':hidden').val(_this.pids[i]);
 				}
 				_this._linkageChange(_this.pids,_this.values);
 				_this._showTab(pid,level+1);//显示下一个tab
 				return false;
 			});
-			this.$wrap.on('click','.close',function(e){
+			this.component.on('click','.close',function(e){
 				_this.close();
 			});
-			this.$wrap.on('click','li',function(e){
+			this.component.on('click','li',function(e){
 				var level = $(this).data('level');
 				if( level > _this.pids.length ) return false;
-				_this.$wrap
+				_this.component
 					.find('div.level-' + level).addClass('active')
 					.siblings('div').removeClass('active');
-				_this.$wrap
+				_this.component
 					.find('li.level-' + level).addClass('active')
 					.siblings('li').removeClass('active');
 			});
 		}
-	}
+	});
 	window.componentLinkage = componentLinkage;
 })(jQuery,window);

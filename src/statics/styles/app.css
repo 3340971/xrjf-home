@@ -288,6 +288,8 @@ a {
       content: " ";
       display: table;
       clear: both; }
+    .weui-cells .weui-cell.x2 {
+      height: 8.8rem; }
     .weui-cells .weui-cell .weui-cell__hd,
     .weui-cells .weui-cell .weui-cell__bd,
     .weui-cells .weui-cell .weui-cell__ft {
