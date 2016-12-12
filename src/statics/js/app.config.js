@@ -1,7 +1,7 @@
 'use strict';
 
 app
-.run(['$location','$rootScope','$state','$stateParams','zwUtils',function($location, $rootScope, $state, $stateParams, zwUtils){
+.run(['$location','$rootScope','$state','$stateParams','$http','zwUtils',function($location, $rootScope, $state, $stateParams, $http, zwUtils){
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.stateCash = [];
@@ -47,23 +47,24 @@ app
     $rootScope.submit = function(e, route, cb){
     	e.stopPropagation();
   		e.preventDefault();
-  		$rootScope.authError = null;
     	var $form = angular.element(e.target).closest('form');
     	var url = $form.attr('action');
     	if( !$form.valid() ){
 			return false;
 		}
-		$http.post(url, myUtils.serialize(myform))
+        zwUtils.msg('success','正在提交...');
+		$http.post(url, zwUtils.serialize($form[0]))
 			.then(function(response) {
 				if ( !response.data.code ) {
-			  		$rootScope.authError = response.data.msg;
-			  		cb($form);
+                    zwUtils.msg('error',response.data.message);
+			  		cb && cb($form);
 				}else{
-			  		$state.go(route);
+                    zwUtils.msg('success','提交成功');
+                    $state.go(route);
 				}
 			}, function(x) {
 				$rootScope.authError = 'Server Error';
-				cb($form);
+				cb && cb($form);
 			});
     }
     angular.element(window).on('resize', function(){

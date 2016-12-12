@@ -11,7 +11,7 @@
 	<meta name="browsermode" content="application">
 	<meta name="x5-page-mode" content="app">
 	<title ng-bind="title"></title>
-	<base href="/">
+	<base href="/xrjf-home/src/">
     <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css">
     <link rel="stylesheet" type="text/css" href="statics/styles/app.css">
 	<script type="text/javascript" src="statics/js/vconsole.min.js"></script>
@@ -40,9 +40,9 @@
 
 <script>
 window.G = window.G  || {};
-G.version = '1.0.110123';
-G.host = 'http://192.168.1.250';
-G.public = '/';
+G.version = '1.0.1' + new Date().getTime();
+G.host = 'http://192.168.1.36';
+G.public = '/xrjf-home/src/';
 G.links = [
     //'libs/weui/dist/style/weui.min.css',
     'statics/styles/iconfont.css'

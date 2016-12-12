@@ -1,23 +1,23 @@
 <div ng-include="'app/_blocks/header.html'" ></div>
 <div id="logo"></div>
-<form class="J-validate" ng-controller="Access.login">
+<form action="/index.php?m=ProxyAccess&a=login" class="J-validate" ng-controller="Access.login">
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-user"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" name="data[idNumber]" required placeholder="手机号/身份证号"/>
+            <input class="weui-input" type="number" name="customer[id]" required placeholder="手机号/身份证号"/>
         </div>
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="password" name="data[password]" required placeholder="密码"/>
+            <input class="weui-input" type="password" name="customer[login_pwd]" required placeholder="密码"/>
         </div>
     </div>
     <div class="weui-cell weui-cell_vcode">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-yanzhengma"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" name="data[vcode]" required placeholder="验证码"/>
+            <input class="weui-input" type="text" name="verify" required placeholder="验证码"/>
         </div>
         <div class="weui-cell__ft">
             <img-verify  class="weui-vcode-img" id="img-verify"/>
@@ -26,7 +26,7 @@
 </div>
 
 <div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Access.register',errFn)">登录</a>
+    <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Customer.index',errFn)">登录</a>
 <!--     <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a> -->
 </div>
 </form>

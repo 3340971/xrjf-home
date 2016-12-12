@@ -453,6 +453,89 @@ angular.module('zw.utils',[])
 	    }
 	    return s.join('&').replace(/%20/g, '+');
 	};
+	this.yanzheng = function(input,btn,nocheck){
+		var reg = /^(1)(3|4|5|7|8)([0-9])\d{8}$/;
+		input.addEventListener('input', function(){
+			if( !reg.test(input.value) ){
+	            btn.innerText = '手机号错误';
+	        }else{
+	            btn.innerText = '获取验证码';
+	        }
+		}, false);
+		btn.addEventListener('click', getCode, false);
+		
+		function getCode(){
+			if( !reg.test(input.value) ){
+	            btn.innerText = '手机号错误';
+	            return false;
+	        }
+	        input.setAttribute('readonly',true);
+	        btn.removeEventListener('click', getCode, false);
+			//检查号码是否已占用
+			var deferred = $.Deferred();
+			if(!nocheck){
+				$.ajax({
+		            type:'post',
+		            url:'/index.php?m=ProxyAccess&a=check_repet',
+		            data:{mobile: input.value},
+		            success:function(data){
+		                if(data.code == 1){
+		                    deferred.resolve();
+		                }else{
+		                	deferred.reject();
+		                    btn.innerText = data.message;
+		                }
+		            }
+		        });
+		            
+		    }else{
+		        deferred.resolve();
+		    }
+		    var promise = deferred.promise();
+		    //获取验证码后开始倒计时等待
+		    promise.done(function(){
+		    	btn.innerText = "发送中...";
+		    	$.ajax({
+		            type:'post',
+		            url:'/index.php?m=ProxyAccess&a=send_auth_sms',
+		            data:{mobile:input.value},
+		            success:function(data){
+		                if(data.code == 1){
+		                    var secends = 90;//data.message;//成功时msg是有剩余的有效时间-秒数
+		                    var secendsEl = document.createElement('span');
+		                    btn.innerText = "";
+		                    btn.appendChild(secendsEl);
+		                    btn.appendChild(document.createTextNode('秒之后重试'));
+		                    secendsEl.innerText = secends;
+		                    btn.classList.add('disabled');
+
+		                    var iTime = setInterval(function() {
+                                if (secends == 0) {
+		                            clearTimeout(iTime);
+		                            btn.innerText = "获取验证码";
+		                            btn.classList.remove('disabled');
+		                            input.removeAttribute('disabled');
+		                            btn.addEventListener('click', getCode, false);
+		                        } else {
+		                            secends--;
+		                            secendsEl.innerText = secends;
+		                        }
+                            },1000);
+		                }else{
+		                    btn.innerText = data.message;
+		                    input.removeAttribute('disabled');
+		                    btn.addEventListener('click', getCode, false);
+		                }
+		                
+		            }
+		        });
+		    })
+		    .fail(function(){
+		    	input.removeAttribute('disabled');
+		    	btn.addEventListener('click', getCode, false);
+		    });
+		}
+	}
 	this.msg = function(type,text,fn,time){
 		time = time || 3000;
 		fn = fn || function(){}; 

@@ -1,12 +1,12 @@
 <div ng-include="'app/_blocks/header.html'" ></div>
 <div id="logo"></div>
 
-<form class="J-validate" ng-controller="Access.register">
+<form action="/index.php?m=ProxyAccess&a=register" class="J-validate" ng-controller="Access.register">
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-mobile"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" placeholder="请输入手机号码"/>
+            <input class="weui-input" type="number" name="customer[mobile]" id="mobile" required isMobile placeholder="请输入手机号码"/>
         </div>
     </div>
     
@@ -15,31 +15,31 @@
             <label class="weui-label iconfont icon-yanzhengma"></label>
         </div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="number" placeholder="请输入手机验证码">
+            <input class="weui-input" type="number" name="auth_code" required placeholder="请输入手机验证码">
         </div>
         <div class="weui-cell__ft">
-            <button class="weui-vcode-btn">获取验证码</button>
+            <button type="button" class="weui-vcode-btn" id="get-auth-code">获取验证码</button>
         </div>
     </div>
 
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="password" required placeholder="8-20位数字、字母组合区分大小写密码"/>
+            <input class="weui-input" type="password" name="customer[login_pwd]" id="login_pwd" required placeholder="8-20位数字、字母组合区分大小写密码"/>
         </div>
     </div>
 
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label  iconfont icon-password"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="password" required placeholder="确认密码"/>
+            <input class="weui-input" type="password" required equalTo="#login_pwd" placeholder="确认密码"/>
         </div>
     </div>    
 </div>
 
 
 <div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" href="javascript:void(0);">注册</a>
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="submit($event,'Customer.index',errFn)">注册</a>
     <!-- <a ui-sref="Access.login" class="weui-btn weui-btn_disabled weui-btn_default">已登记过,前往登录.</a> -->
 </div>
 </form>

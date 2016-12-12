@@ -3,8 +3,8 @@
 
 angular.module('zw201612')
 .controller('Customer.index',
-  [       '$scope', '$http', '$state', 'deps',
-  function($scope ,  $http ,  $state,   deps){
+  [       '$scope', '$http', '$state',
+  function($scope ,  $http ,  $state){
 alert(4);
 }])
 
