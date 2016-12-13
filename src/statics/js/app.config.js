@@ -1,8 +1,10 @@
 'use strict';
 
 app
-.run(['$location','$rootScope','$state','$stateParams','$http','zwUtils',function($location, $rootScope, $state, $stateParams, $http, zwUtils){
+.run([      '$location','$rootScope','$state','$stateParams','$http','$localStorage','zwUtils',
+    function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,  zwUtils){
     $rootScope.$state = $state;
+    $rootScope.$storage = $localStorage;
     $rootScope.$stateParams = $stateParams;
     $rootScope.stateCash = [];
     $rootScope.$on("$stateChangeSuccess",  function(event, toState, toParams, fromState, fromParams) {
@@ -44,6 +46,12 @@ app
             });
         });
     });
+    $rootScope.$on('userIntercepted',function(emitInfo, errorType, response){
+        if(errorType == 'notLogin'){
+            zwUtils.msg('error',response.data.message);
+            $state.go("Access.login",{from:$state.current.name,w:errorType});
+        }
+    });
     $rootScope.submit = function(e, route, cb){
     	e.stopPropagation();
   		e.preventDefault();
@@ -57,15 +65,26 @@ app
 			.then(function(response) {
 				if ( !response.data.code ) {
                     zwUtils.msg('error',response.data.message);
-			  		cb && cb($form);
+			  		cb && cb(false, response.data.data, $form);
 				}else{
-                    zwUtils.msg('success','提交成功');
+                    zwUtils.msg('success', response.data.message || '提交成功');
+                    cb && cb(true, response.data.data, $form);
                     $state.go(route);
 				}
 			}, function(x) {
 				$rootScope.authError = 'Server Error';
 				cb && cb($form);
 			});
+    }
+    $rootScope.login_out = function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        $http.post('/index.php?m=ProxyAccess&a=login_out')
+            .then(function(response) {
+                delete $localStorage.Authorization;
+                //$localStorage.$reset();
+                $state.go('Access.login');
+            });
     }
     angular.element(window).on('resize', function(){
         if(document.hasFocus() && document.activeElement.nodeName.toLowerCase() == 'input'){

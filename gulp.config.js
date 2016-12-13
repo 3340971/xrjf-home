@@ -8,6 +8,7 @@ var copys = {
     libs1:{
         src:[
             basePath.libs + '/angular/angular.+(js|min.js)',
+            basePath.libs + '/ngstorage/ngStorage.+(js|min.js)',
             basePath.libs + '/angular-animate/angular-animate.+(js|min.js)',
             basePath.libs + '/angular-ui-router/release/angular-ui-router.+(js|min.js)',
             basePath.libs + '/oclazyload/dist/ocLazyLoad.+(js|min.js)'

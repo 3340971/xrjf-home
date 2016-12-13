@@ -4,12 +4,12 @@ app
 .config([
 			'$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG',
 	function($stateProvider,   $urlRouterProvider,   JQ_CONFIG,   MODULE_CONFIG){
-	$urlRouterProvider.otherwise('/Access/login');
+	$urlRouterProvider.otherwise('/Access/index/product_cats');
 	$stateProvider
         .state('Access', {
             abstract: true,
             url: '/Access',
-            templateUrl: tpl("app/layout_access.html") //layout
+            templateUrl: tpl("app/layout.html") //layout
         })
         .state('Access.404', {
             title:'404 Err',
@@ -34,6 +34,18 @@ app
             templateUrl: tpl('app/Access/reset_pwd.html'),
             resolve:load(['validate', 'app/Access/AccessController.js'])
         })
+        .state('Access.index', {
+            abstract: true,
+            url: '/index',
+            templateUrl: tpl('app/Access/index.html')
+        })
+        .state('Access.index.product_cats', {
+            title:'贷款申请',
+            url: '/product_cats',
+            templateUrl: tpl('app/Access/index.product_cats.html'),
+            resolve:load(['app/Access/AccessController.js'])
+        })
+
 
 		.state('Customer', {
 			abstract: true,
@@ -41,11 +53,22 @@ app
             templateUrl: tpl("app/layout.html") //layout
 		})
 		.state('Customer.index', {
-            title:'',
+            abstract: true,
             url: '/index',
-            templateUrl: tpl('app/Customer/index.html'),
-            resolve:load(['app/Customer/CustomerController.js'])
+            templateUrl: tpl('app/Customer/index.html')
 		})
+        .state('Customer.index.my_loan', {
+            title:'我的贷款',
+            url: '/my_loan',
+            templateUrl: tpl('app/Customer/index.my_loan.html'),
+            resolve:load(['app/Customer/CustomerController.js'])
+        })
+        .state('Customer.apply_add', {
+            title:'贷款申请',
+            url: '/apply_add?cat_id&cat_name',
+            templateUrl: tpl('app/Customer/apply_add.html'),
+            resolve:load(['validate', 'app/Customer/CustomerController.js'])
+        })
         .state('Customer.edit', {
             title:'客户信息',
             url: '/edit',

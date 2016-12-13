@@ -1,0 +1,51 @@
+<div class="weui-tab">
+    <div class="weui-navbar">
+        <div class="weui-navbar__item" ui-sref="Customer.apply_add" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.apply_add'}">
+            贷款申请
+        </div>
+        <div class="weui-navbar__item" ui-sref="Customer.index.my_loan" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.index.my_loan'}">
+            我的贷款
+        </div>
+    </div>
+    <div class="weui-tab__panel">
+        <form class="J-validate" ng-controller="Customer.apply_add">
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">产品类型</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" readonly value="{{$stateParams.cat_name}}" placeholder="产品名称"/>
+                    </div>
+                </div>
+
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">贷款金额</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" placeholder="贷款金额"/>
+                    </div>
+                </div>
+                
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">贷款期限</label></div>
+                    <div class="weui-cell__bd">
+                        <select class="weui-select" name="select2">
+                            <option ng-repeat="(id,duration) in products track by id" value="{{id}}">{{duration}}个月</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:void(0);">下一步</a>
+                <!-- <a ui-sref="Access.login" class="weui-btn weui-btn_disabled weui-btn_default">已登记过,前往登录.</a> -->
+            </div>
+            </form>
+
+    </div>
+</div>
+
+
+
+
+

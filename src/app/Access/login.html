@@ -1,4 +1,3 @@
-<div ng-include="'app/_blocks/header.html'" ></div>
 <div id="logo"></div>
 <form action="/index.php?m=ProxyAccess&a=login" class="J-validate" ng-controller="Access.login">
 <div class="weui-cells weui-cells_form">
@@ -26,7 +25,7 @@
 </div>
 
 <div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Customer.index',errFn)">登录</a>
+    <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Access.index.product_cats',submitCf)">登录</a>
 <!--     <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a> -->
 </div>
 </form>
@@ -36,5 +35,4 @@
     <a ui-sref="Access.reset_pwd">忘记密码?</a>
 </div>
 
-<div ng-include="'app/_blocks/footer.html'" ></div>
 

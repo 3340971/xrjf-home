@@ -1,5 +1,6 @@
 <div id="header-top" >
 	<span class="left iconfont icon-xz" ng-click="back()"></span>
-	<span ng-bind="title"></span>
-	<span class="right">ii</span>
+	<span ng-bind="$state.current.title"></span>
+	<span class="right" ng-if="$storage.Authorization" ng-click="login_out($event)">退出</span>
+	<span class="right" ng-if="!$storage.Authorization && $state.current.name != 'Access.register'" ui-sref="Access.register">注册</span>
 </div>
