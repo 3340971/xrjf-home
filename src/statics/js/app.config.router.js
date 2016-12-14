@@ -63,18 +63,6 @@ app
             templateUrl: tpl('app/Customer/index.my_loan.html'),
             resolve:load(['app/Customer/CustomerController.js'])
         })
-        .state('Customer.apply_add', {
-            title:'贷款申请',
-            url: '/apply_add?cat_id&cat_name',
-            templateUrl: tpl('app/Customer/apply_add.html'),
-            resolve:load(['validate', 'app/Customer/CustomerController.js'])
-        })
-        .state('Customer.edit', {
-            title:'客户信息',
-            url: '/edit',
-            templateUrl: tpl('app/Customer/edit.html'),
-            resolve:load(['validate', 'app/Customer/CustomerController.js'])
-        })
         .state('Customer.file_cat', {
             title:'客户资料',
             url: '/file_cat',
@@ -86,48 +74,28 @@ app
             url: '/file_upload',
             templateUrl: tpl('app/Customer/file_upload.html'),
             resolve:load(['app/Customer/CustomerController.js'])
+        })
+        //工作流
+        .state('Workflow', {
+            abstract: true,
+            url: '/Workflow',
+            templateUrl: tpl("app/layout.html") //layout
+        })
+        .state('Workflow.apply', {
+            title:'贷款申请',
+            url: '/apply?cat_id&cat_name',
+            templateUrl: tpl('app/Workflow/apply.html'),
+            resolve:load(['validate', 'app/Workflow/WorkflowController.js'])
+        })
+        .state('Workflow.add_customer', {
+            title:'基本信息',
+            url: '/add_customer',
+            templateUrl: tpl('app/Workflow/add_customer.html'),
+            resolve:load(['validate', 'app/Workflow/WorkflowController.js'])
         });
 
     function tpl(url){
         return G.public + url + '?v=' + G.version;
     }
-	function load(srcs, callback) {
-        return {
-            //deps 是自己命名的,能被注入到控制器
-            //属性值是一个返回 promise 值的函数
-            deps: ['$ocLazyLoad', '$q', function( $ocLazyLoad, $q ){
-                var deferred = $q.defer();
-                var promise  = deferred.promise;
-                srcs = angular.isArray(srcs) ? srcs : srcs.split(/\s+/);
-                var files = [];
-                //angular.forEach 是一个同步执行的函数
-                angular.forEach(srcs, function(src){
-                    if(JQ_CONFIG[src]){
-                        src = JQ_CONFIG[src];
-                    }else if(MODULE_CONFIG[src]){
-                        src = MODULE_CONFIG[src];
-                    }
-                    if(src instanceof Array){
-                        files = files.concat(src);
-                    }else{
-                        files.push(src);
-                    }
-                });
-                //严格模式下不能用arguments.callee了,所以这里不能用匿名函数
-                var fn = function (files){
-                    if(files.length < 1){
-                        deferred.resolve();
-                        return false;
-                    }
-                    (function(files, fn){
-                        $ocLazyLoad.load( G.public + files.shift() + '?v=' + G.version ).then(function(){
-                            fn(files);
-                        });
-                    })(files, fn);
-                }
-                fn(files);
-                return callback ? promise.then(function(){ return callback(); }) : promise;
-            }]
-        };
-    }
+	function load(b,d){return{deps:["$ocLazyLoad","$q",function(h,k){var e=k.defer(),f=e.promise;b=angular.isArray(b)?b:b.split(/\s+/);var c=[];angular.forEach(b,function(a){JQ_CONFIG[a]?a=JQ_CONFIG[a]:MODULE_CONFIG[a]&&(a=MODULE_CONFIG[a]);a instanceof Array?c=c.concat(a):c.push(a)});var g=function(a){if(1>a.length)return e.resolve(),!1;(function(a,b){h.load(G.public+a.shift()+"?v="+G.version).then(function(){b(a)})})(a,g)};g(c);return d?f.then(function(){return d()}):f}]}};
 }]);

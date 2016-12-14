@@ -1,6 +1,6 @@
 <div class="weui-tab">
     <div class="weui-navbar">
-        <div class="weui-navbar__item" ui-sref="Customer.apply_add" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.apply_add'}">
+        <div class="weui-navbar__item" ui-sref="Workflow.apply" ng-class="{'weui-bar__item_on':$state.current.name == 'Workflow.apply'}">
             贷款申请
         </div>
         <div class="weui-navbar__item" ui-sref="Customer.index.my_loan" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.index.my_loan'}">
@@ -8,7 +8,7 @@
         </div>
     </div>
     <div class="weui-tab__panel">
-        <form class="J-validate" ng-controller="Customer.apply_add">
+        <form class="J-validate" ng-controller="Workflow.apply">
             <div class="weui-cells weui-cells_form">
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">产品类型</label></div>
@@ -20,14 +20,14 @@
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">贷款金额</label></div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" type="number" placeholder="贷款金额"/>
+                        <input class="weui-input" type="number" name="contract[apply_price]" ng-model="$storage.apply_price" digits min="1000" max="300000" placeholder="贷款金额"/>
                     </div>
                 </div>
                 
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">贷款期限</label></div>
                     <div class="weui-cell__bd">
-                        <select class="weui-select" name="select2">
+                        <select class="weui-select" name="contract[product_id]" ng-model="$storage.product_id">
                             <option ng-repeat="(id,duration) in products track by id" value="{{id}}">{{duration}}个月</option>
                         </select>
                     </div>
@@ -37,7 +37,7 @@
 
 
             <div class="weui-btn-area">
-                <a class="weui-btn weui-btn_primary" href="javascript:void(0);">下一步</a>
+                <a class="weui-btn weui-btn_primary" href="javascript:void(0);"  ng-click="next()">下一步</a>
                 <!-- <a ui-sref="Access.login" class="weui-btn weui-btn_disabled weui-btn_default">已登记过,前往登录.</a> -->
             </div>
             </form>

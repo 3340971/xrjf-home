@@ -143,8 +143,11 @@ a{
 @keyframes viewScaleIn {
     from     { filter:opacity(.7); transform: scale3d(0.7, 0.7, 1); }
 }
+@keyframes viewOpacityIn {
+    from       { filter:opacity(0.5); }
+}
 
-.ng-enter { animation: viewScaleIn .3s both ease-out; z-index: 8888;transform-origin:center center;}
+.ng-enter { animation: viewOpacityIn .3s both ease-out; z-index: 8888;transform-origin:center center;}
 //.ng-leave { animation: viewSlideOutLeft .3s both ease-out; z-index: 9999;transform-origin:center center;}
 
 #app-msg{
@@ -232,6 +235,7 @@ a{
 
 /* layout */
 .pages {
+	padding-top: $topHeight;
 	width:100%;
 	position:relative;
 	.page{
@@ -245,7 +249,8 @@ a{
 	margin-top: 4rem;
 }
 #header-top{
-	position:relative;
+	position:fixed;
+	top:0;left:0;
 	width:100%;height:$topHeight;
 	background: $primaryBg;
 	z-index:9999;
@@ -294,7 +299,7 @@ ul.products{
 			p{
 				float:left;
 				margin-left: 1rem;
-				font-size:2rem;
+				font-size:1.7rem;
 			}
 			.action{
 				float:right;
@@ -303,13 +308,13 @@ ul.products{
 					border:none;
 					background:none;
 					color:$primaryC;
-					font-size:2rem;
+					font-size:1.6rem;
 					outline:none;
 					font-weight:600;
 				}
 				span{
 					color:#A1A1A1;
-					font-size:1.4rem;
+					font-size:1.2rem;
 				}
 			}
 		}

@@ -239,9 +239,19 @@ a {
     -webkit-transform: scale3d(0.7, 0.7, 1);
             transform: scale3d(0.7, 0.7, 1); } }
 
+@-webkit-keyframes viewOpacityIn {
+  from {
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5); } }
+
+@keyframes viewOpacityIn {
+  from {
+    -webkit-filter: opacity(0.5);
+            filter: opacity(0.5); } }
+
 .ng-enter {
-  -webkit-animation: viewScaleIn .3s both ease-out;
-          animation: viewScaleIn .3s both ease-out;
+  -webkit-animation: viewOpacityIn .3s both ease-out;
+          animation: viewOpacityIn .3s both ease-out;
   z-index: 8888;
   -webkit-transform-origin: center center;
       -ms-transform-origin: center center;
@@ -322,6 +332,7 @@ a {
 
 /* layout */
 .pages {
+  padding-top: 4.4rem;
   width: 100%;
   position: relative; }
   .pages .page {
@@ -332,7 +343,9 @@ a {
   margin-top: 4rem; }
 
 #header-top {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 4.4rem;
   background: #1b82d2;
@@ -381,7 +394,7 @@ ul.products {
     ul.products li .info p {
       float: left;
       margin-left: 1rem;
-      font-size: 2rem; }
+      font-size: 1.7rem; }
     ul.products li .info .action {
       float: right;
       text-align: right; }
@@ -389,12 +402,12 @@ ul.products {
         border: none;
         background: none;
         color: #1b82d2;
-        font-size: 2rem;
+        font-size: 1.6rem;
         outline: none;
         font-weight: 600; }
       ul.products li .info .action span {
         color: #A1A1A1;
-        font-size: 1.4rem; }
+        font-size: 1.2rem; }
     ul.products li .weui-article {
       display: none; }
 

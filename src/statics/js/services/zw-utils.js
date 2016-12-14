@@ -514,7 +514,7 @@ angular.module('zw.utils',[])
 		                            clearTimeout(iTime);
 		                            btn.innerText = "获取验证码";
 		                            btn.classList.remove('disabled');
-		                            input.removeAttribute('disabled');
+		                            input.removeAttribute('readonly');
 		                            btn.addEventListener('click', getCode, false);
 		                        } else {
 		                            secends--;
@@ -523,7 +523,7 @@ angular.module('zw.utils',[])
                             },1000);
 		                }else{
 		                    btn.innerText = data.message;
-		                    input.removeAttribute('disabled');
+		                    input.removeAttribute('readonly');
 		                    btn.addEventListener('click', getCode, false);
 		                }
 		                
@@ -531,7 +531,7 @@ angular.module('zw.utils',[])
 		        });
 		    })
 		    .fail(function(){
-		    	input.removeAttribute('disabled');
+		    	input.removeAttribute('readonly');
 		    	btn.addEventListener('click', getCode, false);
 		    });
 		}

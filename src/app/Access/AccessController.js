@@ -6,6 +6,8 @@ angular.module('zw201612')
 	$scope.submitCf = function(re, data, $form){
 		if(re){
 			$localStorage.Authorization = data.jwt;
+			$localStorage.customer_id = data.customer_id;
+			$localStorage.mobile = data.mobile;
 		}else{
 			var $img = angular.element('#img-verify', $form);
 			$img.attr('src', $img.attr('src') + '1');

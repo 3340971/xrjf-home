@@ -18,6 +18,12 @@ app
         $state.go(last[0], last[1]);  
     };
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        if(toState.name.split('.')[0] != 'Access' && !$localStorage.Authorization){
+            zwUtils.msg('error','未登录');
+            event.preventDefault();//必须
+            $state.go('Access.login');
+            return false;
+        }
         $rootScope.loading = true;
     });
     $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
@@ -73,7 +79,7 @@ app
 				}
 			}, function(x) {
 				$rootScope.authError = 'Server Error';
-				cb && cb($form);
+				cb && cb(false, response.data.data, $form);
 			});
     }
     $rootScope.login_out = function(e){
@@ -81,8 +87,8 @@ app
         e.preventDefault();
         $http.post('/index.php?m=ProxyAccess&a=login_out')
             .then(function(response) {
-                delete $localStorage.Authorization;
-                //$localStorage.$reset();
+                //delete $localStorage.Authorization;
+                $localStorage.$reset();
                 $state.go('Access.login');
             });
     }
