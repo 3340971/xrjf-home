@@ -1,0 +1,99 @@
+html{
+	font-size: 10px;
+}
+body{
+	font-size: 1.2rem;
+}
+html,body{
+	width:100%;height: 100%;margin:0;
+}
+header{
+	height: 4rem;
+	background: #000;
+	font:1.4rem/3rem "宋体";
+	color:#fff;
+	text-align:center; 
+}
+
+
+
+.component_photos{
+	position: absolute;
+	top: 4rem;
+	bottom:0;
+	left:0;
+	width: 100%;
+	overflow:auto;/* winphone8和android4+ */
+	-webkit-overflow-scrolling: touch; /* ios5+ */
+}
+.component_photos > div{
+	position: relative;
+	transition:none;
+}
+.component_photos div ul{
+	overflow: hidden;
+	margin:0;
+	padding: 0;
+	list-style: none;
+}
+.component_photos div ul li{
+	float: left;
+/*	width: 30.33333%;
+	margin:1.5%;*/
+	background: #ccc url('images/loadingImg.gif') no-repeat center center;
+	border-radius:.5rem;
+}
+.component_photos div ul li canvas,
+.component_photos div ul li img{
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius:.5rem;
+}
+.component_photos div footer{
+	text-align: center;
+	transition: .5s;
+	line-height: 3rem;
+}
+.component_photos .img-detail{
+	position:fixed;
+	top:0;left:0;
+	right:0;bottom:0;
+	width: 100%;height: 100%;
+	background: #fff;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	z-index: 9999999;
+	
+}
+.component_photos .img-detail header{
+	background: #333;
+	line-height: 4rem;
+	font-size: 2rem;
+	text-align: center;
+	color: #fff;
+	position: relative;
+	z-index: 9999999;
+}
+.component_photos .img-detail header .close{
+	display: block;
+	position: absolute;
+	top:0;
+	right: 0.8rem;
+	line-height: 4rem;
+	font-size: 1.4rem;
+}
+.component_photos .img-detail .detail-wrap{
+	position: absolute;
+	width: 100%;height: 100%;
+	z-index: 9999998;
+}
+.component_photos .img-detail .detail-wrap canvas{
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin: -15rem 0 0 -15rem;
+	width: 30rem;
+	height: 30rem;
+	background: #ccc url('images/loadingImg.gif') no-repeat center center;
+}

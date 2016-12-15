@@ -1,0 +1,12 @@
+<ul class="file-cats" ng-controller="Customer.file_cat">
+	<li ng-repeat="(index,cat) in file_cats track by cat.const_id">
+		<div class="info">
+			<div class="img const_bg_{{cat.const_id}}"><i class="iconfont icon-const-{{cat.const_id}}"></i></div>
+			<p>{{cat.name}}</p>
+			<div class="action">
+				<button type="button" class="const_bg_{{cat.const_id}}" zw-photos files="{{cat.files}}">已上传 <span ng-bind="file_cats[index].number"></span><em class="const_blc_{{cat.const_id}}"></em></button>
+			</div>
+		</div>
+	</li>
+
+</ul>

@@ -200,6 +200,7 @@ angular.module('zw.utils',[])
 	            }
 	    };
 	    return format.replace(/[\\]?([a-zA-Z])/g, function(t, s){
+	    	var ret;
 	        if( t!=s ){
 	            ret = s;
 	        } else if( f[s] ){

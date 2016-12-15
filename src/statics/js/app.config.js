@@ -83,8 +83,8 @@ app
 			});
     }
     $rootScope.login_out = function(e){
-        e.stopPropagation();
-        e.preventDefault();
+        e && e.stopPropagation();
+        e && e.preventDefault();
         $http.post('/index.php?m=ProxyAccess&a=login_out')
             .then(function(response) {
                 //delete $localStorage.Authorization;

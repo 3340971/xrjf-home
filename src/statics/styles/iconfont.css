@@ -21,9 +21,11 @@
 
 .icon-image:before { content: "\e62c"; }
 
-.icon-idcard:before { content: "\e610"; }
+.icon-idcard:before,
+.icon-const-299:before { content: "\e610"; }
 
-.icon-user:before { content: "\e6e8"; }
+.icon-user:before,
+.icon-const-281:before { content: "\e6e8"; }
 
 .icon-list:before { content: "\e600"; }
 
@@ -39,7 +41,9 @@
 
 .icon-down:before { content: "\e60e"; }
 
-.icon-zm-zxbg:before { content: "\e648"; }
+.icon-zm-zxbg:before,
+.icon-const-305:before,
+.icon-const-370:before { content: "\e648"; }
 
 .icon-xy:before { content: "\e60b"; }
 
@@ -51,7 +55,8 @@
 
 .icon-search:before { content: "\e607"; }
 
-.icon-bank-card:before { content: "\e611"; }
+.icon-bank-card:before,
+.icon-const-306:before { content: "\e611"; }
 
 .icon-xx:before { content: "\e60d"; }
 
@@ -63,15 +68,22 @@
 
 .icon-password:before { content: "\e649"; }
 
-.icon-zm-income:before { content: "\e676"; }
+.icon-zm-income:before,
+.icon-const-302:before { content: "\e676"; }
 
-.icon-zm-job:before { content: "\e677"; }
+.icon-zm-job:before,
+.icon-const-301:before { content: "\e677"; }
 
-.icon-excel:before { content: "\e756"; }
+.icon-excel:before,
+.icon-const-298:before,
+.icon-const-369:before { content: "\e756"; }
 
-.icon-fangchanzhengming:before { content: "\e643"; }
+.icon-fangchanzhengming:before,
+.icon-const-300:before { content: "\e643"; }
 
-.icon-zm-zc:before { content: "\e749"; }
+.icon-zm-zc:before,
+.icon-const-303:before { content: "\e749"; }
 
-.icon-zm-other:before { content: "\e687"; }
+.icon-zm-other:before,
+.icon-const-371:before { content: "\e687"; }
 

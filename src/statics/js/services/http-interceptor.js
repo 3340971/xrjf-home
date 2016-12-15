@@ -5,7 +5,7 @@ angular.module('http.interceptor',[])
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
         //if($localStorage.Authorization){
-          config.headers['Authorization'] = $localStorage.Authorization || 'Customer ';
+          config.headers['Authorization'] = $localStorage.Authorization || 'ProxyCustomer ';
         //}
         config.transformRequest.push(function(data) {
               //把JSON数据转换成字符串形式
