@@ -5,5 +5,6 @@ var app = angular.module('zw201612',[
 	'oc.lazyLoad',
 	'ngStorage',
 	'http.interceptor',
-	'zw.utils'
+	'zw.utils',
+	'zw.filter'
 ]);

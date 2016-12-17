@@ -55,6 +55,7 @@ app
     $rootScope.$on('userIntercepted',function(emitInfo, errorType, response){
         if(errorType == 'notLogin'){
             zwUtils.msg('error',response.data.message);
+            $localStorage.$reset();
             $state.go("Access.login",{from:$state.current.name,w:errorType});
         }
     });
@@ -75,7 +76,7 @@ app
 				}else{
                     zwUtils.msg('success', response.data.message || '提交成功');
                     cb && cb(true, response.data.data, $form);
-                    $state.go(route);
+                    route && $state.go(route);
 				}
 			}, function(x) {
 				$rootScope.authError = 'Server Error';
@@ -92,6 +93,9 @@ app
                 $state.go('Access.login');
             });
     }
+    document.documentElement.addEventListener('contextmenu', function(e){
+        e.preventDefault();
+    }, false);
     angular.element(window).on('resize', function(){
         if(document.hasFocus() && document.activeElement.nodeName.toLowerCase() == 'input'){
             var $element = angular.element(document.activeElement);
@@ -103,7 +107,6 @@ app
                 document.body.scrollTop = elementBottom - window.innerHeight - 50;
             }
         }
-        
     });
 }])
 .config(['$httpProvider', '$locationProvider', function($httpProvider, $locationProvider){

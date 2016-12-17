@@ -30,6 +30,7 @@ angular.module('zw201612')
       if(re){
         delete $localStorage.apply_price;
         delete $localStorage.product_id;
+        $state.go('Customer.file_cat({apply_id:'+ data.apply_id +'})');
       }
     }
   	$http.get('/index.php?m=ProxyCustomer&a=getLoginCustomer')

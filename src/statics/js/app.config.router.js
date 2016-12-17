@@ -4,7 +4,7 @@ app
 .config([
 			'$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG',
 	function($stateProvider,   $urlRouterProvider,   JQ_CONFIG,   MODULE_CONFIG){
-	$urlRouterProvider.otherwise('/Access/index/product_cats');
+	$urlRouterProvider.otherwise('/Access/product_cats');
 	$stateProvider
         .state('Access', {
             abstract: true,
@@ -34,15 +34,10 @@ app
             templateUrl: tpl('app/Access/reset_pwd.html'),
             resolve:load(['validate', 'app/Access/AccessController.js'])
         })
-        .state('Access.index', {
-            abstract: true,
-            url: '/index',
-            templateUrl: tpl('app/Access/index.html')
-        })
-        .state('Access.index.product_cats', {
+        .state('Access.product_cats', {
             title:'贷款申请',
             url: '/product_cats',
-            templateUrl: tpl('app/Access/index.product_cats.html'),
+            templateUrl: tpl('app/Access/product_cats.html'),
             resolve:load(['app/Access/AccessController.js'])
         })
 
@@ -52,20 +47,15 @@ app
             url: '/Customer',
             templateUrl: tpl("app/layout.html") //layout
 		})
-		.state('Customer.index', {
-            abstract: true,
-            url: '/index',
-            templateUrl: tpl('app/Customer/index.html')
-		})
-        .state('Customer.index.my_loan', {
+        .state('Customer.my_loan', {
             title:'我的贷款',
             url: '/my_loan',
-            templateUrl: tpl('app/Customer/index.my_loan.html'),
+            templateUrl: tpl('app/Customer/my_loan.html'),
             resolve:load(['app/Customer/CustomerController.js'])
         })
         .state('Customer.file_cat', {
             title:'客户资料',
-            url: '/file_cat',
+            url: '/file_cat?apply_id',
             templateUrl: tpl('app/Customer/file_cat.html'),
             resolve:load(['app/Customer/CustomerController.js'])
         })

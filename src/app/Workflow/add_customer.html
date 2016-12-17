@@ -1,4 +1,4 @@
-<form action="/index.php?m=ProxyWorkflow&a=edit_customer" class="J-validate" ng-controller="Workflow.add_customer">
+<form action="/index.php?m=ProxyWorkflow&a=add_customer" class="J-validate" ng-controller="Workflow.add_customer">
 <div class="weui-cells weui-cells_form">
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
@@ -125,7 +125,7 @@
 </div>
 
 <div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="submit($event,'Customer.file_cat',submitCf)">下一步</a>
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="submit($event,'',submitCf)">下一步</a>
     <!-- <a ui-sref="Access.login" class="weui-btn weui-btn_disabled weui-btn_default">已登记过,前往登录.</a> -->
 </div>
 </form>

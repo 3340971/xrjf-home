@@ -1,0 +1,49 @@
+<div class="weui-tab">
+    <div class="weui-navbar">
+        <div class="weui-navbar__item" ui-sref="Access.product_cats" ng-class="{'weui-bar__item_on':$state.current.name == 'Access.product_cats'}">
+            贷款申请
+        </div>
+        <div class="weui-navbar__item" ui-sref="Customer.my_loan" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.my_loan'}">
+            我的贷款
+        </div>
+    </div>
+    <div class="weui-tab__panel" ng-controller="Customer.my_loan">
+		<section>
+			<h5>贷款进度</h5>
+			<ul>
+				<li>
+					<a href="">待申请</a>
+					<a href="">申请中</a>
+					<a href="">待签约</a>
+					<a href="">放款中</a>
+					<a href="">贷款完成</a>
+				</li>
+			</ul>
+		</section>
+
+		<table class="table-zebra">
+			<thead>
+				<tr>
+					<th>申请时间</th>
+					<th>产品名称</th>
+					<th>申请金额</th>
+					<th>申请期限</th>
+					<th>状态</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="(index,item) in loan_list track by item.apply_id">
+					<td>{{item.create_time|date}}</td>
+					<td>{{item.product_name}}</td>
+					<td>{{item.apply_price}}</td>
+					<td>{{item.apply_duration}}</td>
+					<td>
+						{{item.apply_status_txt}}
+						<i class="iconfont icon-xy" ui-sref="Customer.file_cat({apply_id:item.apply_id})"></i>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+    </div>
+</div>
+

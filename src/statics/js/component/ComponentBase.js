@@ -20,6 +20,8 @@ var ComponentBase = function(name, conf){
         return instance;
     }
 	var options = {
+		componentNodeType : 'div',
+		componentsUri : '/statics/components/',
 		type: this.type || 'base',
 		text:'',
 		bg:'',
@@ -28,41 +30,44 @@ var ComponentBase = function(name, conf){
 		center: false,//水平居中
 		middle: false,//垂直居中
 		css:{},
-		animateIn:{display:'block'},//载入时的样式
-		animateOut:{display:'none'},//移出时的样式
+		animateIn:{opacity:'1'},//载入时的样式
+		animateOut:{opacity:'0'},//移出时的样式
 		delay:0 //延迟时间
 	};
-	conf = $.extend({}, options, conf);
+	this.conf = $.extend({}, options, conf);
 	//给每个组件分配一个ID
     this.id = ('c_' + Math.random()).replace('.','_');
     // 把当前的组件类型添加到样式中进行标记
-    var _class = 'component_'+conf.type;
+    var _class = 'component_'+this.conf.type;
 	    _class += ' component_name_'+name;
-    this.component = $('<div class="component '+_class+'" id="'+this.id+'"></div>');
-	this.component.html(conf.text);
-	if(conf.center === true){
-		conf.css.marginLeft = 'calc(-'+conf.width+'/2)'; 
-		conf.css.left = '50%';
+	this.component = document.createElement(this.conf.componentNodeType);
+	this.component.setAttribute('class', 'component '+_class);
+	this.component.setAttribute('id', this.id);
+	this.component.insertAdjacentHTML('beforeEnd', this.conf.text);
+	this.component = $(this.component);
+	if(this.conf.center === true){
+		this.conf.css.marginLeft = 'calc(-'+this.conf.width+'/2)'; 
+		this.conf.css.left = '50%';
 	}
-	if(conf.middle === true){
-		conf.css.marginTop = 'calc(-'+conf.height+'/2)'; 
-		conf.css.top = '50%';
+	if(this.conf.middle === true){
+		this.conf.css.marginTop = 'calc(-'+this.conf.height+'/2)'; 
+		this.conf.css.top = '50%';
 	}
-	if(conf.width !== ''){
-		conf.css.width =  conf.width;
+	if(this.conf.width !== ''){
+		this.conf.css.width =  this.conf.width;
 	}
-	if(conf.height !== ''){
-		conf.css.height =  conf.height;
+	if(this.conf.height !== ''){
+		this.conf.css.height =  this.conf.height;
 	}
-	if(conf.bg !== ''){
-		conf.css.backgroundImage =  conf.bg;
+	if(this.conf.bg !== ''){
+		this.conf.css.backgroundImage =  this.conf.bg;
 	}
 	//离场样式
-	this.cssOut = conf.animateOut;
+	this.cssOut = this.conf.animateOut;
 	//进场样式
-	this.cssIn = conf.animateIn;
+	this.cssIn = this.conf.animateIn;
 	//设置组件样式
-	this.component.css($.extend(conf.css, conf.animateOut));
+	this.component.css($.extend(this.conf.css, this.conf.animateOut));
 	var _this = this;
 	//组件进场
 	this.component.on('onLoad',function(){
@@ -73,7 +78,7 @@ var ComponentBase = function(name, conf){
 			if(typeof _this.onLoad === 'function'){
 				_this.onLoad();
 			}
-		}, conf.delay || 0);
+		}, _this.conf.delay || 0);
 		return false;
 	});
 	//组件离场
@@ -95,10 +100,15 @@ var ComponentBase = function(name, conf){
 ComponentBase.prototype = {
 	_instances:[],
 	_setInstance:function(name){
-		this._instances[name] = this;
+		this._instances[this.type + '_' + name] = this;
 	},
 	_getInstance:function(name){
-		return typeof this._instances[name] == 'undefined' ? false : this._instances[name];
+		return typeof this._instances[this.type + '_' + name] == 'undefined' ? false : this._instances[this.type + '_' + name];
+	},
+	//组件准备好后的回调函数
+	onComponentReady:function(obj){
+		if(typeof this.conf.onComponentReady == 'function')
+			this.conf.onComponentReady(obj);
 	},
 	show:function(){
 		this.component.trigger('onLoad');
@@ -107,6 +117,56 @@ ComponentBase.prototype = {
 		this.component.trigger('onLeave');
 	},
 	//公共方法
+	loadStatics:function(files, callback, version){
+	    var ext   = '?v=' + (version || 1),
+	        loads = [],
+	        type;
+	    for(var i in files){
+	        if(files[i].indexOf('.css') > 0){
+	            type = 'css';
+	        }else if(files[i].indexOf('.js') > 0){
+	            type = 'js';
+	        }else{
+	            continue;
+	        }
+	        loads.push({src:files[i] + ext, type:type});
+	    }
+	    var total     = loads.length,//待加载的文件总数
+	        loadedNum = 0,//已加载的文件数
+	        rate      = 0,//加载进度
+	        head      = document.getElementsByTagName('head')[0];
+	    
+	    var loadFiles = function(files){
+	        if(files.length == 0){
+	            return false;
+	        }
+	        var file = files.shift();
+	        var el;
+	        if(file.type == 'js'){
+	            el = document.createElement('script');
+	            el.type = 'text/javascript';
+	            el.src = file.src;
+	        }else{
+	            el = document.createElement('link');
+	            el.type = 'text/css';
+	            el.rel = 'stylesheet';
+	            el.href = file.src;
+	        }
+	        el.onload = el.onreadystatechange = function(){
+	            if((!this.readyState || this.readyState === "loaded" || this.readyState === "complete")){
+	                loadedNum++;
+	                rate = parseInt(loadedNum/total*100);
+	                callback(loadedNum, rate);
+	                //console.log('加载完毕:', this.src || this.href);
+	                //加载下一个文件,这里实现了文件一个个顺序加载,上一个加载完成才会head.appendChild下一个元素
+	                loadFiles(files);
+	                el.onload = el.onreadystatechange = null;//清除事件
+	            }
+	        }
+	        head.appendChild( el );
+	    }
+	    loadFiles(loads);
+	},
 	getDistance:function (p1, p2) {
 		var x = p1.pageX - p2.pageX;
 		var y = p1.pageY - p2.pageY;
@@ -133,8 +193,8 @@ ComponentBase.prototype = {
 						callBack.start.call(el, e);//让回调函数里的this指向元素
 					}
 				}
-			}
-		);
+			},
+		false);
 		el.addEventListener(
 			"touchmove",
 			function(e){
@@ -147,8 +207,8 @@ ComponentBase.prototype = {
 						callBack.change.call(el, e);
 					}
 				}
-			}
-		);
+			},
+		false);
 		el.addEventListener(
 			"touchend",
 			function(e){
@@ -159,8 +219,8 @@ ComponentBase.prototype = {
 					}
 				}
 				isGesture = false;//
-			}
-		);
+			},
+		false);
 	},
 	touch:function(obj, callbacks) {
 	    var TOUCHSTART, TOUCHEND, TOUCHMOVE;    
@@ -190,7 +250,6 @@ ComponentBase.prototype = {
 	    }
 	    //s是开始, e是结束, l是上次move更新
 	    var info = {sx:false, sy:false, lx:false, ly:false, ex:false, ey:false, sTime:false, lTime:false, eTime:false};
-	    var date = new Date();
 	    var touching = false;
 
 	    obj.addEventListener(TOUCHSTART, function(event){
@@ -200,12 +259,23 @@ ComponentBase.prototype = {
 	        }
 	        touching = true;
 	        //必须要复位,避免下次操作时累加
-	        info.sTime = date.getTime();
+	        info.sTime = new Date().getTime();
 	        info.lTime = false;
 	        info.eTime = false;
 	        var nowPos = getPos(event);
 	        info.sx = nowPos.x;//开始坐标
 	        info.sy = nowPos.y;
+	        //300毫秒后滑动范围在5x5内(没有移动)视为长按操作
+	        setTimeout(function(){
+	        	if(!touching) return false;//确保还没有发生end事件
+		        if( (!info.lx || Math.abs(info.lx - info.sx) < 5) 
+		        	&& 
+		        	(!info.ly || Math.abs(info.ly - info.sy) < 5))
+		        {
+		        	touching = false;
+		        	callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
+		        }
+	        }, 300);
 	        callbacks && callbacks.start && callbacks.start.call(obj, event, info);
 	    }, false);
 	  
@@ -213,7 +283,7 @@ ComponentBase.prototype = {
 	        //确保是单指操作
 	        if(!touching) return false;
 	        event.preventDefault();//阻止触摸时浏览器的缩放、滚动条滚动
-	        info.lTime = date.getTime();
+	        info.lTime = new Date().getTime();
 	        var nowPos = getPos(event);
 	        info.lx = nowPos.x;//不断改变坐标
 	        info.ly = nowPos.y;
@@ -223,7 +293,7 @@ ComponentBase.prototype = {
 	    obj.addEventListener(TOUCHEND, function(event) {
 	        if(!touching) return false;
 	        touching = false;
-	        info.eTime = date.getTime();
+	        info.eTime = new Date().getTime();
 	        var nowPos = getPos(event);
 	        info.ex = nowPos.x;
 	        info.ey = nowPos.y;
@@ -253,7 +323,6 @@ ComponentBase.prototype = {
 	        }
 	        //滑动范围在5x5内则视为点击事件
 	        else if(Math.abs(changeX) < 5 && Math.abs(changeY) < 5){
-	            info.eTime = date.getTime();
 	            //点击事件，此处根据时间差细分下
 	            if((info.eTime - info.sTime) > 300) {
 	                callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
@@ -333,10 +402,10 @@ ComponentBase.prototype = {
 		}
 	},
 	//自定义可拖拽区域
-	dragArea:function (wrap, callBack, direction) {
+	dragArea:function (wrap, callBack, direction, dragEl) {
 		var moveX = direction.indexOf('x') != '-1' ? true : false;
 		var moveY = direction.indexOf('y') != '-1' ? true : false;
-		var child = wrap.children[0]; 
+		var child = dragEl || wrap.children[0];
 		var startPoint = 0; //滑动开始的touch位置
 		var startX = 0;//滑动开始时child的位置
 		var startY = 0;//滑动开始时child的位置
@@ -353,8 +422,7 @@ ComponentBase.prototype = {
 		var isMove = true;
 		var Tween = {
 			easeOut: function(t, b, c, d){
-				//return -c * ((t=t/d-1)*t*t*t - 1) + b;
-				return c*((t=t/d-1)*t*t*t*t + 1) + b;
+				return -c * ((t=t/d-1)*t*t*t - 1) + b;
 			},
 			backOut: function(t, b, c, d, s){
 				if (typeof s == 'undefined') {
@@ -363,7 +431,8 @@ ComponentBase.prototype = {
 				return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
 			} 
 		};
-		this.cssTransform(child,"translateZ",0.01);//开启3d硬件加速
+		child.style.position = 'absolute';
+		//this.cssTransform(child,"translateZ",0.01);//开启3d硬件加速
 		var _this = this;
 		(function(){
 			if(callBack && callBack.init){
@@ -373,8 +442,8 @@ ComponentBase.prototype = {
 		wrap.addEventListener(
 			'touchstart', 
 			function(e) {
-				e.preventDefault();
-				e.stopPropagation();
+				//e.preventDefault();
+				//e.stopPropagation();
 				//正数:child没有撑满wrap,负数:child撑满了wrap并被隐藏了部分
 				minX = wrap.clientWidth - child.offsetWidth;
 				minY = wrap.clientHeight - child.offsetHeight;
@@ -383,8 +452,8 @@ ComponentBase.prototype = {
 					callBack.onStart();
 				}
 				startPoint = {pageY:e.changedTouches[0].pageY, pageX:e.changedTouches[0].pageX};
-				startX = _this.cssTransform(child,"translateX");
-				startY = _this.cssTransform(child,"translateY");
+				startX = child.offsetLeft;//_this.cssTransform(child,"translateX");
+				startY = child.offsetTop;//_this.cssTransform(child,"translateY");
 				stepX = 1;
 				stepY = 1;
 				lastX = startPoint.pageX;
@@ -394,8 +463,8 @@ ComponentBase.prototype = {
 				lastDisY = 0;
 				lastTimeDis = 1;
 				isMove = true;
-			}
-		);
+			},
+		false);
 		wrap.addEventListener(
 			'touchmove', 
 			function(e) {
@@ -448,24 +517,28 @@ ComponentBase.prototype = {
 				lastX = nowPoint.pageX;
 				lastY = nowPoint.pageY;
 				lastTime = nowTime;
-				moveX && _this.cssTransform(child,"translateX",targetX);
-				moveY && _this.cssTransform(child,"translateY",targetY);
+				if(moveX) child.style.left = targetX + 'px';//moveX && _this.cssTransform(child,"translateX",targetX);
+				if(moveY) child.style.top  = targetY + 'px';//moveY && _this.cssTransform(child,"translateY",targetY);
 				if(callBack && callBack.onUpdate){
 					callBack.onUpdate();
 				}
-			}
-		);
+			},
+		false);
 		wrap.addEventListener(
 			'touchend', 
 			function (e){
-				e.preventDefault();
-				e.stopPropagation();
-				var speedX = (lastDisX/lastTimeDis)*200; //手指滑动的距离除以滑动的时间,得到手指离开时的运动速度,速度越大刹车距离越长
-				var speedY = (lastDisY/lastTimeDis)*200; 
+				//e.preventDefault();
+				//e.stopPropagation();
+				if(!isMove) {
+					return ;
+				}
+				isMove = false;
+				var speedX = (lastDisX/lastTimeDis)*320; //手指滑动的距离除以滑动的时间,得到手指离开时的运动速度,速度越大刹车距离越长
+				var speedY = (lastDisY/lastTimeDis)*320; 
 				speedX = isNaN(speedX)?0:speedX;//在刹车滑动的时候把手指按上去会停止滑动,这时速度会为0
 				speedY = isNaN(speedY)?0:speedY;
-				var targetX = _this.cssTransform(child,"translateX") + speedX;
-				var targetY = _this.cssTransform(child,"translateY") + speedY;//speedY在这里就像是预留出刹车距离,实现动画结束的缓冲效果
+				var targetX = child.offsetLeft + speedX;//_this.cssTransform(child,"translateX") + speedX;
+				var targetY = child.offsetTop + speedY;//_this.cssTransform(child,"translateY") + speedY;//speedY在这里就像是预留出刹车距离,实现动画结束的缓冲效果
 				var typeX = typeY = "easeOut";
 				var time = Math.abs(Math.max(speedX,speedY)*.9);
 				time = time < 600 ? 600 : time;
@@ -490,8 +563,8 @@ ComponentBase.prototype = {
 				if(callBack&&callBack.onStop){
 					callBack.onStop();
 				}
-			}
-		);
+			},
+		false);
 		/*
 			onStart 手指按下
 			onUpdate 滑动中
@@ -499,13 +572,15 @@ ComponentBase.prototype = {
 			onComplete 滑动结束
 		*/
 		function move(targetX, targetY, typeX, typeY, time) {
-			//这里设置 t 从0到60,每16.666毫秒执行一次,即1秒钟60帧,这样帧率画面不会闪也好控制
+			//假设要求动画每秒的帧率是30帧,并且变化值为200px的时候要求刹车时间是1秒
+			//则设置 t 从0帧到30帧, 平均每帧运动 200/30=6.666px距离, 平均用时 1000ms/30帧=33.3333毫秒
+			//如果变化值有350px, 那么帧数就应该是 0帧 到 30*(350/200)= 52.5帧
 			var t = 0;
-			var bX = _this.cssTransform(child,"translateX");
-			var bY = _this.cssTransform(child,"translateY");
+			var bX = child.offsetLeft;//_this.cssTransform(child,"translateX");
+			var bY = child.offsetTop;//_this.cssTransform(child,"translateY");
 			var cX = targetX - bX;
 			var cY = targetY - bY;
-			var d = 60;//Math.ceil(time/10);
+			var d = Math.abs(60*(cY/300));//Math.ceil(time/10);
 			clearInterval(child.scroll);
 			child.scroll = setInterval(
 				function() {
@@ -518,13 +593,13 @@ ComponentBase.prototype = {
 					} else {
 						var valueX = Tween[typeX](t,bX,cX,d);
 						var valueY = Tween[typeY](t,bY,cY,d);
-						moveX && _this.cssTransform(child,"translateX",valueX);
-						moveY && _this.cssTransform(child,"translateY",valueY);
+						if(moveX) child.style.left = valueX + 'px';//_this.cssTransform(child,"translateX",valueX);
+						if(moveY) child.style.top  = valueY + 'px';//_this.cssTransform(child,"translateY",valueY);
 						if(callBack&&callBack.onUpdate){
 							callBack.onUpdate();
 						}
 					}
-				},16.66666
+				},16.6666 //(1秒钟60帧)
 			);
 		}
 	}

@@ -1,0 +1,43 @@
+<div class="weui-tab">
+    <div class="weui-navbar">
+        <div class="weui-navbar__item" ui-sref="Access.product_cats" ng-class="{'weui-bar__item_on':$state.current.name == 'Access.product_cats'}">
+            贷款申请
+        </div>
+        <div class="weui-navbar__item" ui-sref="Customer.my_loan" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.my_loan'}">
+            我的贷款
+        </div>
+    </div>
+    <div class="weui-tab__panel" ng-controller="Access.product_cats">
+		<ul class="products">
+			<li ng-repeat="item in list track by item.cat_id">
+				<div class="info">
+					<img src="">
+					<p>{{item.name}}</p>
+					<div class="action">
+						<button type="button" ui-sref="Workflow.apply({cat_id:item.cat_id, cat_name:item.name})">申请贷款</button><br>
+						<span class="detail" >详情 &nbsp;&nbsp;<i class="iconfont icon-xx"></i></span>
+					</div>
+				</div>
+				<article class="weui-article" ng-if="">
+		                <section>
+		                    <h3>产品详情介绍:</h3>
+		                    <p>
+		                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		                        consequat.
+		                    </p>
+		                </section>
+		        </article>
+
+			</li>
+
+		</ul>
+    </div>
+</div>
+
+
+
+
+
+

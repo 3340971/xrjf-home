@@ -52,6 +52,7 @@ html, body {
 @media screen and (min-width:1400px){
   html {
         font-size: 15px !important;
+        -webkit-touch-callout: none;
     }
 }
 @media screen and (min-width: 1200px) and (max-width: 1399px){
