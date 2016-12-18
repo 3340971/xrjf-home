@@ -223,7 +223,7 @@ ComponentBase.prototype = {
 		false);
 	},
 	touch:function(obj, callbacks) {
-	    var TOUCHSTART, TOUCHEND, TOUCHMOVE;    
+	    var TOUCHSTART, TOUCHEND, TOUCHMOVE, timer;    
 	    if (typeof(window.ontouchstart) != 'undefined') {    
 	        TOUCHSTART = 'touchstart';    
 	        TOUCHEND = 'touchend';    
@@ -240,69 +240,59 @@ ComponentBase.prototype = {
 	    }
 	    function getPos(event){
 	        return {
-	            x: event.changedTouches[0] ? event.changedTouches[0].pageX : event.pageX,
-	            y: event.changedTouches[0] ? event.changedTouches[0].pageY : event.pageY
+	            x: event.changedTouches ? event.changedTouches[0].pageX : event.pageX,
+	            y: event.changedTouches ? event.changedTouches[0].pageY : event.pageY
 	        };
 	    }
 	    function isGusture(event){
-	    	//这里不能用 changedTouches 的值
+	        //这里不能用 changedTouches 的值
 	        return (event.touches && event.touches.length > 1) ? true : false;
 	    }
-	    //s是开始, e是结束, l是上次move更新
-	    var info = {sx:false, sy:false, lx:false, ly:false, ex:false, ey:false, sTime:false, lTime:false, eTime:false};
+	    //s是开始, e是结束, l是上次move更新,n是本次次move更新
+	    var info = {sx:false, sy:false, lx:false, ly:false, nx:false, ny:false, ex:false, ey:false, sTime:false, lTime:false, nTime:false, eTime:false};
 	    var touching = false;
 
 	    obj.addEventListener(TOUCHSTART, function(event){
 	        if(isGusture(event)){
-	        	touching = false; //当第二根手指触发时,立刻停止拖拽,避免与其可能绑定的其它手势事件冲突
-	        	return false;
+	            touching = false; //当第二根手指触发时,立刻停止拖拽,避免与其可能绑定的其它手势事件冲突
+	            return false;
 	        }
 	        touching = true;
 	        //必须要复位,避免下次操作时累加
-	        info.sTime = new Date().getTime();
-	        info.lTime = false;
+	        info.sTime = info.lTime = info.nTime = new Date().getTime();
 	        info.eTime = false;
 	        var nowPos = getPos(event);
-	        info.sx = nowPos.x;//开始坐标
-	        info.sy = nowPos.y;
+	        info.sx = info.lx = info.nx = nowPos.x;//开始坐标
+	        info.sy = info.ly = info.ny = nowPos.y;
+	        info.ex = 0;
+	        info.ey = 0;
 	        //300毫秒后滑动范围在5x5内(没有移动)视为长按操作
-	        setTimeout(function(){
-	        	if(!touching) return false;//确保还没有发生end事件
-		        if( (!info.lx || Math.abs(info.lx - info.sx) < 5) 
-		        	&& 
-		        	(!info.ly || Math.abs(info.ly - info.sy) < 5))
-		        {
-		        	touching = false;
-		        	callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
-		        }
-	        }, 300);
+	        timer = setTimeout(function(){
+	            if( (Math.abs(info.lx - info.sx) < 5) 
+	                && 
+	                (Math.abs(info.ly - info.sy) < 5))
+	            {
+	                touching = false;
+	                callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
+	            }
+	        }, 200);
 	        callbacks && callbacks.start && callbacks.start.call(obj, event, info);
 	    }, false);
 	  
 	    obj.addEventListener(TOUCHMOVE, function(event) {
 	        //确保是单指操作
 	        if(!touching) return false;
-	        event.preventDefault();//阻止触摸时浏览器的缩放、滚动条滚动
-	        info.lTime = new Date().getTime();
+	        //event.preventDefault();//阻止触摸时浏览器的缩放、滚动条滚动
+	        info.nTime = new Date().getTime();
 	        var nowPos = getPos(event);
-	        info.lx = nowPos.x;//不断改变坐标
-	        info.ly = nowPos.y;
-	        callbacks && callbacks.move && callbacks.move.call(obj, event, info);
-	    }, false);
-	  
-	    obj.addEventListener(TOUCHEND, function(event) {
-	        if(!touching) return false;
-	        touching = false;
-	        info.eTime = new Date().getTime();
-	        var nowPos = getPos(event);
-	        info.ex = nowPos.x;
-	        info.ey = nowPos.y;
-	        var changeX = info.ex - info.sx;//坐标变化值
-	        var changeY = info.ey - info.sy;
+	        info.nx = nowPos.x;//不断改变坐标
+	        info.ny = nowPos.y;
+	        var changeX = info.nx - info.lx;//坐标变化值
+	        var changeY = info.ny - info.ly;
 	        //如果是水平滑动
-	        if(Math.abs(changeX) > Math.abs(changeY) && Math.abs(changeY) > 5) {
+	        if(Math.abs(changeX) > Math.abs(changeY)) {
 	            //左滑动
-	            if(changeX > 0) {
+	            if(changeX < 0) {
 	                callbacks && callbacks.left && callbacks.left.call(obj, event, info);
 	            }
 	            //右滑动
@@ -311,9 +301,9 @@ ComponentBase.prototype = {
 	            }
 	        }
 	        //如果是垂直滑动
-	        else if(Math.abs(changeY) > Math.abs(changeX) && Math.abs(changeX) > 5){
+	        else if(Math.abs(changeY) > Math.abs(changeX)){
 	            //上滑动
-	            if(changeY > 0) {
+	            if(changeY < 0) {
 	                callbacks && callbacks.up && callbacks.up.call(obj, event, info);
 	            }
 	            //下滑动
@@ -321,18 +311,33 @@ ComponentBase.prototype = {
 	                callbacks && callbacks.down && callbacks.down.call(obj, event, info);
 	            }
 	        }
+	        callbacks && callbacks.move && callbacks.move.call(obj, event, info);
+	        info.lTime = info.nTime;
+	        info.lx = info.nx;//不断改变坐标
+	        info.ly = info.ny;
+	    }, false);
+	  
+	    obj.addEventListener(TOUCHEND, function(event) {
+	        if(!touching) return false;
+	        touching = false;
+	        clearTimeout(timer);
+	        info.eTime = new Date().getTime();
+	        var nowPos = getPos(event);
+	        info.ex = nowPos.x;
+	        info.ey = nowPos.y;
+	        var changeX = info.ex - info.sx;//坐标变化值
+	        var changeY = info.ey - info.sy;
 	        //滑动范围在5x5内则视为点击事件
-	        else if(Math.abs(changeX) < 5 && Math.abs(changeY) < 5){
-	            //点击事件，此处根据时间差细分下
-	            if((info.eTime - info.sTime) > 300) {
-	                callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
-	            }
-	            //时间很短,视为单击事件
-	            else {
+	        if(Math.abs(changeX) < 5 && Math.abs(changeY) < 5){
+	            // //点击事件，此处根据时间差细分下
+	            // if((info.eTime - info.sTime) > 300) {
+	            //     callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
+	            // }
+	            // //时间很短,视为单击事件
+	            // else {
 	                callbacks && callbacks.tap && callbacks.tap.call(obj, event, info); //当点击处理
-	            }
+	            // }
 	        }
-	        
 	        callbacks && callbacks.end && callbacks.end.call(obj, event, info);//touchend,gestureend事件
 	    }, false);
 	},
@@ -602,7 +607,98 @@ ComponentBase.prototype = {
 				},16.6666 //(1秒钟60帧)
 			);
 		}
+	},
+	scrollBox:function (el, fn){
+	    var _this = this,
+	    	parentH = parseInt(window.getComputedStyle(el.parentNode, null)['height']),
+	    	elMT 	= parseInt(window.getComputedStyle(el, null)['marginTop']),
+	    	elPT 	= parseInt(window.getComputedStyle(el, null)['paddingTop']),
+	    	offset = 0,
+	        limit,
+	        t = 0,
+	        b,
+	        c,
+	        d,
+	        //Tween算子  t:当前时间  b:初始值  c:变化值  d:总时间
+	        //tween = function(t,b,c,d){return -c*(t/=d)*(t-2) + b;};
+	        tween = function(t,b,c,d){return -c * ((t=t/d-1)*t*t*t - 1) + b;},
+	        startY = _this.cssTransform(el, 'translateY');
+	        
+	    el.parentNode.style.overflow = 'hidden';
+	    el.style.cssText += ';overflow-y:auto;\
+	                        -webkit-overflow-scrolling:touch;\
+	                        width:100%;\
+	                        height: '+(parentH - elMT - elPT)+'px;';
+
+	    this.touch(el, {
+	        start:function(event, info){
+	            event.stopPropagation();//避免body上禁用默认事件导致的scroll失效
+	            el.isTop    = false;
+	            el.isBottom = false;
+	        },
+	        move:function(event, info){
+	            event.stopPropagation();
+	        },
+	        up:function(event, info){
+	        	var scrollT = this.scrollTop,
+	                scrollH = this.scrollHeight,
+	                clientH = this.clientHeight;
+	            //到底部了,这里的3个值都是整数,系统在四舍五入的时候会导致该算式最多1个像素的偏差
+	            if(scrollH - (clientH + scrollT) <= 1){
+	                //console.log('到底部了');
+	                offset = ((info.ny - info.sy)/(info.nTime - info.sTime)*120);
+	                limit  = clientH/3;
+	                offset = -offset >= limit ? -limit : offset;//console.log(clientH/3, offset);
+	                _this.cssTransform(el, 'translateY', startY + offset);
+	                el.isBottom = true;
+	                fn && fn.onBottom && fn.onBottom.call(this, offset);
+	            }
+	        },
+	        down:function(event, info){
+	            var scrollT = this.scrollTop,
+	                scrollH = this.scrollHeight,
+	                clientH = this.clientHeight;
+	            //到顶部了
+	            if(scrollT <= 1){
+	                //console.log('到顶部了');
+	                //{sx:false, sy:false, lx:false, ly:false, ex:false, ey:false, sTime:false, lTime:false, eTime:false}
+	                offset = ((info.ny - info.sy)/(info.nTime - info.sTime)*120);
+	                limit  = clientH/3;
+	                offset = offset >= limit ? limit : offset;
+	                _this.cssTransform(el, 'translateY', startY + offset);
+	                el.isTop    = true;
+	                //console.log(offset, limit);
+	                fn && fn.onTop && fn.onTop.call(this, offset);
+	            }
+	        },
+	        end:function(event, info){
+	            if(el.isTop || el.isBottom){
+	                t = 0;
+	                b = startY + offset;
+	                c = -offset;
+	                d = Math.abs(parseInt(60*(offset/400)));
+	                clearInterval(this.timer);
+	                this.timer = setInterval(function(){
+	                    var value = tween(t,b,c,d);//console.log(value, offset, d);
+	                    if(t == d){
+	                        clearInterval(this.timer);
+	                        //_this.cssTransform(el, 'translateY', startY);
+	                        fn && fn.onComplete && fn.onComplete.call(this);
+	                    }else{
+	                        _this.cssTransform(el, 'translateY', value);
+	                        fn && fn.onUpdate   && fn.onUpdate.call(this, value - startY);
+	                    }
+	                    t++;
+	                }.bind(this), 16.6666);
+	                el.isTop    = false;
+	                el.isBottom = false;
+	            }else{
+	            	_this.cssTransform(el, 'translateY', startY);
+	            }
+	        }
+	    });
 	}
+
 }
 window.ComponentBase = ComponentBase;
 

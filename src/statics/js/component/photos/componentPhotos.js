@@ -36,9 +36,9 @@
 		this.rect = this.conf.parentNode.getBoundingClientRect();
 		this.closeComponent = this.component[0].querySelector('.close-component');
 		this.uploadBtn = this.component[0].querySelector('.upload-btn');
-		this.dragEl = this.component[0].children[3];
+		this.scrollEl = this.component[0].children[3];
 		this.titleEl = this.component[0].querySelector('.photos_title');
-		this.ulEl = this.dragEl.getElementsByTagName('ul')[0];
+		this.ulEl = this.scrollEl.getElementsByTagName('ul')[0];
 		this.lisEl = this.component[0].getElementsByTagName('li');
 		this.footerEl = this.component[0].querySelector('footer');
 		this.detailEl = this.component[0].querySelector('.img-detail');
@@ -52,33 +52,31 @@
 		//隐藏footer
 		this.cssTransform(this.footerEl, 'scale', 0);
 		var _this = this;
-		this.dragCallback = {
-			onStart:function(){
-				
-			},
-			onUpdate:function(){
-				if(_this.component[0].clientHeight < _this.dragEl.offsetHeight){
-					var scrollTop = _this.dragEl.offsetTop;// _this.cssTransform(_this.dragEl, 'translateY');//当前已卷进去的数值,负的
-					var maxScroll = _this.component[0].clientHeight - _this.dragEl.offsetHeight; //拉到底部时的值,负的
-					if(scrollTop <= maxScroll){
-						var over = maxScroll - scrollTop ;//拉动到底部并且超出的值
-						var scale = over/_this.footerEl.offsetHeight;
-						if(scale > 1) scale = 1;
-						_this.footerEl.innerText = _this.conf.imgs.length > 0 ? '上划加载更多内容' : '已经没有更多内容了';
-						_this.cssTransform(_this.footerEl, 'scale', scale);
-
-						if(_this.conf.imgs.length > 0){
-							clearInterval(_this.dragEl.scroll);
-							_this.createLi(22);
-						}
-					}
+		this.scrollCallback = {
+			onBottom:function(value){
+				var scale = - value/_this.footerEl.offsetHeight;
+				if(scale > 1) scale = 1;
+				//_this.cssTransform(_this.footerEl, 'scale', scale);
+				if(_this.conf.imgs.length > 0){
+					this.isBottom = false;
+					_this.footerEl.innerText = '加载中...';
+					//clearInterval(this.timer);
+					_this.createLi(22);
+					_this.createImg();
+				}else{
+					_this.footerEl.innerText = '啊哦!已经没有更多内容了.';
 				}
 			},
-			onStop:function(){
-
+			onUpdate:function(value){
+				if(value < 0){
+					var scale = - value/_this.footerEl.offsetHeight;
+					if(scale > 1) scale = 1;
+					//_this.cssTransform(_this.footerEl, 'scale', scale);
+				}
 			},
 			onComplete:function(){
-				_this.createImg();
+				_this.footerEl.innerText = '';
+				_this.cssTransform(_this.footerEl, 'scale', 0);
 			}
 		};
 		this.liW = 0;
@@ -119,8 +117,8 @@
 			//设置相册缩略图的高度
 			//var liH = this.lisEl[0].getBoundingClientRect().width;
 			var colW = this.conf.parentNode.getBoundingClientRect().width/this.conf.cols;//列宽
-			this.liW = colW*0.92;
-        	this.liH = colW*0.92;
+			this.liW = colW*0.92;console.log(this.conf.parentNode);
+        	this.liH = colW*0.92;console.log(window.getComputedStyle(this.conf.parentNode, null)['width']);
 			//创建一个相册专属的style标签
 			var style = document.createElement('style');
 			style.setAttribute('id', 'componentPhotos');
@@ -171,7 +169,7 @@
 			}});
 
 
-			this.dragArea(this.component[0], this.dragCallback, 'y', this.dragEl);//相册列表的拖拽
+			this.scrollBox(this.scrollEl, this.scrollCallback);//相册列表的拖拽
 
 			//关闭事件
 			this.closeDetail.addEventListener('touchend', function(){
@@ -201,12 +199,9 @@
 			});
 			this.drag(this.canvasEl);
 		},
-		_calLiClientTop:function(i){
-			return Math.floor((i+1)/this.conf.cols) * (this.lisEl[0].offsetHeight/0.92) + this.cssTransform(this.dragEl,'translateY');
-		},
 		createLi:function (len){
-			var _this = this,
-				fragment = document.createDocumentFragment();
+			var _this = this;
+				//fragment = document.createDocumentFragment();
 			for (var i = 0; i < len; i++) {
 				if(this.conf.imgs.length < 1) break;
 				var li  = document.createElement('li');
@@ -220,17 +215,16 @@
 				del.setAttribute('img-id', img.id);
 				del.innerText = '×';
 				li.appendChild(del);
-				fragment.appendChild(li);
+				this.ulEl.appendChild(li);
 			}
-			this.ulEl.appendChild(fragment);
+			//this.ulEl.appendChild(fragment);
 			this.createImg();
 		},
 		createImg:function (){
 			for (var i = 0; i < this.lisEl.length; i++) {
 				//判断是否显示图片(是否在可视区内),因为有进场动画,所以这里getBoundingClientRect无法获取正确值
 				//var top = this.lisEl[i].getBoundingClientRect().top;
-				var top = this._calLiClientTop(i);
-				if(!this.lisEl[i].isLoad ){//&& top >= this.rect.top && top <= this.rect.bottom){
+				if(!this.lisEl[i].isLoad ){
 					this.showImg(this.lisEl[i]);
 				}
 			}

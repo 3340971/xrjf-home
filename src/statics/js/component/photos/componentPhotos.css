@@ -42,12 +42,17 @@
 	position: relative;
 	padding-top: 5rem;
 	transition:none;
+	height: 100%;
 }
 .component_photos div ul{
-	overflow: hidden;
 	margin:0;
 	padding: 0;
 	list-style: none;
+}
+.component_photos div ul:after{
+	content: ' ';
+	display: table;
+	clear: both;
 }
 .component_photos div ul li{
 	position: relative;
@@ -82,7 +87,8 @@
 .component_photos div footer{
 	text-align: center;
 	transition: .5s;
-	line-height: 3rem;
+	line-height: 3rem;display: none;
+
 }
 .component_photos .img-detail{
 	position:fixed;
