@@ -18,7 +18,7 @@
         if(!this.conf.parentNode) this.conf.parentNode = document.body;
 
         ComponentBase.call(this, name, this.conf);
-		var tpl =   '<header class="photos_title">相册</header>\
+		var tpl =   '<header class="photos_title"></header>\
 					<span class="upload-btn">上传</span>\
 					<span class="close-component">关闭</span>\
 					<div>\
@@ -102,6 +102,11 @@
 													        	httpHeader   : _this.conf.httpHeader || {},//附加的http头
 													        	formData     : _this.conf.formData || {},
 													        	server: _this.conf.server,
+													        	//设定单个文件大小
+													            fileSingleSizeLimit: _this.conf.fileSingleSizeLimit ||  4 * 1024 * 1024,
+													            fileSizeLimit: _this.conf.fileSizeLimit || 50 * 1024 * 1024,//[默认值：undefined] 验证文件总大小是否超出限制, 超出则不允许加入队列
+													            // 上传文件个数
+													            fileNumLimit : _this.conf.fileNumLimit || 20,
 													        	onComponentReady:function(obj){
 													        		
 													        	}
@@ -117,15 +122,24 @@
 			//设置相册缩略图的高度
 			//var liH = this.lisEl[0].getBoundingClientRect().width;
 			var colW = this.conf.parentNode.getBoundingClientRect().width/this.conf.cols;//列宽
-			this.liW = colW*0.92;console.log(this.conf.parentNode);
-        	this.liH = colW*0.92;console.log(window.getComputedStyle(this.conf.parentNode, null)['width']);
+			this.liW = colW*0.92;
+        	this.liH = colW*0.92;
 			//创建一个相册专属的style标签
 			var style = document.createElement('style');
 			style.setAttribute('id', 'componentPhotos');
 			style.innerText = ".component_photos li{width:"+this.liW+"px;height:"+this.liH+"px;margin:"+(colW*0.04)+"px;}";
 			document.querySelector('head').appendChild(style);
 			
-			this.createLi(this.conf.imgs.length > 15 ? 25 : this.conf.imgs.length);
+			this.createLi(this.conf.imgs.length > 15 ? 200 : this.conf.imgs.length);
+			//显示删除按钮
+			this.touch(this.ulEl, {longTap:function(e){
+				if(e.target.nodeName.toLowerCase() == 'canvas'){
+					var li  = e.target.parentNode,
+						del = li.querySelector('.delete');
+					del.classList.add('active');
+				}
+			}});
+
 			//查看缩略图
 			this.touch(this.ulEl, {tap:function(e){
 				if(e.target.nodeName.toLowerCase() == 'canvas'){
@@ -148,22 +162,16 @@
 					};
 				}
 			}});
-			//显示删除按钮
-			this.touch(this.ulEl, {longTap:function(e){
-				if(e.target.nodeName.toLowerCase() == 'canvas'){
-					var li  = e.target.parentNode,
-						del = li.querySelector('.delete');
-					del.classList.add('active');
-				}
-			}});
+			
 			//点击删除按钮
 			this.touch(this.ulEl, {tap:function(e){
 				if(e.target.classList.contains('delete')){
 					var del = e.target,
 						li  = e.target.parentNode;
 						id  = li.getAttribute('img-id');
-					if(id){
-						_this.conf.deleteCallback(li, _this.ulEl);
+					if(id && li.classList.contains('component-photos-item')){
+						li.parentNode.removeChild(li);
+						_this.conf.deleteCallback(li);
 					}
 				}
 			}});
@@ -209,6 +217,7 @@
 				li.setAttribute('src-min', img.min);
 				li.setAttribute('src-max', img.max);
 				li.setAttribute('img-id', img.id);
+				li.classList.add('component-photos-item');
 				li.isLoad = false;
 				var del = document.createElement('span');
 				del.setAttribute('class', 'delete');

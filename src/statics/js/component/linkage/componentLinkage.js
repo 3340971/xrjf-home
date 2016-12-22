@@ -4,11 +4,12 @@
 		if(!(this instanceof componentLinkage)){
             return new componentLinkage(name, conf, bindInput);
         }
+        this.type = 'linkage';
         var instance = this._getInstance(name);
 	    if(instance){
 	        return instance;
 	    }
-        this.type = 'linkage';
+        
         this.conf = conf || {
         	fields:{"data[province]":'省份',"data[city]":'城市',"data[area]":'区县'},
         	dataUrl:'',

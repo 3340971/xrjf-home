@@ -8,15 +8,23 @@
         </div>
     </div>
     <div class="weui-tab__panel" ng-controller="Customer.my_loan">
-		<section>
+		<section class="apply-process">
 			<h5>贷款进度</h5>
 			<ul>
 				<li>
-					<a href="">待申请</a>
-					<a href="">申请中</a>
-					<a href="">待签约</a>
-					<a href="">放款中</a>
-					<a href="">贷款完成</a>
+					<a ui-sref="Customer.my_loan({status:'1'})">待申请</a>
+				</li>
+				<li>
+					<a ui-sref="Customer.my_loan({status:'2'})">申请中</a>
+				</li>
+				<li>
+					<a ui-sref="Customer.my_loan({status:'3'})">待签约</a>
+				</li>
+				<li>
+					<a ui-sref="Customer.my_loan({status:'5,6,7'})">放款中</a>
+				</li>
+				<li>
+					<a ui-sref="Customer.my_loan({status:'8'})">贷款完成</a>
 				</li>
 			</ul>
 		</section>
@@ -33,13 +41,13 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="(index,item) in loan_list track by item.apply_id">
-					<td>{{item.create_time|date}}</td>
+					<td>{{item.create_time|myDate}}</td>
 					<td>{{item.product_name}}</td>
 					<td>{{item.apply_price}}</td>
 					<td>{{item.apply_duration}}</td>
 					<td>
 						{{item.apply_status_txt}}
-						<i class="iconfont icon-xy" ui-sref="Customer.file_cat({apply_id:item.apply_id})"></i>
+						<i class="iconfont icon-xy" ui-sref="Customer.loan_detail({apply_id:item.apply_id})"></i>
 					</td>
 				</tr>
 			</tbody>

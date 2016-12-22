@@ -5,8 +5,9 @@ angular.module('http.interceptor',[])
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
         //if($localStorage.Authorization){
-          config.headers['Authorization'] = $localStorage.Authorization || 'ProxyCustomer ';
+          config.headers['Authorization'] = $localStorage.Authorization || 'ProxyCustomer_';
         //}
+        console.log(config.headers);
         config.transformRequest.push(function(data) {
               //把JSON数据转换成字符串形式
               return typeof data == 'string' ? data : zwUtils.http_build_query(data);

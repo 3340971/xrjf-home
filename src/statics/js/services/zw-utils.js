@@ -540,14 +540,13 @@ angular.module('zw.utils',[])
 	this.msg = function(type,text,fn,time){
 		time = time || 3000;
 		fn = fn || function(){}; 
-		var types={'error':'rgba(255,100,0,.7)','success':'#557755','info':'#90d1ff'};
-		var tpl='<div id="app-msg"></div>';
-		var str='#app-msg';
-		if($(str,window.top.document.body).length < 1){
+		var types={'error':'#ff7676','success':'#fff','info':'#557755'};
+		var tpl='<div id="app-msg"><span></span></div>';
+		if($('#app-msg span', window.top.document.body).length < 1){
 		    	$(window.top.document.body).append(tpl);
 		}
-		var $msg = $(str,window.top.document.body);
-		$msg.text(text).css('background-color',types[type]);
+		var $msg = $('#app-msg', window.top.document.body);
+		$msg.find('span').text(text).css('color',types[type]);
 		$msg.addClass('active');
 		clearTimeout(this.msg.timer);
 		this.msg.timer = setTimeout(function(){

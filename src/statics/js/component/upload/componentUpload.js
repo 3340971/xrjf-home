@@ -42,7 +42,7 @@
         	parentNode   : document.body, //挂载点
         	submitEl 	 : null,//触发点击上传的提交按钮
         	successCallback : function(){},//每上传成功一个的回调函数
-        	deleteCallback : function(){},//每删除一个的回调函数
+        	deleteCallback : false,//每删除一个的回调函数
         	httpHeader   : {},//附加的http头
         	//以下是插件配置
         	// 选完文件后，是否自动上传。
@@ -112,8 +112,14 @@
         this.uploader = null;
         //this.component[0].innerText = '+';
         this.component[0].className += ' ' + this.conf.className;
+        //this.component[0].innerText = '加载中...';
         this.liW = 0;
         this.liH = 0;
+        if(this.conf.parentNode.firstChild){
+			this.conf.parentNode.insertBefore(this.component[0], this.conf.parentNode.firstChild);
+		}else{
+			this.conf.parentNode.appendChild(this.component[0]);
+		}
         //加载资源
 		this.loadStatics([
 							this.conf.componentsUri + 'upload/libs/webupload-0.1.5/webuploader.css',
@@ -122,11 +128,7 @@
 						], 
 						function(loadedNum, rate){
 							if(rate < 100) return;
-							if(_this.conf.parentNode.firstChild){
-								_this.conf.parentNode.insertBefore(_this.component[0], _this.conf.parentNode.firstChild);
-							}else{
-								_this.conf.parentNode.appendChild(_this.component[0]);
-							}
+							_this.component[0].innerText = '';
 							//让li与组件同大小
 							var rect  = window.getComputedStyle(_this.component[0], null);
 							_this.liW = rect.width;
@@ -281,7 +283,7 @@
             	var fileId = li.getAttribute('id');
                 _this.uploader.removeFile( fileId,true);//移除某一文件, 默认只会标记文件状态为已取消，如果第二个参数为 true 则会从 queue 中移除。
                 _this.conf.parentNode.removeChild(li);
-                _this.conf.deleteCallback(li, _this.conf.parentNode);
+                _this.conf.deleteCallback && _this.conf.deleteCallback(li);
             }, false);
 
 			if(this.conf.parentNode.lastChild == this.component[0]){

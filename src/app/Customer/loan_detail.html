@@ -1,0 +1,144 @@
+<div ng-controller="Customer.loan_detail">
+<div class="weui-cells weui-cells_form" >
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="customer.name"/>
+            
+        </div>
+    </div>
+    
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">身份证号</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="customer.idcard">
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="customer.mobile"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">婚姻状况</label></div>
+        <div class="weui-cell__bd">
+            <select class="weui-input" readonly ng-model="customer.marriage">
+              <option>--请选择--</option>
+              <option value="6">已婚</option>
+              <option value="7">未婚</option>
+              <option value="82">离异</option>
+              <option value="83">丧偶</option>
+              <option value="84">再婚</option>
+            </select>
+        </div>
+    </div>
+    <div class="weui-cell x2">
+        <div class="weui-cell__hd"><label class="weui-label">现住地址</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="customer.live_addr" />
+            <input class="weui-input" type="text" readonly ng-model="customer.live_address"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">单位名称</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="profession.company_name" />
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">入职时间</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="date" readonly ng-model="profession.start_work_date" />
+        </div>
+    </div>
+    <div class="weui-cell x2">
+        <div class="weui-cell__hd"><label class="weui-label">单位地址</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="profession.company_addr" />
+            <input class="weui-input" type="text" readonly ng-model="profession.company_address" />
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">单位座机</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="tel" readonly ng-model="profession.company_tel_zone" style="width:25%;border-right: 1px solid #ccc;" />
+            <input class="weui-input" type="tel" readonly ng-model="profession.company_tel" style="width:70%;"/>
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">房产数量</label></div>
+        <div class="weui-cell__bd">
+          共有(<input class="weui-input" type="text" readonly ng-model="asset.asset_room_number" style="width: 2rem;text-align: center;" />)套,
+          其中按揭(<input class="weui-input" type="text" readonly ng-model="asset.asset_room_mortgage_number" style="width: 2rem;text-align: center;"/>)套
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">车辆数量</label></div>
+        <div class="weui-cell__bd">
+          共有(<input class="weui-input" type="text" readonly ng-model="asset.asset_car_number" style="width: 2rem;text-align: center;" />)辆,
+          其中按揭(<input class="weui-input" type="text" readonly ng-model="asset.asset_car_mortgage_num" style="width: 2rem;text-align: center;"/>)辆
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">亲属姓名</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="contact[0].name" />
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">亲属手机</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="contact[0].moblie" />
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">产品类型</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="contract.product_name" placeholder="产品名称"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">申请金额</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="contract.apply_price" />
+        </div>
+    </div>
+    
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">申请期限</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="contract.apply_duration" />
+        </div>
+    </div>
+
+     <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">状态</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly ng-model="contract.apply_status_txt" />
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">备注</label></div>
+        <div class="weui-cell__bd" >
+            <textarea class="weui-textarea" readonly ng-model="contract.process_memo" rows="4" style="line-height: 1.5;"></textarea>
+        </div>
+    </div>
+
+</div>
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id})">补充资料</a>
+</div>
+
+</div>
+

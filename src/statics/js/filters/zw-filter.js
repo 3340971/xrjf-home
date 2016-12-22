@@ -5,8 +5,9 @@ angular.module('zw.filter', ['zw.utils'])
         return input.replace(new RegExp(arg1,'gm'),arg2); 
     };  
 })
-.filter('date', function(zwUtils) {  
+.filter('myDate', function(zwUtils) {  
     return function(input,arg1) {  
-        return zwUtils.date(arg1 || 'Y/m/d', input); 
+    	arg1 = arg1 || 'Y/m/d';
+        return zwUtils.date(arg1, new Date(input).getTime()/1000); 
     };  
-}); ; 
+});

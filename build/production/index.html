@@ -27,14 +27,14 @@
 	<div class="msg">loading...</div>
 </div>
 <!-- loading toast -->
-<div ng-show="loading" class="ng-hide">
+<div id="processing">
     <div class="weui-mask_transparent"></div>
     <div class="weui-toast">
         <i class="weui-loading weui-icon_toast"></i>
         <p class="weui-toast__content">数据加载中</p>
     </div>
 </div>
-<div id="app-msg"></div>
+<div id="app-msg"><span></span></div>
 
 <div ui-view class="pages"></div>
 
@@ -48,37 +48,18 @@ G.links = [
     'statics/styles/iconfont.css'
 ];
 G.scripts = [
-	"libs/jquery/jquery/dist/jquery.js",
-    "libs/angular/angular/angular.js",
-    "libs/angular/angular-animate/angular-animate.js",
-    "libs/angular/angular-ui-router/release/angular-ui-router.js",
-    "libs/angular/ngstorage/ngStorage.js",
-    "libs/angular/oclazyload/dist/ocLazyLoad.js",
-    "libs/fastclick.js",
-    "statics/js/component/ComponentBase.js",
-    "statics/js/app.js",
-    "statics/js/services/zw-utils.js",
-    "statics/js/services/http-interceptor.js",
-    "statics/js/app.js",
-    "statics/js/app.config.js",
-    "statics/js/app.config.lazyload.js",
-    "statics/js/app.config.router.js",
-    "statics/js/directives/img-verify.js",
-    "statics/js/directives/zw-linkage.js",
-    "statics/js/directives/zw-photos.js",
-    "statics/js/main.js"
-
-
-
-	// "libs/jquery/jquery/dist/jquery.min.js",
- //    "libs/angular/angular/angular.min.js",
- //    "libs/angular/angular-animate/angular-animate.min.js",
- //    "libs/angular/angular-ui-router/release/angular-ui-router.min.js",
- //    "libs/angular/ngstorage/ngStorage.min.js",
- //    "libs/angular/oclazyload/dist/ocLazyLoad.min.js",
+	// "libs/jquery/jquery/dist/jquery.js",
+ //    "libs/angular/angular/angular.js",
+ //    "libs/angular/angular-animate/angular-animate.js",
+ //    "libs/angular/angular-ui-router/release/angular-ui-router.js",
+ //    "libs/angular/ngstorage/ngStorage.js",
+ //    "libs/angular/oclazyload/dist/ocLazyLoad.js",
+ //    "libs/fastclick.js",
+ //    "statics/js/component/ComponentBase.js",
  //    "statics/js/app.js",
  //    "statics/js/services/zw-utils.js",
  //    "statics/js/services/http-interceptor.js",
+ //    "statics/js/filters/zw-filter.js",
  //    "statics/js/app.config.js",
  //    "statics/js/app.config.lazyload.js",
  //    "statics/js/app.config.router.js",
@@ -86,6 +67,28 @@ G.scripts = [
  //    "statics/js/directives/zw-linkage.js",
  //    "statics/js/directives/zw-photos.js",
  //    "statics/js/main.js"
+
+
+
+	"libs/jquery/jquery/dist/jquery.min.js",
+    "libs/angular/angular/angular.min.js",
+    "libs/angular/angular-animate/angular-animate.min.js",
+    "libs/angular/angular-ui-router/release/angular-ui-router.min.js",
+    "libs/angular/ngstorage/ngStorage.min.js",
+    "libs/angular/oclazyload/dist/ocLazyLoad.min.js",
+    "libs/fastclick.js",
+    "statics/js/component/ComponentBase.js",
+    "statics/js/app.js",
+    "statics/js/services/zw-utils.js",
+    "statics/js/services/http-interceptor.js",
+    "statics/js/filters/zw-filter.js",
+    "statics/js/app.config.js",
+    "statics/js/app.config.lazyload.js",
+    "statics/js/app.config.router.js",
+    "statics/js/directives/img-verify.js",
+    "statics/js/directives/zw-linkage.js",
+    "statics/js/directives/zw-photos.js",
+    "statics/js/main.js"
 ];
 
 

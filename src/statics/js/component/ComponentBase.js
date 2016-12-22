@@ -20,6 +20,7 @@ var ComponentBase = function(name, conf){
         return instance;
     }
 	var options = {
+		version:1,
 		componentNodeType : 'div',
 		componentsUri : '/statics/components/',
 		type: this.type || 'base',
@@ -118,7 +119,7 @@ ComponentBase.prototype = {
 	},
 	//公共方法
 	loadStatics:function(files, callback, version){
-	    var ext   = '?v=' + (version || 1),
+	    var ext   = '?v=' + (version || this.conf.version),
 	        loads = [],
 	        type;
 	    for(var i in files){
@@ -255,7 +256,10 @@ ComponentBase.prototype = {
 	    obj.addEventListener(TOUCHSTART, function(event){
 	        if(isGusture(event)){
 	            touching = false; //当第二根手指触发时,立刻停止拖拽,避免与其可能绑定的其它手势事件冲突
-	            return false;
+	            return true;
+	        }
+	        if(touching){
+	        	return true;
 	        }
 	        touching = true;
 	        //必须要复位,避免下次操作时累加
@@ -272,7 +276,7 @@ ComponentBase.prototype = {
 	                && 
 	                (Math.abs(info.ly - info.sy) < 5))
 	            {
-	                touching = false;
+	                touching = false;//console.log('111', callbacks.longTap);
 	                callbacks && callbacks.longTap && callbacks.longTap.call(obj, event, info); //长按
 	            }
 	        }, 200);
@@ -281,7 +285,7 @@ ComponentBase.prototype = {
 	  
 	    obj.addEventListener(TOUCHMOVE, function(event) {
 	        //确保是单指操作
-	        if(!touching) return false;
+	        if(!touching) return true;
 	        //event.preventDefault();//阻止触摸时浏览器的缩放、滚动条滚动
 	        info.nTime = new Date().getTime();
 	        var nowPos = getPos(event);
@@ -318,7 +322,7 @@ ComponentBase.prototype = {
 	    }, false);
 	  
 	    obj.addEventListener(TOUCHEND, function(event) {
-	        if(!touching) return false;
+	        if(!touching) return true;
 	        touching = false;
 	        clearTimeout(timer);
 	        info.eTime = new Date().getTime();
@@ -346,11 +350,15 @@ ComponentBase.prototype = {
 	    var x, y, scale, _this = this;
 	    this.touch(obj, {
 	        start:function(e, pos){
+	        	e.preventDefault();
+					e.stopPropagation();
 	            x = _this.cssTransform(obj, 'translateX');
 	            y = _this.cssTransform(obj, 'translateY');
 	            scale = _this.cssTransform(obj, 'scale');
 	        },
 	        move:function(e, pos){
+	        	e.preventDefault();
+					e.stopPropagation();
 	            _this.cssTransform(obj, 'translateX', x + (pos.lx - pos.sx)/scale);
 	            _this.cssTransform(obj, 'translateY', y + (pos.ly - pos.sy)/scale);
 	        }
@@ -639,7 +647,7 @@ ComponentBase.prototype = {
 	        move:function(event, info){
 	            event.stopPropagation();
 	        },
-	        up:function(event, info){
+	        up:function(event, info){return true;
 	        	var scrollT = this.scrollTop,
 	                scrollH = this.scrollHeight,
 	                clientH = this.clientHeight;
@@ -654,7 +662,7 @@ ComponentBase.prototype = {
 	                fn && fn.onBottom && fn.onBottom.call(this, offset);
 	            }
 	        },
-	        down:function(event, info){
+	        down:function(event, info){return true;
 	            var scrollT = this.scrollTop,
 	                scrollH = this.scrollHeight,
 	                clientH = this.clientHeight;
@@ -671,7 +679,7 @@ ComponentBase.prototype = {
 	                fn && fn.onTop && fn.onTop.call(this, offset);
 	            }
 	        },
-	        end:function(event, info){
+	        end:function(event, info){return true;
 	            if(el.isTop || el.isBottom){
 	                t = 0;
 	                b = startY + offset;
@@ -682,7 +690,7 @@ ComponentBase.prototype = {
 	                    var value = tween(t,b,c,d);//console.log(value, offset, d);
 	                    if(t == d){
 	                        clearInterval(this.timer);
-	                        //_this.cssTransform(el, 'translateY', startY);
+	                        _this.cssTransform(el, 'translateY', startY);
 	                        fn && fn.onComplete && fn.onComplete.call(this);
 	                    }else{
 	                        _this.cssTransform(el, 'translateY', value);

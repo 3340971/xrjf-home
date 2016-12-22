@@ -1,11 +1,12 @@
 'use strict';
 
 app
-.run([      '$location','$rootScope','$state','$stateParams','$http','$localStorage','zwUtils',
-    function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,  zwUtils){
+.run([  '$location','$rootScope','$state','$stateParams','$http','$localStorage','zwUtils',
+function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,  zwUtils){
     $rootScope.$state = $state;
     $rootScope.$storage = $localStorage;
     $rootScope.$stateParams = $stateParams;
+    var processingEl = angular.element('#processing')[0];
     $rootScope.stateCash = [];
     $rootScope.$on("$stateChangeSuccess",  function(event, toState, toParams, fromState, fromParams) {
         $rootScope.stateCash.push([toState.name, toParams]);
@@ -18,19 +19,27 @@ app
         $state.go(last[0], last[1]);  
     };
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        processingEl.style.display = 'block';console.log('stateChangeStart');
         if(toState.name.split('.')[0] != 'Access' && !$localStorage.Authorization){
             zwUtils.msg('error','未登录');
             event.preventDefault();//必须
             $state.go('Access.login');
             return false;
         }
-        $rootScope.loading = true;
     });
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+        processingEl.style.display = 'none';console.log('stateChangeSuccess');
+    });
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
+        processingEl.style.display = 'none';
+    });
+
+
     $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
+        processingEl.style.display = 'none';
         $state.go('Access.404');
     });
     $rootScope.$on('$viewContentLoaded', function(event){
-        $rootScope.loading = false;
         $(".J-validate").each(function(){
             $(this).validate({
                 submitHandler:function(form){
@@ -76,7 +85,7 @@ app
 				}else{
                     zwUtils.msg('success', response.data.message || '提交成功');
                     cb && cb(true, response.data.data, $form);
-                    route && $state.go(route);
+                    if(route && route != '') $state.go(route);
 				}
 			}, function(x) {
 				$rootScope.authError = 'Server Error';

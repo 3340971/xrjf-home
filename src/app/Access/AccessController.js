@@ -40,4 +40,8 @@ angular.module('zw201612')
   				$scope.list = response.data.data;
   			}
   		});
+
+  	$scope.activeToggle = function(e){
+  		angular.element(e.target).closest('li')[0].classList.toggle('active');
+  	}
 }]);

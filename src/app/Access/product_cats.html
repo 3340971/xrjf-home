@@ -9,16 +9,19 @@
     </div>
     <div class="weui-tab__panel" ng-controller="Access.product_cats">
 		<ul class="products">
-			<li ng-repeat="item in list track by item.cat_id">
+			<li ng-repeat="item in list track by item.cat_id" class="">
 				<div class="info">
 					<img src="">
-					<p>{{item.name}}</p>
+					<div class="desc">
+						<h5>{{item.name}}</h5>
+						<p>{{item.durations}}期</p>
+					</div>
 					<div class="action">
 						<button type="button" ui-sref="Workflow.apply({cat_id:item.cat_id, cat_name:item.name})">申请贷款</button><br>
-						<span class="detail" >详情 &nbsp;&nbsp;<i class="iconfont icon-xx"></i></span>
+						<span ng-click="activeToggle($event)">详情<!-- <i class="iconfont icon-xx"></i> --></span>
 					</div>
 				</div>
-				<article class="weui-article" ng-if="">
+				<article class="weui-article">
 		                <section>
 		                    <h3>产品详情介绍:</h3>
 		                    <p>

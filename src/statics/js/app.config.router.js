@@ -49,8 +49,14 @@ app
 		})
         .state('Customer.my_loan', {
             title:'我的贷款',
-            url: '/my_loan',
+            url: '/my_loan?status',
             templateUrl: tpl('app/Customer/my_loan.html'),
+            resolve:load(['app/Customer/CustomerController.js'])
+        })
+        .state('Customer.loan_detail', {
+            title:'贷款详情',
+            url: '/loan_detail?apply_id',
+            templateUrl: tpl('app/Customer/loan_detail.html'),
             resolve:load(['app/Customer/CustomerController.js'])
         })
         .state('Customer.file_cat', {
@@ -64,6 +70,18 @@ app
             url: '/file_upload',
             templateUrl: tpl('app/Customer/file_upload.html'),
             resolve:load(['app/Customer/CustomerController.js'])
+        })
+        .state('Customer.tongDun', {
+            title:'授权信息',
+            url: '/tongDun',
+            templateUrl: tpl('app/Customer/tongDun.html'),
+            resolve:load(['validate', 'app/Customer/CustomerController.js'])
+        })
+        .state('Customer.tongDunStage', {
+            title:'输入验证码',
+            url: '/tongDunStage?id',
+            templateUrl: tpl('app/Customer/tongDunStage.html'),
+            resolve:load(['validate', 'app/Customer/CustomerController.js'])
         })
         //工作流
         .state('Workflow', {

@@ -1,6 +1,10 @@
-<div id="header-top" >
+<div id="header-top" ng-switch on="$state.current.name">
 	<span class="left iconfont icon-xz" ng-click="back()"></span>
 	<span ng-bind="$state.current.title"></span>
-	<span class="right" ng-if="$storage.Authorization" ng-click="login_out($event)">退出</span>
-	<span class="right" ng-if="!$storage.Authorization && $state.current.name != 'Access.register'" ui-sref="Access.register">注册</span>
+	
+	
+	<span class="right" ng-switch-when="Access.register" ui-sref="Access.login">登录</span>
+	<span class="right" ng-switch-when="Access.login" ui-sref="Access.register">注册</span>
+	<span class="right" ng-switch-when="Customer.file_cat" ui-sref="Customer.tongDun">下一步</span>
+	<span class="right" ng-switch-default ng-click="login_out($event)">退出</span>
 </div>
