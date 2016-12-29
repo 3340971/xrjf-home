@@ -5,31 +5,51 @@
 </div>
 
 
-<form action="/index.php?m=ProxyCustomer&a=tongDun" class="J-validate" ng-controller="Customer.tongDun">
+<form  class="J-validate" ng-controller="Customer.tongDun">
 <div class="weui-cells weui-cells_form">
     <div class="weui-cells__tips">
-        提交您的手机信息进行验证，我们会收集您的身份、账单、通话信息等用于认证。运营商会发短信告知您，我们从网上营业厅查询过您的详单，这是认证您信息的正常过程。
+        提交您的手机信息进行验证，我们会收集您的身份、账单、通话信息等用于认证。运营商会发短信告知您，我们从网上营业厅查询过您的详单，这是认证您信息的正常过程。(授权过程需要1~5分钟,请耐心等候)
     </div>
     <br>
-    <div class="weui-cell">
+    <div class="weui-cell" ng-if="isLogin">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-mobile"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" name="customer[mobile]" ng-model="$storage.mobile" required digits ismobile readonly placeholder="请输入授权手机号"/>
+            <input class="weui-input" type="text" ng-model="$storage.mobile" required digits ismobile readonly placeholder="请输入授权手机号"/>
         </div>
     </div>
 
-    <div class="weui-cell">
+    <div class="weui-cell" ng-if="isLogin">
         <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="password" name="customer[mobile_pwd]" required placeholder="请输入手机服务密码" autocomplete="off" />
+            <input class="weui-input" type="password" ng-model="vars.server_pwd" required placeholder="请输入手机服务密码" autocomplete="off" />
+        </div>
+    </div>
+    
+    <div class="weui-cell" ng-if="sms_code_need">
+        <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" ng-model="vars.sms_code" required placeholder="请输入手机验证码" autocomplete="off" />
+        </div>
+    </div>
+
+    <div class="weui-cell weui-cell_vcode" ng-if="auth_code_need">
+        <div class="weui-cell__hd"><label class="weui-label iconfont icon-yanzhengma"></label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" ng-model="vars.auth_code" required placeholder="验证码" autocomplete="off"/>
+        </div>
+        <div class="weui-cell__ft">
+            <img class="weui-vcode-img" src="{{auth_code_src}}" />
         </div>
     </div>
 
 </div>
 
-<div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="submit($event,'', submitCf)">提交</a>
-    <!-- <a ui-sref="Access.login" class="weui-btn weui-btn_disabled weui-btn_default">已登记过,前往登录.</a> -->
+<div class="weui-btn-area" ng-if="!isSuccess">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="login()"  ng-if="isLogin">提交</a>
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="next()"  ng-if="!isLogin">下一步</a>
+</div>
+<div class="weui-btn-area" ng-if="isSuccess">
+    <a class="weui-btn weui-btn_disabled weui-btn_default" href="javascript:void(0);" ng-if="isLogin">已完成</a>
 </div>
 </form>
 

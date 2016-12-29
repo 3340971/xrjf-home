@@ -128,7 +128,7 @@
     </div>
 
     <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label">备注</label></div>
+        <div class="weui-cell__hd"><label class="weui-label">备注</label></div>{{console.log(contract)}}
         <div class="weui-cell__bd" >
             <textarea class="weui-textarea" readonly ng-model="contract.process_memo" rows="4" style="line-height: 1.5;"></textarea>
         </div>
@@ -136,8 +136,12 @@
 
 </div>
 
-<div class="weui-btn-area">
+<div class="weui-btn-area" ng-if="(contract.apply_status==1)">
     <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id})">补充资料</a>
+</div>
+
+<div class="weui-btn-area" ng-if="(contract.apply_status==8)">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.loan_audit({apply_id:apply_id})">查看还款情况</a>
 </div>
 
 </div>

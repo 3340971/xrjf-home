@@ -540,7 +540,7 @@ angular.module('zw.utils',[])
 	this.msg = function(type,text,fn,time){
 		time = time || 3000;
 		fn = fn || function(){}; 
-		var types={'error':'#ff7676','success':'#fff','info':'#557755'};
+		var types={'error':'#ff7676','success':'#fff','info':'#fff'};
 		var tpl='<div id="app-msg"><span></span></div>';
 		if($('#app-msg span', window.top.document.body).length < 1){
 		    	$(window.top.document.body).append(tpl);

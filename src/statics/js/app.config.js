@@ -19,7 +19,7 @@ function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,
         $state.go(last[0], last[1]);  
     };
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-        processingEl.style.display = 'block';console.log('stateChangeStart');
+        processingEl.style.display = 'block';
         if(toState.name.split('.')[0] != 'Access' && !$localStorage.Authorization){
             zwUtils.msg('error','未登录');
             event.preventDefault();//必须
@@ -28,7 +28,7 @@ function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,
         }
     });
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-        processingEl.style.display = 'none';console.log('stateChangeSuccess');
+        processingEl.style.display = 'none';
     });
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
         processingEl.style.display = 'none';
@@ -37,7 +37,7 @@ function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,
 
     $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
         processingEl.style.display = 'none';
-        $state.go('Access.404');
+        $state.go('404');
     });
     $rootScope.$on('$viewContentLoaded', function(event){
         $(".J-validate").each(function(){

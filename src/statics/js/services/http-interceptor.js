@@ -7,7 +7,6 @@ angular.module('http.interceptor',[])
         //if($localStorage.Authorization){
           config.headers['Authorization'] = $localStorage.Authorization || 'ProxyCustomer_';
         //}
-        console.log(config.headers);
         config.transformRequest.push(function(data) {
               //把JSON数据转换成字符串形式
               return typeof data == 'string' ? data : zwUtils.http_build_query(data);
@@ -15,6 +14,7 @@ angular.module('http.interceptor',[])
         return config;
     },
     response: function(response) {
+        document.cookie = null;
         var deferred = $q.defer();
         if(response.data.code == 401){
           $rootScope.$emit("userIntercepted","notLogin",response);

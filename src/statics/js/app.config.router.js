@@ -6,15 +6,20 @@ app
 	function($stateProvider,   $urlRouterProvider,   JQ_CONFIG,   MODULE_CONFIG){
 	$urlRouterProvider.otherwise('/Access/product_cats');
 	$stateProvider
+        .state('success', {
+            title:'Success',
+            url: '/success',
+            templateUrl: tpl("app/Access/success.html")
+        })
+        .state('404', {
+            title:'404 Err',
+            url: '/404',
+            templateUrl: tpl('app/Access/404.html')
+        })
         .state('Access', {
             abstract: true,
             url: '/Access',
             templateUrl: tpl("app/layout.html") //layout
-        })
-        .state('Access.404', {
-            title:'404 Err',
-            url: '/404',
-            templateUrl: tpl('app/Access/404.html')
         })
         .state('Access.register', {
             title:'客户注册',
@@ -57,6 +62,18 @@ app
             title:'贷款详情',
             url: '/loan_detail?apply_id',
             templateUrl: tpl('app/Customer/loan_detail.html'),
+            resolve:load(['app/Customer/CustomerController.js'])
+        })
+        .state('Customer.loan_plan', {
+            title:'还款计划',
+            url: '/loan_plan?apply_id',
+            templateUrl: tpl('app/Customer/loan_plan.html'),
+            resolve:load(['app/Customer/CustomerController.js'])
+        })
+        .state('Customer.loan_audit', {
+            title:'还款情况',
+            url: '/loan_audit?apply_id',
+            templateUrl: tpl('app/Customer/loan_audit.html'),
             resolve:load(['app/Customer/CustomerController.js'])
         })
         .state('Customer.file_cat', {

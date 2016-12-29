@@ -1,0 +1,33 @@
+<div class="weui-tab" ng-controller="Customer.loan_audit">
+    <div class="weui-navbar">
+        <div class="weui-navbar__item" ui-sref="Customer.loan_audit({apply_id:apply_id})" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.loan_audit'}">
+            还款情况
+        </div>
+        <div class="weui-navbar__item" ui-sref="Customer.loan_plan({apply_id:apply_id})" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.loan_plan'}">
+            还款计划
+        </div>
+    </div>
+    <div class="weui-tab__panel">
+		<table class="table-zebra">
+			<thead>
+				<tr>
+					<th>期数</th>
+					<th>还款日期</th>
+					<th>还款金额</th>
+					<th>还款方式</th>
+					<th>状态</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr >
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+    </div>
+</div>
+

@@ -421,6 +421,10 @@ a {
       color: #1b82d2;
       font-size: 1.4rem; }
 
+.weui-tab .weui-navbar {
+  position: fixed;
+  top: 4.4rem; }
+
 /* layout */
 .pages {
   box-sizing: border-box;

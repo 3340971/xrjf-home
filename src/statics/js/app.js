@@ -6,5 +6,6 @@ var app = angular.module('zw201612',[
 	'ngStorage',
 	'http.interceptor',
 	'zw.utils',
+	'zw.tongdun',
 	'zw.filter'
 ]);
