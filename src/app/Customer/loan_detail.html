@@ -27,7 +27,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">婚姻状况</label></div>
         <div class="weui-cell__bd">
-            <select class="weui-input" readonly ng-model="customer.marriage">
+            <select class="weui-input" readonly disabled ng-model="customer.marriage">
               <option>--请选择--</option>
               <option value="6">已婚</option>
               <option value="7">未婚</option>
@@ -138,6 +138,10 @@
 
 <div class="weui-btn-area" ng-if="(contract.apply_status==1)">
     <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id})">补充资料</a>
+</div>
+
+<div class="weui-btn-area" ng-if="(contract.apply_status==3)">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="sign()" >在线签约</a>
 </div>
 
 <div class="weui-btn-area" ng-if="(contract.apply_status==8)">

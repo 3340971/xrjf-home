@@ -37,6 +37,28 @@ angular.module('zw201612')
 		            }
     			}
     	});
+    //在线签约
+    $scope.sign = function(){
+    	var id = $scope.contract.proxy_contract_id;
+    	var back_url = G.host + G.public + '#/Customer/loan_detail';
+    	var next_url = '/index.php?m=ProxyFdd&a=sign&contract_id='+id+'&back_url='+zwUtils.urlencode(back_url);
+    	function step(url){
+    		$http.get(url)
+    			.then(function(response){
+    				if(response.data.code){
+    					zwUtils.msg('success', response.data.message);
+    					if(!response.data.data.step_end){
+    						step(response.data.data.next_url);
+    					}else{
+    						window.location.href = response.data.data.next_url;
+    					}
+    				}else{
+    					zwUtils.msg('error', response.data.message);
+    				}
+    			});
+    	}
+    	step(next_url);
+    }
 })
 
 

@@ -12,7 +12,7 @@ app
 			var server = attrs.server;///index.php?m=file&a=proxy_add_contract
 
 			var deferred = $q.defer();
-			if(typeof componentLinkage == 'undefined'){
+			if(typeof componentPhotos == 'undefined'){
 				$ocLazyLoad.load([
 					G.public + 'statics/js/component/photos/componentPhotos.js?v='+G.version,
 					G.public + 'statics/js/component/photos/componentPhotos.css?v='+G.version
