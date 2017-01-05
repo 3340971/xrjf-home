@@ -11,7 +11,7 @@
 	<meta name="browsermode" content="application">
 	<meta name="x5-page-mode" content="app">
 	<title ng-bind="title"></title>
-	<base href="/xrjf-home/src/">
+	<base href="/Public/webapp/">
     <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css">
     <link rel="stylesheet" type="text/css" href="statics/styles/app.css">
 	<script type="text/javascript" src="statics/js/vconsole.min.js"></script>
@@ -40,36 +40,14 @@
 
 <script>
 window.G = window.G  || {};
-G.version = '1.0.1' + new Date().getTime();
-G.host = 'http://192.168.1.36';
-G.public = '/xrjf-home/src/';
+G.version = '1.0.1';
+G.host = window.location.protocol + '//' + window.location.host;
+G.public = '/Public/webapp/';
 G.links = [
     //'libs/weui/dist/style/weui.min.css',
     'statics/styles/iconfont.css'
 ];
 G.scripts = [
-	// "libs/jquery/jquery/dist/jquery.js",
- //    "libs/angular/angular/angular.js",
- //    "libs/angular/angular-animate/angular-animate.js",
- //    "libs/angular/angular-ui-router/release/angular-ui-router.js",
- //    "libs/angular/ngstorage/ngStorage.js",
- //    "libs/angular/oclazyload/dist/ocLazyLoad.js",
- //    "libs/fastclick.js",
- //    "statics/js/component/ComponentBase.js",
- //    "statics/js/app.js",
- //    "statics/js/services/zw-utils.js",
- //    "statics/js/services/http-interceptor.js",
- //    "statics/js/filters/zw-filter.js",
- //    "statics/js/app.config.js",
- //    "statics/js/app.config.lazyload.js",
- //    "statics/js/app.config.router.js",
- //    "statics/js/directives/img-verify.js",
- //    "statics/js/directives/zw-linkage.js",
- //    "statics/js/directives/zw-photos.js",
- //    "statics/js/main.js"
-
-
-
 	"libs/jquery/jquery/dist/jquery.min.js",
     "libs/angular/angular/angular.min.js",
     "libs/angular/angular-animate/angular-animate.min.js",

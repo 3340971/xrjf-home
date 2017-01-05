@@ -7,6 +7,9 @@ angular.module('http.interceptor',[])
         //if($localStorage.Authorization){
           config.headers['Authorization'] = $localStorage.Authorization || 'ProxyCustomer_';
         //}
+        if(config.url.indexOf('index.php') > 0){
+          config.url += '&__JWT__=' + ($localStorage.Authorization || 'ProxyCustomer_');
+        }
         config.transformRequest.push(function(data) {
               //把JSON数据转换成字符串形式
               return typeof data == 'string' ? data : zwUtils.http_build_query(data);
