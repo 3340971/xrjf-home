@@ -5,7 +5,7 @@
 			<p>{{cat.name}}</p>
 			<div class="action">
 				<button type="button" class="const_bg_{{cat.const_id}}" 
-				zw-photos files="{{cat.files}}" contractid="{{id}}" catid="{{cat.const_id}}" server="/index.php?m=file&a=proxy_add_contract" title="{{cat.name}}" 
+				zw-photos files="{{cat.files}}" upload="{{allowUpload}}" contractid="{{id}}" catid="{{cat.const_id}}" server="/index.php?m=file&a=proxy_add_contract" title="{{cat.name}}" 
 				>已上传 <span ng-bind="cat.files.length"></span><em class="const_blc_{{cat.const_id}}"></em></button>
 			</div>
 		</div>

@@ -28,7 +28,7 @@
                     <div class="weui-cell__hd"><label class="weui-label">贷款期限</label></div>
                     <div class="weui-cell__bd">
                         <select class="weui-select" name="contract[product_id]" ng-model="$storage.product_id">
-                            <option ng-repeat="(id,duration) in products track by id" value="{{id}}">{{duration}}个月</option>
+                            <option ng-repeat="(id,duration) in cat.products track by id" value="{{id}}">{{duration}}个月</option>
                         </select>
                     </div>
                 </div>

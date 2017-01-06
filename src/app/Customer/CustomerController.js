@@ -90,6 +90,7 @@ angular.module('zw201612')
 
 .controller('Customer.file_cat', function($scope ,  $http ,  $state, $stateParams, zwUtils){
 	var apply_id = $stateParams.apply_id;
+	$scope.allowUpload = $stateParams.allow;
 	$http.get('/index.php?m=ProxyCustomer&a=getLoginCustomerFiles&apply_id=' + apply_id)
 		.then(function(response){
 			if(response.data.code){

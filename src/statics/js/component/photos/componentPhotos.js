@@ -13,6 +13,7 @@
         	imgs:[],
         	title:'相册',
         	cols:3,//3列
+        	allowUpload:false,//是否允许上传
         	parentNode : document.body //挂载点
         };
         if(!this.conf.parentNode) this.conf.parentNode = document.body;
@@ -84,7 +85,8 @@
 		_this._init();
 		//文件上传
 		this.cUpload = null;
-		this.loadStatics([
+		!this.conf.allowUpload && (this.uploadBtn.style.display = 'none');
+		this.conf.allowUpload && this.loadStatics([
 							this.conf.componentsUri + 'upload/componentUpload.js'
 						], 
 						function(loadedNum, rate){
@@ -132,7 +134,7 @@
 			
 			this.createLi(this.conf.imgs.length > 15 ? 200 : this.conf.imgs.length);
 			//显示删除按钮
-			this.touch(this.ulEl, {longTap:function(e){
+			this.conf.allowUpload && this.touch(this.ulEl, {longTap:function(e){
 				if(e.target.nodeName.toLowerCase() == 'canvas'){
 					var li  = e.target.parentNode,
 						del = li.querySelector('.delete');
@@ -164,7 +166,7 @@
 			}});
 			
 			//点击删除按钮
-			this.touch(this.ulEl, {tap:function(e){
+			this.conf.allowUpload && this.touch(this.ulEl, {tap:function(e){
 				if(e.target.classList.contains('delete')){
 					var del = e.target,
 						li  = e.target.parentNode;

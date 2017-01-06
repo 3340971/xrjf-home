@@ -11,7 +11,8 @@ angular.module('zw201612')
   	$http.get('/index.php?m=ProxyAccess&a=getProducts&cat_id=' + cat_id)
   		.then(function(response){
   			if(response.data.code){
-  				$scope.products = response.data.data;
+  				$scope.cat = response.data.data;
+          $localStorage.wg = $scope.cat.wg;
   			}
   		});
     $scope.next = function(){
@@ -20,6 +21,9 @@ angular.module('zw201612')
       }
       if(!$localStorage.product_id){
         zwUtils.msg('error', '请选择贷款期限'); return false;
+      }
+      if(!$localStorage.wg){
+        zwUtils.msg('error', '流程组丢失'); return false;
       }
       $state.go('Workflow.add_customer');
     }
@@ -30,6 +34,7 @@ angular.module('zw201612')
       if(re){
         delete $localStorage.apply_price;
         delete $localStorage.product_id;
+        delete $localStorage.wg;
         $state.go('Customer.file_cat', {apply_id:data.apply_id});
       }
     }

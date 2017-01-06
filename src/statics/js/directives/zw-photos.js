@@ -6,6 +6,7 @@ app
 		link:function(scope, element, attrs){
 			//相册数据
 			var imgs  = eval(attrs.files);
+			var allowUpload  = attrs.upload === 'true' ? true : false;
 			var title = attrs.title;
 			var cat_id = attrs.catid;
 			var contract_id = attrs.contractid;
@@ -37,6 +38,7 @@ app
 									animateOut:{transform:'scale3d(0,0,1)'},
 									parentNode:false,
 									cols:3,
+									allowUpload:allowUpload,
 									//设定单个文件大小
 						            fileSingleSizeLimit: 4 * 1024 * 1024,
 						            fileSizeLimit: 50 * 1024 * 1024,//[默认值：undefined] 验证文件总大小是否超出限制, 超出则不允许加入队列

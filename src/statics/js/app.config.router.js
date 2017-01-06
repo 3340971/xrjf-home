@@ -60,8 +60,20 @@ app
         })
         .state('Customer.loan_detail', {
             title:'贷款详情',
-            url: '/loan_detail?apply_id',
-            templateUrl: tpl('app/Customer/loan_detail.html'),
+            url: '/loan_detail?apply_id&wg',
+            templateProvider:function($stateParams, $templateCache, $http, zwUtils){
+                var url = tpl('app/Customer/loan_detail/' + $stateParams.wg + '.html');
+                return $http.get(url, {cache: $templateCache}).then(function(response){
+                    return response.data;
+                },function(response){
+                    if(response.status == 404){
+                        zwUtils.msg('error', '模板不存在');
+                    }else{
+                        zwUtils.msg('error', '未知模板错误');
+                    }
+                    return false;
+                });
+            },
             resolve:load(['app/Customer/CustomerController.js'])
         })
         .state('Customer.loan_plan', {
@@ -78,7 +90,7 @@ app
         })
         .state('Customer.file_cat', {
             title:'客户资料',
-            url: '/file_cat?apply_id',
+            url: '/file_cat?apply_id&allow',
             templateUrl: tpl('app/Customer/file_cat.html'),
             resolve:load(['app/Customer/CustomerController.js'])
         })
@@ -115,7 +127,19 @@ app
         .state('Workflow.add_customer', {
             title:'基本信息',
             url: '/add_customer',
-            templateUrl: tpl('app/Workflow/add_customer.html'),
+            templateProvider:function($localStorage, $templateCache, $http, zwUtils){
+                var url = tpl('app/Workflow/add_customer/' + $localStorage.wg + '.html');
+                return $http.get(url, {cache: $templateCache}).then(function(response){
+                    return response.data;
+                },function(response){
+                    if(response.status == 404){
+                        zwUtils.msg('error', '模板不存在');
+                    }else{
+                        zwUtils.msg('error', '未知模板错误');
+                    }
+                    return false;
+                });
+            },
             resolve:load(['validate', 'app/Workflow/WorkflowController.js'])
         });
 

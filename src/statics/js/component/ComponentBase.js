@@ -118,56 +118,7 @@ ComponentBase.prototype = {
 		this.component.trigger('onLeave');
 	},
 	//公共方法
-	loadStatics:function(files, callback, version){
-	    var ext   = '?v=' + (version || this.conf.version),
-	        loads = [],
-	        type;
-	    for(var i in files){
-	        if(files[i].indexOf('.css') > 0){
-	            type = 'css';
-	        }else if(files[i].indexOf('.js') > 0){
-	            type = 'js';
-	        }else{
-	            continue;
-	        }
-	        loads.push({src:files[i] + ext, type:type});
-	    }
-	    var total     = loads.length,//待加载的文件总数
-	        loadedNum = 0,//已加载的文件数
-	        rate      = 0,//加载进度
-	        head      = document.getElementsByTagName('head')[0];
-	    
-	    var loadFiles = function(files){
-	        if(files.length == 0){
-	            return false;
-	        }
-	        var file = files.shift();
-	        var el;
-	        if(file.type == 'js'){
-	            el = document.createElement('script');
-	            el.type = 'text/javascript';
-	            el.src = file.src;
-	        }else{
-	            el = document.createElement('link');
-	            el.type = 'text/css';
-	            el.rel = 'stylesheet';
-	            el.href = file.src;
-	        }
-	        el.onload = el.onreadystatechange = function(){
-	            if((!this.readyState || this.readyState === "loaded" || this.readyState === "complete")){
-	                loadedNum++;
-	                rate = parseInt(loadedNum/total*100);
-	                callback(loadedNum, rate);
-	                //console.log('加载完毕:', this.src || this.href);
-	                //加载下一个文件,这里实现了文件一个个顺序加载,上一个加载完成才会head.appendChild下一个元素
-	                loadFiles(files);
-	                el.onload = el.onreadystatechange = null;//清除事件
-	            }
-	        }
-	        head.appendChild( el );
-	    }
-	    loadFiles(loads);
-	},
+	loadStatics:function(a,l,e){var b="?v="+(e||this.conf.version),m=[],g;for(var c in a){if(a[c].indexOf(".css")>0){g="css"}else{if(a[c].indexOf(".js")>0){g="js"}else{continue}}m.push({src:a[c]+b,type:g})}var j=m.length,f=0,d=0,h=document.getElementsByTagName("head")[0];var k=function(o){if(o.length==0){return false}var i=o.shift();var n;if(i.type=="js"){n=document.createElement("script");n.type="text/javascript";n.src=i.src}else{n=document.createElement("link");n.type="text/css";n.rel="stylesheet";n.href=i.src}n.onload=n.onreadystatechange=function(){if((!this.readyState||this.readyState==="loaded"||this.readyState==="complete")){f++;d=parseInt(f/j*100);l(f,d);k(o);n.onload=n.onreadystatechange=null}};h.appendChild(n)};k(m)},
 	getDistance:function (p1, p2) {
 		var x = p1.pageX - p2.pageX;
 		var y = p1.pageY - p2.pageY;
