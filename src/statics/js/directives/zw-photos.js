@@ -1,3 +1,4 @@
+//张伟
 app
 .directive('zwPhotos', function($rootScope, $q, $ocLazyLoad, $localStorage, $http){
 	return {

@@ -1,0 +1,19 @@
+<div class="weui-btn-area" ng-if="(contract.apply_status==1)">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id,allow:'true'})">补充资料</a>
+</div>
+
+<div class="weui-btn-area" ng-if="(contract.apply_status!=1)">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id})">查看资料</a>
+</div>
+
+<div class="weui-btn-area" ng-if="!mobileIsCheck">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.tongDun">运营商验证</a>
+</div>
+
+<div class="weui-btn-area" ng-if="(contract.apply_status==3)">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="sign()" >在线签约</a>
+</div>
+
+<div class="weui-btn-area" ng-if="(contract.apply_status==8)">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.loan_audit({apply_id:apply_id})">查看还款情况</a>
+</div>

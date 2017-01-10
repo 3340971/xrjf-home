@@ -11,7 +11,7 @@
 	<meta name="browsermode" content="application">
 	<meta name="x5-page-mode" content="app">
 	<title ng-bind="title"></title>
-	<base href="/Public/webapp/">
+	<base href="/xrjf-home/src/">
     <link rel="stylesheet" type="text/css" href="libs/weui/dist/style/weui.min.css">
     <link rel="stylesheet" type="text/css" href="statics/styles/app.css">
 	<script type="text/javascript" src="statics/js/vconsole.min.js"></script>
@@ -42,7 +42,7 @@
 window.G = window.G  || {};
 G.version = '1.0.1' + new Date().getTime();
 G.host = window.location.protocol + '//' + window.location.host;
-G.public = '/Public/webapp/';
+G.public = '/xrjf-home/src/';
 G.links = [
     //'libs/weui/dist/style/weui.min.css',
     'statics/styles/iconfont.css'
@@ -67,6 +67,7 @@ G.scripts = [
     "statics/js/directives/img-verify.js",
     "statics/js/directives/zw-linkage.js",
     "statics/js/directives/zw-photos.js",
+    "statics/js/directives/zw-const.js",
     "statics/js/main.js"
 ];
 

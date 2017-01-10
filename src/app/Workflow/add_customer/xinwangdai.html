@@ -1,0 +1,174 @@
+<form action="/index.php?m=ProxyWorkflow&a=add_customer" class="J-validate" ng-controller="Workflow.add_customer">
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">基本信息:</label></div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="customer[name]" required zhrangelength="[2,4]" placeholder="姓名" ng-model="customer.name"/>
+            <input class="weui-input" type="hidden" name="customer[proxy_customer_id]" required value="{{$storage.customer_id}}"/>
+            <input class="weui-input" type="hidden" name="contract[apply_price]" required value="{{$storage.apply_price}}"/>
+            <input class="weui-input" type="hidden" name="contract[product_id]" required value="{{$storage.product_id}}"/>
+
+            <input class="weui-input" type="hidden" name="submitlx" required value="2"/>
+
+            <input class="weui-input" type="text" name="apply_id" ng-model="apply_id" style="display: none;" />
+            <input class="weui-input" type="text" name="contract[proxy_contract_id]" ng-model="contract.proxy_contract_id" style="display: none;"/>
+
+            <input class="weui-input" type="hidden" name="process[status]" required value="pass"/>
+        </div>
+    </div>
+    
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <label class="weui-label">身份证号</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="customer[idcard]" required isidcardno placeholder="必填" ng-model="customer.idcard">
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="customer[mobile]" ng-model="$storage.mobile" required digits ismobile readonly placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">邮箱</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="email" name="customer[email]" ng-model="customer.email" required readonly placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell x2">
+        <div class="weui-cell__hd"><label class="weui-label">现住地址</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly="true" required  placeholder="必填,点击选择地址" zw-linkage 
+            fields='{"customer[live_address_province]":"省份","customer[live_address_city]":"城市","customer[live_address_county]":"区县"}'
+            typekey="city"
+            ng-model="customer.live_addr"
+            />
+            <input class="weui-input" type="text" name="customer[live_address]" ng-model="customer.live_address" required placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">学历</label></div>
+        <div class="weui-cell__bd">
+            <zw-const name="customer[education]" const-type="EDUCATION" disabled="false" my-model="customer.education" class="weui-input" exts="required"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">子女数</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" name="customer[child_number]" ng-model="customer.child_number" required digits readonly placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">住宅类型</label></div>
+        <div class="weui-cell__bd">
+            <zw-const name="customer[estate_status]" const-type="ESTATE" disabled="false" my-model="customer.estate_status" class="weui-input" exts="required"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">婚姻状况</label></div>
+        <div class="weui-cell__bd">
+            <zw-const name="customer[marriage]" const-type="MARRIAGE" disabled="false" my-model="customer.marriage" class="weui-input" exts="required"/>
+        </div>
+    </div>
+    <br>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">工作信息:</label></div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">单位性质</label></div>
+        <div class="weui-cell__bd">
+            <zw-const name="profession[company_type]" const-type="UNIT_NATURE" disabled="false" my-model="profession.company_type" class="weui-input" exts="required"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">所属职务</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="profession[work_title]" ng-model="profession.work_title" required readonly placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">家庭月收入</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" name="profession[salary]" ng-model="profession.salary" required digits readonly placeholder="必填"/>
+        </div>
+    </div>
+    
+    <div class="weui-cell">
+        <input class="weui-input" type="text" name="customer_profession[proxy_customer_profession_id]" ng-model="profession.proxy_customer_profession_id" style="display: none;"/>
+
+        <div class="weui-cell__hd"><label class="weui-label">单位名称</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="customer_profession[company_name]"  ng-model="profession.company_name" required placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">单位座机</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="tel" name="customer_profession[company_tel_zone]" ng-model="profession.company_tel_zone"  required digits maxlength="4" placeholder="区号(必填)" style="width:25%;border-right: 1px solid #ccc;" />
+            <input class="weui-input" type="tel" name="customer_profession[company_tel]" ng-model="profession.company_tel"  required digits maxlength="8" placeholder="号码(必填)" style="width:70%;"/>
+        </div>
+    </div>
+
+    <div class="weui-cell x2">
+        <div class="weui-cell__hd"><label class="weui-label">单位地址</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" readonly="true"  placeholder="必填,点击选择地址" zw-linkage 
+            fields='{"customer_profession[company_address_province]":"省份","customer_profession[company_address_city]":"城市","customer_profession[company_address_county]":"区县"}'
+            typekey="city"
+            ng-model="profession.company_addr"
+            />
+            <input class="weui-input" type="text" name="customer_profession[company_address]" ng-model="profession.company_address" required placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">放款账户:</label></div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">银行账户户名</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="contract[card_owner_name]" ng-model="contract.card_owner_name" required digits placeholder="必填"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">银行开户行</label></div>
+        <div class="weui-cell__bd">
+            <zw-const name="contract[bank_category_name]" const-type="PROXY_BANKS" disabled="false" my-model="contract.bank_category_name" class="weui-input" exts="required"/>
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">银行账号</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="text" name="contract[card_number]" ng-model="contract.card_number" required digits placeholder="必填"/>
+        </div>
+    </div>
+
+</div>
+
+<div class="weui-btn-area">
+    <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ng-click="submit($event,'',submitCf)">下一步</a>
+    <!-- <a ui-sref="Access.login" class="weui-btn weui-btn_disabled weui-btn_default">已登记过,前往登录.</a> -->
+</div>
+</form>
+
+

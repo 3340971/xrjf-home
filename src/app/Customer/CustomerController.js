@@ -17,7 +17,7 @@ angular.module('zw201612')
 })
 
 
-.controller('Customer.loan_detail', function($scope , $rootScope,  $http ,  $state, $stateParams, $localStorage, zwUtils){
+.controller('Customer.loan_detail', function($scope , $rootScope,  $http ,  $state, $stateParams, $localStorage, zwUtils, zwTongdun){
 	$rootScope.backState = 'Customer.my_loan';
 	$scope.apply_id = $stateParams.apply_id;
   	$http.get('/index.php?m=ProxyCustomer&a=getLoginCustomerApply&apply_id=' + $scope.apply_id)
@@ -58,7 +58,11 @@ angular.module('zw201612')
     			});
     	}
     	step(next_url);
-    }
+    };
+    //是否已经运营商验证
+    zwTongdun.isCheck($localStorage.mobile, function(code, msg, data){
+    	$scope.mobileIsCheck = code;
+    });
 })
 
 

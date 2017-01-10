@@ -239,11 +239,14 @@ a{
 		display:block;
 		&:before{
 			left:0;
+			border:none;
 		}
 		&:after{
 			content:" ";
 			display:table;
 			clear: both;
+			width:100%;
+			border-top: 1px solid #d9d9d9;
 		}
 		&.x2{
 			height:8.8rem;
@@ -262,6 +265,8 @@ a{
 				text-align:center;
 				color:#808080;
 				width:100%;
+				overflow:hidden;
+				white-space:nowrap;
 				&.iconfont{
 					font-size:1.8rem;
 				}

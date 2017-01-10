@@ -1,3 +1,4 @@
+//张伟
 app
 .directive('imgVerify', function($rootScope){
 	return {

@@ -66,6 +66,13 @@ angular.module('zw.tongdun',[])
 							fn(vars[0],vars[1],vars[2]);
 						});
 				});
+		},
+		isCheck:function(mobile, fn){
+			var url = '/index.php?m=ProxyCustomer&a=tongDunIsCheck';
+			$http.post(url, "mobile="+mobile)
+				.then(function(response) {
+					fn(response.data.code, response.data.message, response.data.data);
+				});
 		}
 	};
 
