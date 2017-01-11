@@ -27,14 +27,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">婚姻状况</label></div>
         <div class="weui-cell__bd">
-            <select class="weui-input" readonly disabled ng-model="customer.marriage">
-              <option>--请选择--</option>
-              <option value="6">已婚</option>
-              <option value="7">未婚</option>
-              <option value="82">离异</option>
-              <option value="83">丧偶</option>
-              <option value="84">再婚</option>
-            </select>
+            <zw-const const-type="MARRIAGE" disabled my-model="customer.marriage" class="weui-input" required/>
         </div>
     </div>
     <div class="weui-cell x2">

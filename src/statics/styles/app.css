@@ -408,7 +408,8 @@ a {
         color: #808080;
         width: 100%;
         overflow: hidden;
-        white-space: nowrap; }
+        white-space: nowrap;
+        font-size: 1.2rem; }
         .weui-cells .weui-cell .weui-cell__hd .weui-label.iconfont {
           font-size: 1.8rem; }
     .weui-cells .weui-cell.weui-cell_warn .weui-label {

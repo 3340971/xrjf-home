@@ -1,19 +1,23 @@
 <form action="/index.php?m=ProxyWorkflow&a=add_customer" class="J-validate" ng-controller="Workflow.add_customer">
 <div class="weui-cells weui-cells_form">
+
+    <input class="weui-input" type="hidden" name="customer[proxy_customer_id]" required value="{{$storage.customer_id}}"/>
+    <input class="weui-input" type="hidden" name="contract[apply_price]" required value="{{$storage.apply_price}}"/>
+    <input class="weui-input" type="hidden" name="contract[product_id]" required value="{{$storage.product_id}}"/>
+
+    <input class="weui-input" type="hidden" name="submitlx" required value="2"/>
+
+    <input class="weui-input" type="text" name="apply_id" ng-model="apply_id" style="display: none;" />
+    <input class="weui-input" type="text" name="contract[proxy_contract_id]" ng-model="contract.proxy_contract_id" style="display: none;"/>
+    <input class="weui-input" type="hidden" name="process[status]" required value="pass"/>
+
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="text" name="customer[name]" required zhrangelength="[2,4]" placeholder="姓名" ng-model="customer.name"/>
-            <input class="weui-input" type="hidden" name="customer[proxy_customer_id]" required value="{{$storage.customer_id}}"/>
-            <input class="weui-input" type="hidden" name="contract[apply_price]" required value="{{$storage.apply_price}}"/>
-            <input class="weui-input" type="hidden" name="contract[product_id]" required value="{{$storage.product_id}}"/>
-
-            <input class="weui-input" type="hidden" name="submitlx" required value="2"/>
-
-            <input class="weui-input" type="text" name="apply_id" ng-model="apply_id" style="display: none;" />
-            <input class="weui-input" type="text" name="contract[proxy_contract_id]" ng-model="contract.proxy_contract_id" style="display: none;"/>
-
-            <input class="weui-input" type="hidden" name="process[status]" required value="pass"/>
+        <div class="weui-cell__bd" ng-if="customer.name.indexOf('空')!=-1">
+            <input class="weui-input" type="text" name="customer[name]" required zhrangelength="[2,4]" placeholder="姓名"/>
+        </div>
+        <div class="weui-cell__bd" ng-if="customer.name.indexOf('空')==-1">
+            <input class="weui-input" type="text" readonly ng-model="customer.name"/>
         </div>
     </div>
     
@@ -21,8 +25,11 @@
         <div class="weui-cell__hd">
             <label class="weui-label">身份证号</label>
         </div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="text" name="customer[idcard]" required isidcardno placeholder="必填" ng-model="customer.idcard">
+        <div class="weui-cell__bd" ng-if="customer.idcard.indexOf('空')!=-1">
+            <input class="weui-input" type="text" name="customer[idcard]" required isidcardno placeholder="必填">
+        </div>
+        <div class="weui-cell__bd" ng-if="customer.idcard.indexOf('空')==-1">
+            <input class="weui-input" type="text" readonly ng-model="customer.idcard">
         </div>
     </div>
 
@@ -36,14 +43,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">婚姻状况</label></div>
         <div class="weui-cell__bd">
-            <select class="weui-input" name="customer[marriage]" required ng-model="customer.marriage">
-              <option>--请选择--</option>
-              <option value="6">已婚</option>
-              <option value="7">未婚</option>
-              <option value="82">离异</option>
-              <option value="83">丧偶</option>
-              <option value="84">再婚</option>
-            </select>
+            <zw-const name="customer[marriage]" const-type="MARRIAGE" my-model="customer.marriage" class="weui-input" required/>
         </div>
     </div>
     <div class="weui-cell x2">
