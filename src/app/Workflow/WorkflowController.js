@@ -35,7 +35,7 @@ angular.module('zw201612')
         delete $localStorage.apply_price;
         delete $localStorage.product_id;
         delete $localStorage.wg;
-        $state.go('Customer.file_cat', {apply_id:data.apply_id});
+        $state.go('Customer.file_cat', {apply_id:data.apply_id, allow:'true'});
       }
     }
   	$http.get('/index.php?m=ProxyCustomer&a=getLoginCustomerApply')
@@ -55,4 +55,15 @@ angular.module('zw201612')
             }
     			}
     		});
+    $http.get('/index.php?m=ProxyAccess&a=getCurrDc')
+        .then(function(response){
+          var dcode = response.data.data.dcode;
+          if(dcode < 1){
+            zwUtils.msg('error', '部门异常', function(){
+              $state.go('Access.product_cats');
+            });
+          }else{
+            $scope.dcode = dcode;
+          }
+        });
 });

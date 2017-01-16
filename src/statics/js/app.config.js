@@ -13,6 +13,16 @@ function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,
         $rootScope.title = '星融金服' + (toState.title ? ('-'+toState.title) : '');
     });  
     $rootScope.back = function() {
+        if(typeof $rootScope.backState != 'undefined' && $rootScope.backState !== ''){
+            if(typeof $rootScope.backState == 'string'){
+                $state.go($rootScope.backState);
+            }else{
+                $state.go($rootScope.backState[0], $rootScope.backState[1]);
+            }
+            return;
+        }else{
+            $rootScope.backState = '';
+        }
         if($rootScope.stateCash.length < 2)return false;
         $rootScope.stateCash.pop();
         var last = $rootScope.stateCash.pop();

@@ -5,6 +5,7 @@
     <input class="weui-input" type="hidden" name="contract[apply_price]" required value="{{$storage.apply_price}}"/>
     <input class="weui-input" type="hidden" name="contract[product_id]" required value="{{$storage.product_id}}"/>
 
+    <input class="weui-input" type="text" name="customer[department_code]" ng-model="dcode" required style="display: none;"/>
     <input class="weui-input" type="hidden" name="submitlx" required value="2"/>
 
     <input class="weui-input" type="text" name="apply_id" ng-model="apply_id" style="display: none;" />
@@ -36,7 +37,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">手机号码</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" name="customer[mobile]" ng-model="$storage.mobile" required digits ismobile readonly placeholder="必填"/>
+            <input class="weui-input" type="tel" readonly name="customer[mobile]" ng-model="$storage.mobile" required digits ismobile readonly placeholder="必填"/>
         </div>
     </div>
 
@@ -94,15 +95,15 @@
 
         <div class="weui-cell__hd"><label class="weui-label">房产数量</label></div>
         <div class="weui-cell__bd">
-          共有(<input class="weui-input" type="text" name="customer_asset[asset_room_number]" ng-model="asset.asset_room_number" required digits placeholder="" style="width: 2rem;text-align: center;" />)套,
-          其中按揭(<input class="weui-input" type="text" name="customer_asset[asset_room_mortgage_number]" ng-model="asset.asset_room_mortgage_number" required digits placeholder="" style="width: 2rem;text-align: center;"/>)套
+          共有(<input class="weui-input" type="number" name="customer_asset[asset_room_number]" ng-init="asset.asset_room_number=0" ng-model="asset.asset_room_number" required digits placeholder="" style="width: 2rem;text-align: center;" />)套,
+          其中按揭(<input class="weui-input" type="number" name="customer_asset[asset_room_mortgage_number]" ng-init="asset.asset_room_mortgage_number=0" ng-model="asset.asset_room_mortgage_number" required digits placeholder="" style="width: 2rem;text-align: center;"/>)套
         </div>
     </div>
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">车辆数量</label></div>
         <div class="weui-cell__bd">
-          共有(<input class="weui-input" type="text" name="customer_asset[asset_car_number]" ng-model="asset.asset_car_number" required digits placeholder="" style="width: 2rem;text-align: center;" />)辆,
-          其中按揭(<input class="weui-input" type="text" name="customer_asset[asset_car_mortgage_num]" ng-model="asset.asset_car_mortgage_num" required digits placeholder="" style="width: 2rem;text-align: center;"/>)辆
+          共有(<input class="weui-input" type="number" name="customer_asset[asset_car_number]" ng-init="asset.asset_car_number=0" ng-model="asset.asset_car_number" required digits placeholder="" style="width: 2rem;text-align: center;" />)辆,
+          其中按揭(<input class="weui-input" type="number" name="customer_asset[asset_car_mortgage_num]" ng-init="asset.asset_car_mortgage_num=0" ng-model="asset.asset_car_mortgage_num" required digits placeholder="" style="width: 2rem;text-align: center;"/>)辆
         </div>
     </div>
 
@@ -118,7 +119,7 @@
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">亲属手机</label></div>
         <div class="weui-cell__bd">
-            <input class="weui-input" type="text" name="customer_contact[id0][moblie]" ng-model="contact[0].moblie" required digits ismobile placeholder="必填"/>
+            <input class="weui-input" type="tel" name="customer_contact[id0][moblie]" ng-model="contact[0].moblie" required digits ismobile placeholder="必填"/>
         </div>
     </div>
 

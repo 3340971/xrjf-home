@@ -61,18 +61,29 @@ app
         .state('Customer.loan_detail', {
             title:'贷款详情',
             url: '/loan_detail?apply_id&wg',
-            templateProvider:function($stateParams, $templateCache, $http, zwUtils){
-                var url = tpl('app/Customer/loan_detail/' + $stateParams.wg + '.html');
-                return $http.get(url, {cache: $templateCache}).then(function(response){
-                    return response.data;
-                },function(response){
-                    if(response.status == 404){
-                        zwUtils.msg('error', '模板不存在');
-                    }else{
-                        zwUtils.msg('error', '未知模板错误');
-                    }
-                    return false;
+            templateProvider:function($stateParams, $templateCache, $http, $q, zwUtils){
+                var deferred = $q.defer();
+                if(typeof $stateParams.wg == 'undefined'){
+                    $http.get('/index.php?m=ProxyAccess&a=getApplyWg&apply_id='+$stateParams.apply_id).then(function(response){
+                        deferred.resolve(response.data.data.wg);
+                    });
+                }else{
+                    deferred.resolve($stateParams.wg);
+                }
+                return deferred.promise.then(function(wg){
+                    var url = tpl('app/Customer/loan_detail/' + wg + '.html');
+                    return $http.get(url, {cache: $templateCache}).then(function(response){
+                        return response.data;
+                    },function(response){
+                        if(response.status == 404){
+                            zwUtils.msg('error', '模板不存在');
+                        }else{
+                            zwUtils.msg('error', '未知模板错误');
+                        }
+                        return false;
+                    });
                 });
+                
             },
             resolve:load(['app/Customer/CustomerController.js'])
         })

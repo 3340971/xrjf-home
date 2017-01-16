@@ -34,6 +34,10 @@ angular.module('zw201612')
 						$scope.contact = response.data.data.customer_contact || {};
 						$scope.contract = response.data.data.contract || {};
 						$scope.apply_id = response.data.data.apply_id;
+						//是否已经运营商验证
+					    zwTongdun.isCheck($scope.customer.mobile, function(code, msg, data){
+					    	$scope.mobileIsCheck = code;
+					    });
 		            }
     			}
     	});
@@ -59,10 +63,7 @@ angular.module('zw201612')
     	}
     	step(next_url);
     };
-    //是否已经运营商验证
-    zwTongdun.isCheck($localStorage.mobile, function(code, msg, data){
-    	$scope.mobileIsCheck = code;
-    });
+    
 })
 
 
@@ -92,8 +93,9 @@ angular.module('zw201612')
 })
 
 
-.controller('Customer.file_cat', function($scope ,  $http ,  $state, $stateParams, zwUtils){
+.controller('Customer.file_cat', function($scope , $rootScope,  $http ,  $state, $stateParams, zwUtils){
 	var apply_id = $stateParams.apply_id;
+	$rootScope.backState = ['Customer.loan_detail',{apply_id:apply_id}];
 	$scope.allowUpload = $stateParams.allow;
 	$http.get('/index.php?m=ProxyCustomer&a=getLoginCustomerFiles&apply_id=' + apply_id)
 		.then(function(response){

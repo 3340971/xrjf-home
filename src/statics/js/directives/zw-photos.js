@@ -7,7 +7,7 @@ app
 		link:function(scope, element, attrs){
 			//相册数据
 			var imgs  = eval(attrs.files);
-			var allowUpload  = attrs.upload === 'true' ? true : false;
+			var allowUpload  = attrs.upload === 'true' ? 1 : 0;
 			var title = attrs.title;
 			var cat_id = attrs.catid;
 			var contract_id = attrs.contractid;
@@ -27,7 +27,7 @@ app
 			deferred.promise.then(function(){//console.log(G.public + 'statics/js/component/photos/componentPhotos.js?v='+G.version);
 				var name = Math.random().toString().replace('.','_');
 				element.on('click', function (e) {//console.log(componentPhotos);
-					var c = componentPhotos('photos'+cat_id, {
+					var c = componentPhotos('photos'+cat_id+'_'+contract_id+'_'+allowUpload, {
 									componentsUri : '/xrjf-home/src/statics/js/component/',
 									httpHeader   : {
 										"Authorization":$localStorage.Authorization || 'ProxyCustomer_'

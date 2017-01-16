@@ -1,8 +1,8 @@
-<div class="weui-btn-area" ng-if="(contract.apply_status==1)">
+<div class="weui-btn-area" ng-if="(contract.apply_status<=2)">
     <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id,allow:'true'})">补充资料</a>
 </div>
 
-<div class="weui-btn-area" ng-if="(contract.apply_status!=1)">
+<div class="weui-btn-area" ng-if="(contract.apply_status>2)">
     <a class="weui-btn weui-btn_primary" href="javascript:void(0);" ui-sref="Customer.file_cat({apply_id:apply_id})">查看资料</a>
 </div>
 

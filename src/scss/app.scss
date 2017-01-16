@@ -466,7 +466,7 @@ ul.products{
 			position:absolute;
 			left:0;top:8rem;
 			background:#A0D6FF;
-			z-index:1;
+			z-index:9999;
 			color:#fff;
 			transform:translateY(-8rem) scaleY(0);
 			transform-origin:center 0px;
