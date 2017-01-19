@@ -28,7 +28,7 @@ app
 				var name = Math.random().toString().replace('.','_');
 				element.on('click', function (e) {//console.log(componentPhotos);
 					var c = componentPhotos('photos'+cat_id+'_'+contract_id+'_'+allowUpload, {
-									componentsUri : '/xrjf-home/src/statics/js/component/',
+									componentsUri : G.public + 'statics/js/component/',
 									httpHeader   : {
 										"Authorization":$localStorage.Authorization || 'ProxyCustomer_'
 									},//附加的http头
@@ -49,7 +49,8 @@ app
 									formData:{
 										id:contract_id,
 								        type:cat_id,
-								        r:'proxy_contract_file'
+								        r:'proxy_contract_file',
+								        __JWT__: $localStorage.Authorization || 'ProxyCustomer_'
 									},
 									deleteCallback:deleteCallback,
 									successCallback:successCallback
@@ -57,7 +58,7 @@ app
 								.show();
 				});
 				function successCallback(li, response){
-					console.log(response);
+					//console.log(response);
 					li.setAttribute('img-id', response.data.adds[0].file_id);
 					li.setAttribute('src-min', response.data.adds[0].min);
 					li.setAttribute('src-max', response.data.adds[0].max);

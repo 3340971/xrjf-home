@@ -4881,7 +4881,7 @@
     
                 input.attr( 'type', 'file' );
                 input.attr( 'name', opts.name );
-                input.attr( 'capture', 'camera');
+                //input.attr( 'capture', 'camera');
                 input.addClass('webuploader-element-invisible');
     
                 label.on( 'click', function() {

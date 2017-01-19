@@ -17,6 +17,14 @@
         <input class="weui-input" type="hidden" name="process[status]" required value="pass"/>
 
     </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">申请天数</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number" name="contract[application_days]" required min="7" max="35" step="7" placeholder="(必填)"/>
+        </div>
+    </div>
+
     <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
         <div class="weui-cell__bd" ng-if="customer.name.indexOf('空')!=-1">
