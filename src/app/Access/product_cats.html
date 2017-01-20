@@ -11,7 +11,7 @@
 		<ul class="products">
 			<li ng-repeat="item in list track by item.cat_id" class="">
 				<div class="info">
-					<img src="">
+					<img src="{{item.thumb[0]}}">
 					<div class="desc">
 						<h5>{{item.name}}</h5>
 						<p>{{item.durations}}期</p>
@@ -24,11 +24,8 @@
 				<article class="weui-article">
 		                <section>
 		                    <h3>产品详情介绍:</h3>
-		                    <p>
-		                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-		                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		                        consequat.
+		                    <p ng-bind-html="item.desc">
+
 		                    </p>
 		                </section>
 		        </article>
