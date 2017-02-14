@@ -115,7 +115,8 @@ var conf = parseConfig();
 gulp.task('server', function() {
     browserSync.init({
         server: {
-            baseDir: 'src/'//conf.get('basePath')[conf.evr]
+            //baseDir: 'src/'//conf.get('basePath')[conf.evr]
+            baseDir: 'src/'
         },
         port: 9999
     });
@@ -246,6 +247,13 @@ gulp.task('build',function(cb){
     gulp.watch(conf.getFiles('js'), ['js'], browserSync.reload);
     gulp.watch(conf.getFiles('fonts'), ['fonts'], browserSync.reload);
     gulp.watch(conf.getFiles('html'), ['html'], browserSync.reload);
+    //bootstrap监控
+    gulp.watch(['./libs/bootstrap/dist/css/bootstrap.css',
+                './libs/bootstrap/dist/js/bootstrap.js'], function(e){
+        var dest = './src/libs/bootstrap/';console.log(e.path);
+        gulp.src(e.path, {base:'./libs/bootstrap/dist/'})
+            .pipe(gulp.dest(dest));
+    });
 });
 gulp.task('help',function () {
     console.log('   gulp help           gulp参数说明');

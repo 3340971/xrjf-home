@@ -1,42 +1,34 @@
-
-    <div class="weui-navbar">
-        <div class="weui-navbar__item" ui-sref="Access.product_cats" ng-class="{'weui-bar__item_on':$state.current.name == 'Access.product_cats'}">
-            贷款申请
+<div class="row">
+  <ul class="nav nav-tabs">
+    <li role="presentation" ui-sref="Access.product_cats" ng-class="{'active':$state.current.name == 'Access.product_cats'}"><a href="#">贷款申请</a></li>
+    <li role="presentation" ui-sref="Customer.my_loan" ng-class="{'active':$state.current.name == 'Customer.my_loan'}"><a href="#">我的贷款</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content" ng-controller="Access.product_cats">
+    <ul class="tab-pane active products">
+      <li ng-repeat="item in list track by item.cat_id" class="">
+        <div class="info">
+          <img src="{{item.thumb[0]}}">
+          <div class="desc">
+            <h5>{{item.name}}</h5>
+            <p>{{item.durations}}期</p>
+          </div>
+          <div class="action">
+            <button type="button" ui-sref="Workflow.apply({cat_id:item.cat_id, cat_name:item.name})">申请贷款</button><br>
+            <span ng-click="activeToggle($event)">详情<!-- <i class="iconfont icon-xx"></i> --></span>
+          </div>
         </div>
-        <div class="weui-navbar__item" ui-sref="Customer.my_loan" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.my_loan'}">
-            我的贷款
-        </div>
-    </div>
-    <div class="weui-tab__panel" ng-controller="Access.product_cats">
-		<ul class="products">
-			<li ng-repeat="item in list track by item.cat_id" class="">
-				<div class="info">
-					<img src="{{item.thumb[0]}}">
-					<div class="desc">
-						<h5>{{item.name}}</h5>
-						<p>{{item.durations}}期</p>
-					</div>
-					<div class="action">
-						<button type="button" ui-sref="Workflow.apply({cat_id:item.cat_id, cat_name:item.name})">申请贷款</button><br>
-						<span ng-click="activeToggle($event)">详情<!-- <i class="iconfont icon-xx"></i> --></span>
-					</div>
-				</div>
-				<article class="weui-article">
-		                <section>
-		                    <h3>产品详情介绍:</h3>
-		                    <p ng-bind-html="item.desc">
+        <article class="weui-article">
+                    <section>
+                        <h3>产品详情介绍:</h3>
+                        <p ng-bind-html="item.desc">
 
-		                    </p>
-		                </section>
-		        </article>
-
-			</li>
-
-		</ul>
-    </div>
-
-
-
-
+                        </p>
+                    </section>
+        </article>
+      </li>
+    </ul>
+  </div>
+</div>
 
 

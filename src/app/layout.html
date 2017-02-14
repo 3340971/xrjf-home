@@ -1,15 +1,4 @@
 <div ng-include="'app/_blocks/header.html'" ></div>
-<div class="page">
-  <div class="weui-tab">
-    <!-- content -->
-    <div class="weui-tab__panel">
-    	<div ui-view  class="weui-tab"></div>
-    	<div ng-include="'app/_blocks/footer.html'" ></div>
-    </div>
-    <!-- / content -->
-    <!-- navbar -->
-<!--     <div ng-include=" 'app/_blocks/tabs.html' " class="page__bd" style="height: 100%;"></div> -->
-    <!-- / navbar -->
-  </div>
-  
-</div>
+<div ui-view class="container-fluid"></div>
+<div ng-include="'app/_blocks/footer.html'" ></div>
+

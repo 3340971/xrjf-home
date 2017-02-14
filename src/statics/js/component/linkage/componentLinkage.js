@@ -47,6 +47,9 @@
 	componentLinkage.prototype = $.extend(ComponentBase.prototype, {
 		cache : {},
 		_init:function(){
+			if(this.conf.parentNode.style.position == ''){
+				this.conf.parentNode.style.position = 'relative';
+			}
 			$(this.conf.parentNode).append(this.component);
 			//this.component.insertAfter(this.input);
 			this._bindEvent();

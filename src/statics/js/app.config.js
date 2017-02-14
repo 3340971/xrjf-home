@@ -29,6 +29,12 @@ function($location,  $rootScope,  $state,  $stateParams,  $http,  $localStorage,
         $state.go(last[0], last[1]);  
     };
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        var $body = angular.element('body');
+        if(toState.name == 'Access.login' || toState.name == 'Access.register' || toState.name == 'Access.reset_pwd'){
+            $body.addClass('bg-img');
+        }else{
+            $body.removeClass('bg-img');
+        }
         processingEl.style.display = 'block';
         if(toState.name.split('.')[0] != 'Access' && !$localStorage.Authorization){
             zwUtils.msg('error','未登录');

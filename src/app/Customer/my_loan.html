@@ -1,12 +1,11 @@
-    <div class="weui-navbar">
-        <div class="weui-navbar__item" ui-sref="Access.product_cats" ng-class="{'weui-bar__item_on':$state.current.name == 'Access.product_cats'}">
-            贷款申请
-        </div>
-        <div class="weui-navbar__item" ui-sref="Customer.my_loan" ng-class="{'weui-bar__item_on':$state.current.name == 'Customer.my_loan'}">
-            我的贷款
-        </div>
-    </div>
-    <div class="weui-tab__panel" ng-controller="Customer.my_loan">
+<div class="row">
+  <ul class="nav nav-tabs">
+    <li role="presentation" ui-sref="Access.product_cats" ng-class="{'active':$state.current.name == 'Access.product_cats'}"><a href="#">贷款申请</a></li>
+    <li role="presentation" ui-sref="Customer.my_loan" ng-class="{'active':$state.current.name == 'Customer.my_loan'}"><a href="#">我的贷款</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content" ng-controller="Customer.my_loan">
+    <div class="tab-pane active products">
 		<section class="apply-process">
 			<h5>贷款进度</h5>
 			<ul>
@@ -28,7 +27,7 @@
 			</ul>
 		</section>
 
-		<table class="table-zebra">
+		<table class="table">
 			<thead>
 				<tr>
 					<th>申请时间</th>
@@ -52,4 +51,7 @@
 			</tbody>
 		</table>
     </div>
+  </div>
+</div>
+
 

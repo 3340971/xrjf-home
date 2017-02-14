@@ -25,10 +25,11 @@ var copys = {
     },
     libs3:{
         src:[
-            basePath.libs + '/weui/dist/style/weui.+(css|min.css)'
+            basePath.libs + '/bootstrap/dist/*/bootstrap.+(css|min.css|js|min.js)',
+            basePath.libs + '/bootstrap/dist/fonts/*.*'
         ],
-        options:{base : basePath.libs},
-        dest: basePath.source + '/libs'
+        options:{base : basePath.libs + '/bootstrap/dist'},
+        dest: basePath.source + '/libs/bootstrap'
     },
     libs4:{
         src:[

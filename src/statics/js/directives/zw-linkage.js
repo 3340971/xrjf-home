@@ -17,10 +17,10 @@ app
 				fields:  attrs.fields,
 				dataUrl: urls[attrs.typekey],
 				rootPid:0,
-				css:{left:0,top:'4.4rem',transition:'.3s'},
+				css:{left:0,top:'2.8rem',transition:'.3s'},
 				animateIn:{transform:'scale3d(1,1,1)'},
 				animateOut:{transform:'scale3d(0,0,1)'},
-				parentNode : element.closest('.weui-cell')[0]
+				parentNode : element.closest('.form-group')[0]
 			};
 			var deferred = $q.defer();
 			if(typeof componentLinkage == 'undefined'){

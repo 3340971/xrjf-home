@@ -1,38 +1,29 @@
-<div id="logo"></div>
-<form action="/index.php?m=ProxyAccess&a=login" class="J-validate" ng-controller="Access.login">
-<div class="weui-cells weui-cells_form">
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label iconfont icon-user"></label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="number" name="customer[id]" required placeholder="手机号/身份证号" autocomplete="off"/>
-        </div>
-    </div>
-    <div class="weui-cell">
-        <div class="weui-cell__hd"><label class="weui-label iconfont icon-password"></label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="password" name="customer[login_pwd]" required placeholder="密码" autocomplete="off" />
-        </div>
-    </div>
-    <div class="weui-cell weui-cell_vcode">
-        <div class="weui-cell__hd"><label class="weui-label iconfont icon-yanzhengma"></label></div>
-        <div class="weui-cell__bd">
-            <input class="weui-input" type="text" name="verify" required placeholder="验证码" autocomplete="off"/>
-        </div>
-        <div class="weui-cell__ft">
-            <img-verify  class="weui-vcode-img" id="img-verify"/>
-        </div>
-    </div>
-</div>
 
-<div class="weui-btn-area">
-    <a class="weui-btn weui-btn_primary" ng-click="submit($event,'Access.product_cats',submitCf)">登录</a>
-<!--     <a ui-sref="Access.register" class="weui-btn weui-btn_disabled weui-btn_default">没有账号?前去登记</a> -->
-</div>
+<div id="logo"></div>
+<form action="/index.php?m=ProxyAccess&a=login" class="J-validate form-horizontal" ng-controller="Access.login">
+  <div class="form-group">
+    <div class="col-xs-offset-1 col-xs-10">
+      <input class="form-control round" type="number" name="customer[id]" required placeholder="手机号" autocomplete="off">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-1 col-xs-10">
+      <input class="form-control round" type="password" name="customer[login_pwd]" required placeholder="密码" autocomplete="off">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-1 col-xs-10">
+      <input class="form-control round code" type="text" name="verify" required placeholder="验证码" autocomplete="off"><img-verify  class="code" id="img-verify"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-1 col-xs-10">
+      <button type="button" class="btn btn-primary btn-block round" ng-click="submit($event,'Access.product_cats',submitCf)">登录</button>
+    </div>
+  </div>
 </form>
 
 <div style="text-align: right;padding: 1rem 1.4rem;">
     <a ui-sref="Access.register">注册</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a ui-sref="Access.reset_pwd">忘记密码?</a>
 </div>
-
-

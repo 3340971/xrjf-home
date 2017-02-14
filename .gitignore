@@ -1,3 +1,6 @@
 libs/*
+!libs/bootstrap/
+libs/bootstrap/grunt
+libs/bootstrap/node_modules
 node_modules/*
 build/*
